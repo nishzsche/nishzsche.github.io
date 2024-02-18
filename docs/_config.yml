@@ -30,7 +30,7 @@ twitter_username: nishzsche
 github_username:  nishzsche
 
 # Build settings
-theme: architect
+theme: jekyll-theme-architect
 plugins:
   - jekyll-feed
 
