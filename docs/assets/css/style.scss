@@ -2,3 +2,23 @@
 ---
 
 @import 'jekyll-theme-architect';
+#contact-tab {
+    position: fixed;
+    left: 50;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #367BC9;
+    border: 1px solid #ddd;
+    padding: 10px;
+    z-index: 1000;
+}
+
+#contact-tab a {
+    display: block;
+    color: #333;
+    text-decoration: none;
+}
+
+#contact-info p {
+    margin: 5px 0;
+}

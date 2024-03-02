@@ -32,6 +32,16 @@
       </div>
     </header>
 
+    <!-- Contact Tab -->
+    <div id="contact-tab">
+      <a href="#" onclick="toggleContactInfo()"><b>How to reach me?</b></a>
+      <div id="contact-info" style="display:none;"><b>
+        <p>Email: <a href="mailto:nishanthrajamani@gmail.com" style="color: inherit;">nishanthrajamani@gmail.com</a></p>
+          <p></p></b>
+          <!-- Add more contact details here -->
+      </div>
+    </div>
+
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
@@ -58,6 +68,17 @@
         </aside>
       </div>
     </div>
+
+    <script>
+      function toggleContactInfo() {
+          var info = document.getElementById("contact-info");
+          if (info.style.display === "none") {
+              info.style.display = "block";
+          } else {
+              info.style.display = "none";
+          }
+      }
+    </script>
 
   </body>
 </html>
