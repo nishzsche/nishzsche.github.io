@@ -9,4 +9,5 @@ title: Home
 4. [resume/credentials](https://nishzsche.notion.site/Nishanth-Pradeep-Raj-1fb160f445684ba789b900fa3b566631?pvs=4)
 
 # [The need for a blog](_posts\2024_03_02-My_first_post.html)
+    
     A short acceptance of the inevitable need to talk to myself
