@@ -10,3 +10,5 @@ title: Home
 # [The need for a blog](_posts\2024_03_02-My_first_post.html)
     
     A short acceptance of the inevitable need to talk to myself
+
+![cover_pic](assets\images\soul_of_the_mind.jpg "cover picture")
