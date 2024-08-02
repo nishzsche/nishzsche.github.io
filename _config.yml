@@ -21,7 +21,8 @@
 title: Ship of Theses
 email: nishanthrajamani@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  
+  Welcome to my blog, where I document my self-learning journey in the fields of Machine Learning (ML) and Deep Learning (DL). This blog is my antidote to the restless imposter syndrome, and I hope it can serve as inspiration and support for others facing similar challenges.
+  In this space, I delve into various ML and DL topics, unpack their underlying mathematics, and also intriguing tech projects. Each post features summarized theories explained in simple terms, accompanied by Python code to facilitate exploration and understanding.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "nishsche.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: nishzsche
