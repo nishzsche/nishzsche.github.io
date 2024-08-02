@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Welcome to Jekyll!"
+title:  "Linear Regression"
 date:   2024-08-01 20:57:01 +0530
 categories: jekyll update
 ---
