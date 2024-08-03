@@ -1,7 +1,7 @@
 # Setup
 title:               Learning curve
-tagline:             'A remedy of the perennial imposter syndrome!'
-description:         'A reserved <a href="https://jekyllrb.com" target="_blank">Jekyll</a> theme that places the utmost gravity on content with a hidden drawer. Made by <a href="https://twitter.com/mdo" target="_blank">@mdo</a>.'
+tagline:             'A remedy for imposter syndrome!'
+description:         'This is a blog I made to help my friend learn ML while helping me revise and get deeper understanding of the ML landscape. I hope to be a good friend, to myself too.'
 url:                 https://nishzsche.github.io/
 baseurl:             ''
 paginate:            5
