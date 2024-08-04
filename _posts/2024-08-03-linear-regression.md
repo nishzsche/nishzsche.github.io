@@ -16,14 +16,14 @@ Today, linear regression is widely used in various fields such as economics, bio
 ## Basic Idea
 Linear regression aims to model the relationship between a dependent variable (target) and one or more independent variables (features) by fitting a linear equation to observed data. The linear equation can be represented as:
 
-\[ y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_n x_n + \epsilon \]
+$$[ y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_n x_n + \epsilon]$$
 
 where:
-- \( y \) is the dependent variable.
-- \( \beta_0 \) is the intercept.
-- \( \beta_1, \beta_2, \ldots, \beta_n \) are the coefficients for the independent variables.
-- \( x_1, x_2, \ldots, x_n \) are the independent variables.
-- \( \epsilon \) is the error term.
+- $$( y )$$ is the dependent variable.
+- $$( \beta_0 )$$ is the intercept.
+- $$( \beta_1, \beta_2, \ldots, \beta_n )$$ are the coefficients for the independent variables.
+- $$( x_1, x_2, \ldots, x_n )$$ are the independent variables.
+- $$( \epsilon )$$ is the error term.$$
 
 ---
 
@@ -32,17 +32,17 @@ Understanding the math behind linear regression involves grasping several key co
 
 1. **Least Squares Method**: This method minimizes the sum of the squared differences between observed and predicted values. Mathematically, it solves for the coefficients \(\beta\) that minimize the cost function:
 
-$$\[ \text{Cost}(\beta) = \sum_{i=1}^{m} (y_i - \beta_0 - \beta_1 x_{i1} - \cdots - \beta_n x_{in})^2 \]$$
+$$\text{Cost}(\beta) = \sum_{i=1}^{m} (y_i - \beta_0 - \beta_1 x_{i1} - \cdots - \beta_n x_{in})^2$$
 
 2. **Normal Equation**: This is an analytical solution to the least squares problem, given by:
 
-\[ \beta = (X^T X)^{-1} X^T y \]
+$$[ \beta = (X^T X)^{-1} X^T y ]$$
 
 3. **Gradient Descent**: An iterative optimization algorithm used when the normal equation is computationally expensive. It updates the coefficients iteratively to minimize the cost function:
 
-\[ \beta_j := \beta_j - \alpha \frac{\partial}{\partial \beta_j} \text{Cost}(\beta) \]
+$$[ \beta_j := \beta_j - \alpha \frac{\partial}{\partial \beta_j} \text{Cost}(\beta) ]$$
 
-where \(\alpha\) is the learning rate.
+where $$(\alpha)$$ is the learning rate.
 
 4. **Assumptions**: Linear regression makes several assumptions, including linearity, independence, homoscedasticity (constant variance of errors), and normality of errors.
 
