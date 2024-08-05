@@ -59,7 +59,7 @@ A deeper exploration of linear regression involves understanding advanced topics
 ---
 
 ## Hands-on
-To apply linear regression in a practical scenario, one typically follows these steps:
+To  apply linear regression in a practical scenario, one typically follows these steps:
 
 1. **Data Preparation**: Clean the dataset, handle missing values, and preprocess the data (e.g., normalization, encoding categorical variables).
 2. **Model Building**: Use libraries like `scikit-learn` in Python to create and train a linear regression model.
