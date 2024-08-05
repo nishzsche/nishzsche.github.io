@@ -23,9 +23,9 @@ I am pursuing a MicroMasters in Statistics and Data Science from MITx with a kee
 
 ### Awards and Recognitions
 
-- Best Employee Award at ADF Data Science Pvt. Ltd.
-- Winners of ADF Internal Analytics Hackathon.
-- Best Fresher runner-up at IBM India.
+    - Best Employee Award at ADF Data Science Pvt. Ltd.
+    - Winners of ADF Internal Analytics Hackathon.
+    - Best Fresher runner-up at IBM India.
 
 ### Volunteer Work
 
