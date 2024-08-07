@@ -51,7 +51,7 @@ where $$(\alpha)$$ is the learning rate.
 ## Deep Dive
 A deeper exploration of linear regression involves understanding advanced topics such as:
 
-- **Regularization**: Techniques like Ridge and Lasso regression add penalty terms to the cost function to prevent overfitting.
+- **Regularization**: Techniques  like Ridge and Lasso regression add penalty terms to the cost function to prevent overfitting.
 - **Multicollinearity**: The presence of highly correlated independent variables can lead to unreliable coefficient estimates. Methods like variance inflation factor (VIF) help detect and mitigate this issue.
 - **Model Evaluation**: Metrics like R-squared, adjusted R-squared, Mean Squared Error (MSE), and Root Mean Squared Error (RMSE) are used to evaluate model performance.
 - **Diagnostics**: Residual analysis, Q-Q plots, and leverage plots are used to check for violations of regression assumptions.
