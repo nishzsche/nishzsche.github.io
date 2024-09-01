@@ -32,17 +32,31 @@ jobs:
 
           # Find and convert all Jupyter notebooks to Markdown, processing each notebook one at a time
           for notebook in $(find notebooks -name '*.ipynb'); do
+              echo "Processing $notebook"
+
               # Create a temporary file to store the converted Markdown
               temp_file=$(mktemp)
 
               # Convert the Jupyter notebook to Markdown and write to the temporary file
               jupyter nbconvert --to markdown "$notebook" --output "$temp_file"
 
+              # Print the content of the temporary file for debugging
+              echo "Temporary Markdown file content:"
+              cat "$temp_file"
+
               # Extract the first heading from the converted Markdown file
               title=$(grep -m 1 '^# ' "$temp_file" | sed 's/^# //')
 
+              # Print the extracted title for debugging
+              echo "Extracted title: $title"
+
               # Add the full markdown heading to the file with the extracted title
-              echo -e "---\nlayout: post\ntitle: $title\n---\n\n$(cat "$temp_file")" > "$final_folder/$(basename "$notebook" .ipynb).md"
+              output_file="$final_folder/$(basename "$notebook" .ipynb).md"
+              echo -e "---\nlayout: post\ntitle: $title\n---\n\n$(cat "$temp_file")" > "$output_file"
+
+              # Print the content of the final Markdown file for debugging
+              echo "Final Markdown file content:"
+              cat "$output_file"
 
               # Remove the temporary file
               rm "$temp_file"
