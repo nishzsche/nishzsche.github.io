@@ -3,7 +3,7 @@ name: Convert Jupyter Notebooks to Markdown
 on:
   push:
     paths:
-      - 'notebooks/*.ipynb'  # Replace with the folder where you add your notebooks
+      - 'notebooks/*.ipynb'
   pull_request:
     paths:
       - 'notebooks/*.ipynb'
@@ -19,7 +19,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.x'  # Use the Python version you prefer
+          python-version: '3.x'
 
       - name: Install nbconvert and dependencies
         run: |
@@ -28,7 +28,7 @@ jobs:
       - name: Convert Notebooks to Markdown and Add Headings
         run: |
           # Define the final output folder
-          final_folder="_posts"  # Replace with the folder for the final output
+          final_folder="_posts"
 
           # Find and convert all Jupyter notebooks to Markdown, processing each notebook one at a time
           for notebook in $(find notebooks -name '*.ipynb'); do
@@ -38,7 +38,10 @@ jobs:
               temp_file=$(mktemp)
 
               # Convert the Jupyter notebook to Markdown and write to the temporary file
-              jupyter nbconvert --to markdown "$notebook" --output "$temp_file"
+              if ! jupyter nbconvert --to markdown "$notebook" --output "$temp_file"; then
+                  echo "Failed to convert $notebook"
+                  continue
+              fi
 
               # Print the content of the temporary file for debugging
               echo "Temporary Markdown file content:"
