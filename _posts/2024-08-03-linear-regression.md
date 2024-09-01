@@ -3,7 +3,7 @@ layout: post
 title: Linear Regression - teaching a machine to take baby steps to draw a general trend line.
 ---
 
-## Historical Context
+## Context
 Linear regression, a fundamental statistical method, traces its roots to the early 19th century. It was initially developed by Francis Galton in the context of studying the relationship between parental and offspring traits. Galton's work was extended by Karl Pearson, who formalized the method and introduced the concept of the correlation coefficient. Later, the work of Ronald A. Fisher laid the groundwork for modern statistical theory, including the least squares method for estimating linear regression parameters.
 
 ---
