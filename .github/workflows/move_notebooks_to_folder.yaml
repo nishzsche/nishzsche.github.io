@@ -3,7 +3,7 @@ name: Move Notebooks to Folder
 on:
   push:
     paths:
-      - '**/*.ipynb'  # Triggers the workflow when any .ipynb file is added or modified
+      - '*.ipynb'  # Triggers the workflow when any .ipynb file is added or modified
 
 jobs:
   move-notebooks:
