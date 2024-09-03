@@ -35,34 +35,34 @@ jobs:
               echo "Processing $notebook"
 
               # Create a temporary file to store the converted Markdown
-              temp_file=$(mktemp)
+              
               print("$notebook")
               # Convert the Jupyter notebook to Markdown and write to the temporary file
-              if ! jupyter nbconvert --to markdown "$notebook" --output "$temp_file"; then
+              if ! jupyter nbconvert --to markdown "$notebook" --output temp_file.md; then
                   echo "Failed to convert $notebook"
                   continue
               fi
 
               # Print the content of the temporary file for debugging
               echo "Temporary Markdown file content:"
-              cat "$temp_file"
+              cat temp_file.md
 
               # Extract the first heading from the converted Markdown file
-              title=$(grep -m 1 '^# ' "$temp_file" | sed 's/^# //')
+              title=$(grep -m 1 '^# ' temp_file.md | sed 's/^# //')
 
               # Print the extracted title for debugging
               echo "Extracted title: $title"
 
               # Add the full markdown heading to the file with the extracted title
               output_file="$final_folder/$(basename "$notebook" .ipynb).md"
-              echo -e "---\nlayout: post\ntitle: $title\n---\n\n$(cat "$temp_file")" > "$output_file"
+              echo -e "---\nlayout: post\ntitle: $title\n---\n\n$(cat temp_file.md)" > "$output_file"
 
               # Print the content of the final Markdown file for debugging
               echo "Final Markdown file content:"
               cat "$output_file"
 
               # Remove the temporary file
-              rm "$temp_file"
+              rm temp_file.md
           done
 
       - name: Commit changes
