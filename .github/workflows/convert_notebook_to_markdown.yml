@@ -45,13 +45,7 @@ jobs:
               temp_file=$(mktemp)
 
               # Convert the Jupyter notebook to Markdown and write to the temporary file
-              if ! jupyter nbconvert --to markdown "$notebook" --output "$temp_file"; then
-                  echo "Failed to convert $notebook"
-                  # Print any potential errors or warnings
-                  echo "nbconvert output:"
-                  jupyter nbconvert --to markdown "$notebook" --output "$temp_file" --log-level=DEBUG
-                  continue
-              fi
+              jupyter nbconvert --to markdown "$notebook" --output "$temp_file"
 
               # Print the content of the temporary file for debugging
               echo "Temporary Markdown file content:"
