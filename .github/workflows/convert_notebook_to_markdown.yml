@@ -36,7 +36,6 @@ jobs:
 
               # Create a temporary file to store the converted Markdown
               
-              print("$notebook")
               # Convert the Jupyter notebook to Markdown and write to the temporary file
               if ! jupyter nbconvert --to markdown "$notebook" --output temp_file.md; then
                   echo "Failed to convert $notebook"
