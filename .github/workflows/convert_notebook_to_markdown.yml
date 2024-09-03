@@ -30,38 +30,42 @@ jobs:
           # Define the final output folder
           final_folder="_posts"
 
+          # Ensure the output folder exists
+          mkdir -p "$final_folder"
+
           # Find and convert all Jupyter notebooks to Markdown, processing each notebook one at a time
           for notebook in $(find notebooks -name '*.ipynb'); do
               echo "Processing $notebook"
 
               # Create a temporary file to store the converted Markdown
-              
+              temp_file=$(mktemp)
+
               # Convert the Jupyter notebook to Markdown and write to the temporary file
-              if ! jupyter nbconvert --to markdown "$notebook" --output temp_file.md; then
+              if ! jupyter nbconvert --to markdown "$notebook" --output "$temp_file"; then
                   echo "Failed to convert $notebook"
                   continue
               fi
 
               # Print the content of the temporary file for debugging
               echo "Temporary Markdown file content:"
-              cat temp_file.md
+              cat "$temp_file"
 
               # Extract the first heading from the converted Markdown file
-              title=$(grep -m 1 '^# ' temp_file.md | sed 's/^# //')
+              title=$(grep -m 1 '^# ' "$temp_file" | sed 's/^# //')
 
               # Print the extracted title for debugging
               echo "Extracted title: $title"
 
               # Add the full markdown heading to the file with the extracted title
               output_file="$final_folder/$(basename "$notebook" .ipynb).md"
-              echo -e "---\nlayout: post\ntitle: $title\n---\n\n$(cat temp_file.md)" > "$output_file"
+              echo -e "---\nlayout: post\ntitle: \"$title\"\n---\n\n$(cat "$temp_file")" > "$output_file"
 
               # Print the content of the final Markdown file for debugging
               echo "Final Markdown file content:"
               cat "$output_file"
 
               # Remove the temporary file
-              rm temp_file.md
+              rm "$temp_file"
           done
 
       - name: Commit changes
@@ -78,49 +82,4 @@ jobs:
           total_added=0
           total_modified=0
       
-          # Function to determine version number for a specific file
-          get_file_version() {
-              file=$1
-              # Count the number of times the file has been edited
-              edit_count=$(git log --oneline -- "$file" | wc -l)
-              # Increment edit count by 1 to determine the new version number
-              echo $((edit_count + 1))
-          }
-      
-          # Process newly added files
-          for file in $added_files; do
-              if [ -n "$file" ]; then
-                  total_added=$((total_added + 1))
-                  version=$(get_file_version "$file")
-                  commit_message+="New file: $file (Version $version) at $(date +"%Y-%m-%d %H:%M:%S")\n"
-              fi
-          done
-      
-          # Process modified files
-          for file in $modified_files; do
-              if [ -n "$file" ]; then
-                  total_modified=$((total_modified + 1))
-                  version=$(get_file_version "$file")
-                  commit_message+="Modified file: $file (Version $version) at $(date +"%Y-%m-%d %H:%M:%S")\n"
-              fi
-          done
-      
-          # Check if there were files to commit
-          if [ $total_added -gt 0 ] || [ $total_modified -gt 0 ]; then
-              # Create a summary line for the commit message
-              summary_line="Converted Jupyter Notebooks to Markdown: $total_added new file(s) added, $total_modified file(s) modified."
-      
-              # Combine the summary line with detailed messages
-              full_commit_message="$summary_line\n\nDetails:\n$commit_message"
-      
-              # Stage new and modified files
-              git add $added_files $modified_files
-      
-              # Commit the changes with the improved message
-              git commit -m "$full_commit_message"
-              git push
-          else
-              echo "No new or modified files to commit."
-          fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Function to determine version number for a specific
