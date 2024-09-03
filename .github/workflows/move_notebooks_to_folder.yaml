@@ -1,0 +1,38 @@
+name: Move Notebooks to Folder
+
+on:
+  push:
+    paths:
+      - '**/*.ipynb'  # Triggers the workflow when any .ipynb file is added or modified
+
+jobs:
+  move-notebooks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Move .ipynb files to notebooks folder
+        run: |
+          # Create the notebooks folder if it doesn't exist
+          mkdir -p notebooks
+
+          # Find all .ipynb files outside the notebooks folder and move them
+          find . -type f -name '*.ipynb' ! -path './notebooks/*' -exec mv {} notebooks/ \;
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Check for any changes in the repository
+          if git status --porcelain | grep 'notebooks/'; then
+            git add notebooks/*.ipynb
+            git commit -m "Move newly added Jupyter notebooks to the notebooks folder"
+            git push
+          else
+            echo "No new notebooks to move."
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
