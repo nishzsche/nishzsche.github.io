@@ -43,6 +43,9 @@ jobs:
               # Convert the Jupyter notebook to Markdown and write to the temporary file
               if ! jupyter nbconvert --to markdown "$notebook" --output "$temp_file"; then
                   echo "Failed to convert $notebook"
+                  # Print any potential errors or warnings
+                  echo "nbconvert output:"
+                  jupyter nbconvert --to markdown "$notebook" --output "$temp_file" --log-level=DEBUG
                   continue
               fi
 
@@ -50,8 +53,13 @@ jobs:
               echo "Temporary Markdown file content:"
               cat "$temp_file"
 
-              # Extract the first heading from the converted Markdown file
+              # Extract the first heading from the converted Markdown file, if it exists
               title=$(grep -m 1 '^# ' "$temp_file" | sed 's/^# //')
+
+              # If no title was found, set a default title based on the filename
+              if [ -z "$title" ]; then
+                  title=$(basename "$notebook" .ipynb)
+              fi
 
               # Print the extracted title for debugging
               echo "Extracted title: $title"
@@ -82,4 +90,49 @@ jobs:
           total_added=0
           total_modified=0
       
-          # Function to determine version number for a specific
+          # Function to determine version number for a specific file
+          get_file_version() {
+              file=$1
+              # Count the number of times the file has been edited
+              edit_count=$(git log --oneline -- "$file" | wc -l)
+              # Increment edit count by 1 to determine the new version number
+              echo $((edit_count + 1))
+          }
+      
+          # Process newly added files
+          for file in $added_files; do
+              if [ -n "$file" ]; then
+                  total_added=$((total_added + 1))
+                  version=$(get_file_version "$file")
+                  commit_message+="New file: $file (Version $version) at $(date +"%Y-%m-%d %H:%M:%S")\n"
+              fi
+          done
+      
+          # Process modified files
+          for file in $modified_files; do
+              if [ -n "$file" ]; then
+                  total_modified=$((total_modified + 1))
+                  version=$(get_file_version "$file")
+                  commit_message+="Modified file: $file (Version $version) at $(date +"%Y-%m-%d %H:%M:%S")\n"
+              fi
+          done
+      
+          # Check if there were files to commit
+          if [ $total_added -gt 0 ] || [ $total_modified -gt 0 ]; then
+              # Create a summary line for the commit message
+              summary_line="Converted Jupyter Notebooks to Markdown: $total_added new file(s) added, $total_modified file(s) modified."
+      
+              # Combine the summary line with detailed messages
+              full_commit_message="$summary_line\n\nDetails:\n$commit_message"
+      
+              # Stage new and modified files
+              git add $added_files $modified_files
+      
+              # Commit the changes with the improved message
+              git commit -m "$full_commit_message"
+              git push
+          else
+              echo "No new or modified files to commit."
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
