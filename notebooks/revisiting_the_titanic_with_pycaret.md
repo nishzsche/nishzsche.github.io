@@ -1,8 +1,3 @@
----
-layout: post
-title: "IMPORTANT: RUN THIS CELL IN ORDER TO IMPORT YOUR KAGGLE DATA SOURCES"
----
-
 <a href="https://colab.research.google.com/github/nishzsche/nishzsche.github.io/blob/gh-pages/notebooks/revisiting_the_titanic_with_pycaret.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
 
@@ -61,7 +56,7 @@ for data_source_mapping in DATA_SOURCE_MAPPING.split(','):
                 dl += len(data)
                 tfile.write(data)
                 done = int(50 * dl / int(total_length))
-                sys.stdout.write(f"[{'=' * done}{' ' * (50-done)}] {dl} bytes downloaded")
+                sys.stdout.write(f"\r[{'=' * done}{' ' * (50-done)}] {dl} bytes downloaded")
                 sys.stdout.flush()
                 data = fileres.read(CHUNK_SIZE)
             if filename.endswith('.zip'):
@@ -70,8 +65,7 @@ for data_source_mapping in DATA_SOURCE_MAPPING.split(','):
             else:
               with tarfile.open(tfile.name) as tarfile:
                 tarfile.extractall(destination_path)
-            print(f'
-Downloaded and uncompressed: {directory}')
+            print(f'\nDownloaded and uncompressed: {directory}')
     except HTTPError as e:
         print(f'Failed to load (likely expired) {download_url} to path {destination_path}')
         continue

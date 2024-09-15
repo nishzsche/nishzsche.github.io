@@ -36,42 +36,48 @@ jobs:
 
           # Ensure the output folder exists
           mkdir -p "$final_folder"
-
-          # Find and convert all Jupyter notebooks to Markdown, processing each notebook one at a time
           for notebook in $(find notebooks -name '*.ipynb'); do
               echo "Processing $notebook"
 
-              # Create a temporary file to store the converted Markdown
-              temp_file=$(mktemp)
+              # Convert the Jupyter notebook to Markdown
+              jupyter nbconvert --to markdown "$notebook"
 
-              # Convert the Jupyter notebook to Markdown and write to the temporary file
-              jupyter nbconvert --to markdown "$notebook" --output "$temp_file"
+              # Determine the generated Markdown filename
+              markdown_file="${notebook%.ipynb}.md"
 
-              # Print the content of the temporary file for debugging
-              echo "Temporary Markdown file content:"
-              cat "$temp_file"
+              # Normalize the path: Replace backslashes (\) with forward slashes (/)
+              markdown_file=$(echo "$markdown_file" | sed 's/\\/\//g')
 
-              # Extract the first heading from the converted Markdown file, if it exists
-              title=$(grep -m 1 '^# ' "$temp_file" | sed 's/^# //')
+              # Ensure the markdown file exists
+              if [ ! -f "$markdown_file" ]; then
+                  echo "Error: Markdown conversion failed for $notebook"
+                  exit 1
+              fi
+
+              # Extract the first heading from the converted Markdown file
+              title=$(grep -m 1 '^# ' "$markdown_file" | sed 's/^# //')
 
               # If no title was found, set a default title based on the filename
               if [ -z "$title" ]; then
                   title=$(basename "$notebook" .ipynb)
               fi
 
-              # Print the extracted title for debugging
-              echo "Extracted title: $title"
+              # Sanitize the notebook filename by replacing special characters
+              sanitized_filename=$(basename "$notebook" .ipynb | sed 's/[^a-zA-Z0-9]/_/g')
+
+              # Define the output folder (replace backslashes with forward slashes if needed)
+              output_file="$final_folder/${sanitized_filename}.md"
+
+              # Print the sanitized filename and normalized paths for debugging
+              echo "Sanitized filename: $sanitized_filename"
+              echo "Markdown file path (normalized): $markdown_file"
 
               # Add the full markdown heading to the file with the extracted title
-              output_file="$final_folder/$(basename "$notebook" .ipynb).md"
-              echo -e "---\nlayout: post\ntitle: \"$title\"\n---\n\n$(cat "$temp_file")" > "$output_file"
+              echo -e "---\nlayout: post\ntitle: \"$title\"\n---\n\n$(cat "$markdown_file")" > "$output_file"
 
               # Print the content of the final Markdown file for debugging
               echo "Final Markdown file content:"
               cat "$output_file"
-
-              # Remove the temporary file
-              rm "$temp_file"
           done
 
       - name: Commit changes
