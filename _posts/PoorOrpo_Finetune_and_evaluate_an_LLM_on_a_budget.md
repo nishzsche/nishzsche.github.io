@@ -207,4 +207,3 @@ print(output[0]["generated_text"])
 
     Can you please let us know more details about your 2019-2020 schedule? We are looking forward to hearing from you.
     We are currently in the process of updating our schedule. We will be posting updates as soon as we have them.
-    

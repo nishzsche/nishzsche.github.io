@@ -104,7 +104,7 @@ print("Setup Complete")
 ```
 
     Setup Complete
-    
+
 
 
 ```python
@@ -262,7 +262,7 @@ train_data.info()
      10  Embarked  889 non-null    object 
     dtypes: float64(2), int64(4), object(5)
     memory usage: 83.5+ KB
-    
+
 
 
 ```python
@@ -648,7 +648,7 @@ for col in missing_feat:
     0           424    125
     1           290     52
     Age P Value: 0.007682742096212262
-    
+
 
 
     
@@ -661,7 +661,7 @@ for col in missing_feat:
     0            68    481
     1           136    206
     Cabin P Value: 6.7419704360811776e-21
-    
+
 
 
     
@@ -774,7 +774,7 @@ for feature in discrete_feat:
     4         0.448934
     6         0.112233
     dtype: float64
-    
+
 
     Observation: Sibsp and Parch having many categories with frequency less than 5%, we will combined them in a single category
 
