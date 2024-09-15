@@ -1,0 +1,20 @@
+name: Post Markdown Workflow
+
+on:
+  workflow_run:
+    workflows: ["Convert Jupyter Notebooks to Markdown"]  # This must match the name of the previous workflow
+    types:
+      - completed
+
+jobs:
+  post_processing:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Perform post-markdown tasks
+        run: pages-build-deployment
+          echo "Running post-processing tasks after Markdown conversion..."
+          # Add any additional steps needed, such as deployment, notifications, etc.
