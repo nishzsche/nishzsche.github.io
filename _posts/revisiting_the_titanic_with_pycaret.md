@@ -86,7 +86,7 @@ print('Data source import complete.')
     [==================================================] 34877 bytes downloaded
     Downloaded and uncompressed: titanic
     Data source import complete.
-    
+
 
 
 ```python
@@ -293,7 +293,7 @@ print('Data source import complete.')
         Uninstalling imbalanced-learn-0.10.1:
           Successfully uninstalled imbalanced-learn-0.10.1
     Successfully installed category-encoders-2.6.3 dash-2.17.0 dash-core-components-2.0.0 dash-html-components-2.0.0 dash-table-5.0.0 deprecation-2.1.0 imbalanced-learn-0.12.2 jedi-0.19.1 joblib-1.3.2 kaleido-0.2.1 orjson-3.10.3 plotly-resampler-0.10.0 pmdarima-2.0.4 pycaret-3.3.2 pyod-1.1.3 retrying-1.3.4 schemdraw-0.15 scikit-base-0.7.8 scikit-plot-0.3.7 sktime-0.26.0 tbats-1.1.3 tsdownsample-0.1.3 wurlitzer-3.1.0 xxhash-3.4.1
-    
+
 
 
 ```python
@@ -301,7 +301,7 @@ print('Data source import complete.')
 ```
 
     gender_submission.csv  test.csv  train.csv
-    
+
 
 
 ```python
@@ -327,7 +327,7 @@ print(data_files)
 ```
 
     ['/kaggle/input/titanic/train.csv', '/kaggle/input/titanic/test.csv', '/kaggle/input/titanic/gender_submission.csv']
-    
+
 
 # References
 
@@ -359,7 +359,7 @@ print(df_train.shape, df_test.shape, df_gender.shape)
 ```
 
     (891, 12) (418, 11) (418, 2)
-    
+
 
 
 ```python
@@ -385,7 +385,7 @@ df_train.info()
      11  Embarked     889 non-null    object 
     dtypes: float64(2), int64(5), object(5)
     memory usage: 83.7+ KB
-    
+
 
 
 ```python
@@ -410,7 +410,7 @@ df_test.info()
      10  Embarked     418 non-null    object 
     dtypes: float64(2), int64(4), object(5)
     memory usage: 36.0+ KB
-    
+
 
 ## Observations
 
@@ -6107,7 +6107,7 @@ which is about {df_train[(df_train.SibSp==0)&(df_train.Parch==0)].shape[0]/df_tr
 ```
 
     The number of passengers who are travelling alone is 537 which is about 60.27% of the total passengers.
-    
+
 
 
 ```python
@@ -7384,7 +7384,7 @@ df_test.Age.info()
     418 non-null    float64
     dtypes: float64(1)
     memory usage: 3.4 KB
-    
+
 
 
 ```python
@@ -7437,7 +7437,7 @@ df_train[features].info()
      6   Age_Group  891 non-null    category
     dtypes: bool(1), category(1), int64(3), object(2)
     memory usage: 37.0+ KB
-    
+
 
 ### Family Size
 
@@ -8558,7 +8558,7 @@ tuned_model = tune_model(best_model, fold=10)
 
 
     Fitting 10 folds for each of 10 candidates, totalling 100 fits
-    
+
 
 
 

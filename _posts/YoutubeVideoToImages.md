@@ -12,7 +12,7 @@ drive.mount('/content/drive')
 ```
 
     Drive already mounted at /content/drive; to attempt to forcibly remount, call drive.mount("/content/drive", force_remount=True).
-    
+
 
 
 ```python
@@ -20,7 +20,7 @@ drive.mount('/content/drive')
 ```
 
     drive  sample_data
-    
+
 
 
 ```python
@@ -28,7 +28,7 @@ drive.mount('/content/drive')
 ```
 
     'StatQuest_ Linear Discriminant Analysis (LDA) clearly explained..mp4'
-    
+
 
 
 ```python
@@ -260,4 +260,3 @@ cv2.destroyAllWindows()
     Saved screenshot: drive/MyDrive/Projects/Video to Images/screenshot_160.png
     Saved screenshot: drive/MyDrive/Projects/Video to Images/screenshot_161.png
     Saved screenshot: drive/MyDrive/Projects/Video to Images/screenshot_162.png
-    

@@ -69,7 +69,7 @@ drive.mount('/content/drive')
     Enter your authorization code:
     ··········
     Mounted at /content/drive
-    
+
 
 
 ```
@@ -87,7 +87,7 @@ print('All changes made in this colab session should now be visible in Drive.')
 ```
 
     All changes made in this colab session should now be visible in Drive.
-    
+
 
 ## PyDrive2
 
@@ -124,7 +124,7 @@ print('Uploaded file with ID {}'.format(uploaded.get('id')))
 ```
 
     Uploaded file with ID 14vDAdqp7BSCQnoougmgylBexIr2AQx2T
-    
+
 
 Load a file by ID and print its contents.
 
@@ -136,7 +136,7 @@ print('Downloaded content "{}"'.format(downloaded.GetContentString()))
 ```
 
     Downloaded content "Sample upload file content"
-    
+
 
 ## Drive REST API
 
@@ -190,7 +190,7 @@ print('File ID: {}'.format(created.get('id')))
 ```
 
     File ID: 1Cw9CqiyU6zbXFD9ViPZu_3yX-sYF4W17
-    
+
 
 After executing the cell above, you will see a new file named 'Sample file' at [https://drive.google.com/](https://drive.google.com/).
 
@@ -219,7 +219,7 @@ print('Downloaded file contents are: {}'.format(downloaded.read()))
 ```
 
     Downloaded file contents are: b'my sample file'
-    
+
 
 In order to download a different file, set `file_id` above to the ID of that file, which will look like "1uBtlaggVyWshwcyP6kEI-y_W3P8D26sz".
 
@@ -300,7 +300,7 @@ pd.DataFrame.from_records(rows)
 ```
 
     [['6', '3', '4'], ['7', '2', '1']]
-    
+
 
 
 
@@ -429,7 +429,7 @@ First, we configure `gsutil` to use the project we specified above by using `gcl
 !gcloud config set project {project_id}
 ```
 
-    Updated property [core/project].
+    Updated property [core/project].
 
 
 Create a local file to upload.
@@ -453,7 +453,7 @@ Make a bucket to which we'll upload the file ([documentation](https://cloud.goog
 !gsutil mb gs://{bucket_name}
 ```
 
-    Creating gs://colab-sample-bucket-44971372-baaf-11e7-ae30-0242ac110002/...
+    Creating gs://colab-sample-bucket-44971372-baaf-11e7-ae30-0242ac110002/...
 
 
 Copy the file to our new bucket ([documentation](https://cloud.google.com/storage/docs/gsutil/commands/cp)).
@@ -466,7 +466,7 @@ Copy the file to our new bucket ([documentation](https://cloud.google.com/storag
     Copying file:///tmp/to_upload.txt [Content-Type=text/plain]...
     / [1 files][   14.0 B/   14.0 B]                                                
     Operation completed over 1 objects/14.0 B.                                       
-    
+
 
 Dump the contents of our newly copied file to make sure everything worked ([documentation](https://cloud.google.com/storage/docs/gsutil/commands/cat)).
 
@@ -485,7 +485,7 @@ print('https://console.cloud.google.com/storage/browser?project=' + project_id)
 ```
 
     https://console.cloud.google.com/storage/browser?project=Your_project_ID_here
-    
+
 
 Finally, we'll download the file we just uploaded in the example above. It's as simple as reversing the order in the `gsutil cp` command.
 
@@ -547,7 +547,7 @@ print('Done')
 ```
 
     Done
-    
+
 
 Upload the file to our newly created bucket.
 
@@ -573,7 +573,7 @@ print('Upload complete')
 ```
 
     Upload complete
-    
+
 
 
 ```
@@ -582,7 +582,7 @@ print('https://console.cloud.google.com/storage/browser?project=' + project_id)
 ```
 
     https://console.cloud.google.com/storage/browser?project=Your_project_ID_here
-    
+
 
 Download the file we just uploaded.
 
@@ -605,7 +605,7 @@ print('Download complete')
 ```
 
     Download complete
-    
+
 
 Inspect the downloaded file.
 
