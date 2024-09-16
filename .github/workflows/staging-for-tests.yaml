@@ -1,0 +1,29 @@
+# .github/workflows/custom-workflow.yml
+name: staging-for-tests
+
+on:
+  push:
+    branches:
+      - dev  # Staging branch where work happens
+
+jobs:
+  custom-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Add steps for your custom build, testing, etc.
+      - name: Run tests
+        run: echo "Running tests..."
+
+      # If tests pass, push changes to GitHub Pages branch
+      - name: Push to GitHub Pages
+        if: success()
+        run: |
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
+          git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git checkout gh-pages  # GitHub Pages branch
+          git merge --no-ff dev   # Merge from dev (staging) branch
+          git push origin gh-pages
