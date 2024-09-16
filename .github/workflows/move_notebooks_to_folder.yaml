@@ -8,7 +8,6 @@ on:
 jobs:
   move-notebooks:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -28,13 +27,14 @@ jobs:
         run: |
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
-
           # Check for any changes in the repository
-          if git status --porcelain | grep 'notebooks/'; then
+          CHANGED=$(git status --porcelain | grep 'notebooks/')
+          if [ -n "$CHANGED" ]; then
             git add notebooks/*.ipynb
             git commit -m "Move newly added Jupyter notebooks to the notebooks folder"
             git push
           else
             echo "No new notebooks to move."
+          fi
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
