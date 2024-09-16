@@ -3,15 +3,18 @@ name: Convert Jupyter Notebooks to Markdown
 on:
   push:
     paths:
-      - 'notebooks/*.ipynb'
+      - 'notebooks/*.ipynb'  # Triggers when a .ipynb file is added or modified in the notebooks folder
   pull_request:
     paths:
-      - 'notebooks/*.ipynb'
-  # Triggers when another workflow (e.g., "Move Notebooks to Folder") completes
+      - 'notebooks/*.ipynb'  # Triggers when a .ipynb file is included in a PR in the notebooks folder
   workflow_run:
-    workflows: ["Move Notebooks to Folder"]  # Name of the workflow that moves files
+    workflows: ["Move Notebooks to Folder"]  # Trigger after "Move Notebooks to Folder" completes
     types:
       - completed
+  create:  # Triggers when a new branch or tag is created
+    paths:
+      - 'notebooks/*'  # Monitors the notebooks folder
+
 jobs:
   convert:
     runs-on: ubuntu-latest
@@ -37,6 +40,18 @@ jobs:
           # Ensure the output folder exists
           mkdir -p "$final_folder"
           for notebook in $(find notebooks -name '*.ipynb'); do
+              # Sanitize the notebook filename by replacing special characters
+              sanitized_filename=$(basename "$notebook" .ipynb | sed 's/[^a-zA-Z0-9]/_/g')
+
+              # Define the output markdown file path
+              output_file="$final_folder/${sanitized_filename}.md"
+
+              # Check if the Markdown file already exists, skip conversion if it does
+              if [ -f "$output_file" ]; then
+                  echo "Skipping $notebook, corresponding Markdown file already exists."
+                  continue
+              fi
+
               echo "Processing $notebook"
 
               # Convert the Jupyter notebook to Markdown
@@ -62,22 +77,11 @@ jobs:
                   title=$(basename "$notebook" .ipynb)
               fi
 
-              # Sanitize the notebook filename by replacing special characters
-              sanitized_filename=$(basename "$notebook" .ipynb | sed 's/[^a-zA-Z0-9]/_/g')
-
-              # Define the output folder (replace backslashes with forward slashes if needed)
-              output_file="$final_folder/${sanitized_filename}.md"
-
-              # Print the sanitized filename and normalized paths for debugging
-              echo "Sanitized filename: $sanitized_filename"
-              echo "Markdown file path (normalized): $markdown_file"
-
               # Add the full markdown heading to the file with the extracted title
               echo -e "---\nlayout: post\ntitle: \"$title\"\n---\n\n$(cat "$markdown_file")" > "$output_file"
 
-              # Print the content of the final Markdown file for debugging
-              echo "Final Markdown file content:"
-              cat "$output_file"
+              # Print the sanitized filename and normalized paths for debugging
+              echo "Markdown file created: $output_file"
           done
 
       - name: Commit changes
@@ -131,7 +135,7 @@ jobs:
       
               # Stage new and modified files
               git add $added_files $modified_files
-      
+              
               # Commit the changes with the improved message
               git commit -m "$full_commit_message"
               git push
