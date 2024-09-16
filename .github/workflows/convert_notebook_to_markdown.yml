@@ -1,4 +1,4 @@
-name: Convert Jupyter Notebooks to Markdown
+name: convert-notebooks-to-markdown
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
     paths:
       - 'notebooks/*.ipynb'  # Triggers when a .ipynb file is included in a PR in the notebooks folder
   workflow_run:
-    workflows: ["Move Notebooks to Folder"]  # Trigger after "Move Notebooks to Folder" completes
+    workflows: ["move-notebooks-to-folder"]  # Trigger after "Move Notebooks to Folder" completes
     types:
       - completed
   create:  # Triggers when a new branch or tag is created

@@ -1,4 +1,4 @@
-name: Move Notebooks to Folder
+name: move-notebooks-to-folder
 
 on:
   push:
