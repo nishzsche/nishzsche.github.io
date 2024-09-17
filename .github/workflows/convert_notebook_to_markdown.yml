@@ -2,16 +2,24 @@ name: convert-notebooks-to-markdown
 
 on:
   push:
+    branches:
+      dev
     paths:
       - 'notebooks/*.ipynb'  # Triggers when a .ipynb file is added or modified in the notebooks folder
   pull_request:
+    branches:
+      dev
     paths:
       - 'notebooks/*.ipynb'  # Triggers when a .ipynb file is included in a PR in the notebooks folder
   workflow_run:
+    branches:
+      dev
     workflows: ["move-notebooks-to-folder"]  # Trigger after "Move Notebooks to Folder" completes
     types:
       - completed
   create:  # Triggers when a new branch or tag is created
+    branches:
+      dev
     paths:
       - 'notebooks/*'  # Monitors the notebooks folder
 
