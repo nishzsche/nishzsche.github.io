@@ -30,7 +30,7 @@ jobs:
           CHANGED=$(git status --porcelain | grep 'notebooks/')
           if [ -n "$CHANGED" ]; then
             git add notebooks/*.ipynb
-            git commit -m "Move newly added Jupyter notebooks to the notebooks folder and delete originals"
+            git commit -m "Move newly added Jupyter notebooks to the notebooks folder"
             git push
           else
             echo "No new notebooks to move or delete."
