@@ -22,11 +22,6 @@ jobs:
           # Find and move all .ipynb files outside the notebooks folder
           find . -type f -name '*.ipynb' ! -path './notebooks/*' -exec mv {} notebooks/ \;
 
-      - name: Delete original .ipynb files outside the notebooks folder
-        run: |
-          # Find and delete .ipynb files outside the notebooks folder if any remain
-          find . -type f -name '*.ipynb' ! -path './notebooks/*' -delete
-
       - name: Commit and push changes
         run: |
           git config --local user.name "github-actions[bot]"
