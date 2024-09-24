@@ -2,7 +2,7 @@
 title:               Learning curve
 tagline:             'An authentic pursuit to rid the imposter in me 🧘'
 description:         'Logging Curiosities and Experiments with ML Tools & Techniques: A Recording of My Learnings. <br><i>Am attempting a Feynman here!</i><br> Journal blog by <a href="https://twitter.com/nishzsche" target="_blank">@nishzsche</a>'
-url:                 https://nishzsche.github.io/
+url:                 https://nishzsche.github.io
 baseurl:             ''
 paginate:            5
 permalink:           pretty
