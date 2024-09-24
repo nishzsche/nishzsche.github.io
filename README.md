@@ -1,134 +1,62 @@
-# Lanyon
+# Nishanth Rajamani's Data Science Portfolio
 
-Lanyon is an unassuming [Jekyll](http://jekyllrb.com) theme that places content first by tucking away navigation in a hidden drawer. It's based on [Poole](http://getpoole.com), the Jekyll butler.
+Welcome to my portfolio! This website showcases various data science projects I’ve worked on throughout my career, featuring hands-on experience in machine learning, natural language processing, data visualization, and predictive analytics. You can explore my work on machine learning models, data processing pipelines, and MLOps deployment, along with detailed case studies and code samples.
 
-![Lanyon](https://f.cloud.github.com/assets/98681/1825266/be03f014-71b0-11e3-9539-876e61530e24.png)
-![Lanyon with open sidebar](https://f.cloud.github.com/assets/98681/1825267/be04a914-71b0-11e3-966f-8afe9894c729.png)
+## Table of Contents
 
+- [About Me](#about-me)
+- [Projects](#projects)
+- [Skills & Expertise](#skills--expertise)
+- [Blog](#blog)
+- [Contact](#contact)
 
-## Contents
+## About Me
 
-- [Usage](#usage)
-- [Options](#options)
-  - [Sidebar menu](#sidebar-menu)
-  - [Themes](#themes)
-  - [Reverse layout](#reverse-layout)
-- [Development](#development)
-- [Author](#author)
-- [License](#license)
+I am Nishanth Rajamani, a Senior Data Scientist with expertise in Machine Learning, NLP, MLOps, and cloud ecosystems like AWS and Azure. My experience spans across domains like risk management, fraud detection, and customer interaction optimization. I am passionate about driving data-driven insights and deploying scalable AI solutions. You can learn more about me on my [LinkedIn](https://www.linkedin.com/in/nishanth-rajamani) or [Twitter](https://twitter.com/nishanth-rajamani).
 
+## Projects
 
-## Usage
+Here are some highlighted projects from my portfolio:
 
-Lanyon is a theme built on top of [Poole](https://github.com/poole/poole), which provides a fully furnished Jekyll setup—just download and start the Jekyll server. See [the Poole usage guidelines](https://github.com/poole/poole#usage) for how to install and use Jekyll.
+### 1. **Predictive Analytics for Fraud Detection**
+   - Built and deployed a machine learning pipeline to detect fraudulent transactions in real-time.
+   - Stack: Python, Scikit-learn, Azure ML, ADF, Flask API.
+   - [Project Details](https://github.com/username/fraud-detection)
 
+### 2. **NLP-based Customer Interaction Optimization**
+   - Led a project leveraging NLP techniques to enhance customer interactions and response time.
+   - Stack: Python, NLTK, SpaCy, AWS Sagemaker.
+   - [Project Details](https://github.com/username/customer-interaction-nlp)
 
-## Options
+### 3. **MLOps Package for Automated Model Deployment**
+   - Developed an MLOps package for automated model versioning and deployment in AWS.
+   - Stack: AWS, Docker, Terraform, Jenkins.
+   - [Project Details](https://github.com/username/mlops-package)
 
-Lanyon includes some customizable options, typically applied via classes on the `<body>` element.
+## Skills & Expertise
 
+- **Programming Languages**: Python, R, SQL, Bash
+- **Machine Learning**: Regression, Classification, NLP, Time Series Analysis
+- **Cloud**: AWS, Azure, GCP (with focus on Azure ML, ADF)
+- **MLOps**: Model Deployment, CI/CD, Docker, Kubernetes
+- **Tools**: Scikit-learn, TensorFlow, PyTorch, Flask, Jenkins, Docker, Terraform
 
-### Sidebar menu
+## Blog
 
-Create a list of nav links in the sidebar by assigning each Jekyll page the correct layout in the page's [front-matter](http://jekyllrb.com/docs/frontmatter/).
+I also write about my experiences and share insights on data science and machine learning. Check out my latest posts:
 
-```
+- [Optimizing Payment Expenses per Transaction with ML](https://nishanth-ml.github.io/blog/optimizing-payment-expenses)
+- [Custom Data Preprocessing in Azure](https://nishanth-ml.github.io/blog/custom-data-preprocessing-azure)
+
+## Contact
+
+Feel free to reach out to me for any collaborations or inquiries:
+
+- Email: [nishanth.rajamani@example.com](mailto:nishanth.rajamani@example.com)
+- LinkedIn: [Nishanth Rajamani](https://www.linkedin.com/in/nishanth-rajamani)
+
 ---
-layout: page
-title: About
----
-```
-
-**Why require a specific layout?** Jekyll will return *all* pages, including the `atom.xml`, and with an alphabetical sort order. To ensure the first link is *Home*, we exclude the `index.html` page from this list by specifying the `page` layout.
-
-
-### Themes
-
-Lanyon ships with eight optional themes based on the [base16 color scheme](https://github.com/chriskempson/base16). Apply a theme to change the color scheme (mostly applies to sidebar and links).
-
-![Lanyon with red theme](https://f.cloud.github.com/assets/98681/1825270/be065110-71b0-11e3-9ed8-9b8de753a4af.png)
-![Lanyon with red theme and open sidebar](https://f.cloud.github.com/assets/98681/1825269/be05ec20-71b0-11e3-91ea-a9138ef07186.png)
-
-There are eight themes available at this time.
-
-![Available theme classes](https://f.cloud.github.com/assets/98681/1817044/e5b0ec06-6f68-11e3-83d7-acd1942797a1.png)
-
-To use a theme, add any one of the available theme classes to the `<body>` element in the `default.html` layout, like so:
-
-```html
-<body class="theme-base-08">
-  ...
-</body>
-```
-
-To create your own theme, look to the Themes section of [included CSS file](https://github.com/poole/lanyon/blob/master/public/css/lanyon.css). Copy any existing theme (they're only a few lines of CSS), rename it, and change the provided colors.
-
-
-### Reverse layout
-
-![Lanyon with reverse layout](https://f.cloud.github.com/assets/98681/1825265/be03f2e4-71b0-11e3-89f1-360705524495.png)
-![Lanyon with reverse layout and open sidebar](https://f.cloud.github.com/assets/98681/1825268/be056174-71b0-11e3-88c8-5055bca4307f.png)
-
-Reverse the page orientation with a single class.
-
-```html
-<body class="layout-reverse">
-  ...
-</body>
-```
-
-
-### Sidebar overlay instead of push
-
-Make the sidebar overlap the viewport content with a single class:
-
-```html
-<body class="sidebar-overlay">
-  ...
-</body>
-```
-
-This will keep the content stationary and slide in the sidebar over the side content. It also adds a `box-shadow` based outline to the toggle for contrast against backgrounds, as well as a `box-shadow` on the sidebar for depth.
-
-It's also available for a reversed layout when you add both classes:
-
-```html
-<body class="layout-reverse sidebar-overlay">
-  ...
-</body>
-```
-
-### Sidebar open on page load
-
-Show an open sidebar on page load by modifying the `<input>` tag within the `sidebar.html` layout to add the `checked` boolean attribute:
-
-```html
-<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox" checked>
-```
-
-Using Liquid you can also conditionally show the sidebar open on a per-page basis. For example, here's how you could have it open on the homepage only:
-
-```html
-<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox" {% if page.title =="Home" %}checked{% endif %}>
-```
-
-## Development
-
-Lanyon has two branches, but only one is used for active development.
-
-- `master` for development.  **All pull requests should be to submitted against `master`.**
-- `gh-pages` for our hosted site, which includes our analytics tracking code. **Please avoid using this branch.**
-
-
-## Author
-
-**Mark Otto**
-- <https://github.com/mdo>
-- <https://twitter.com/mdo>
-
 
 ## License
 
-Open sourced under the [MIT license](LICENSE.md).
-
-<3
+This portfolio is open source and available under the [MIT License](LICENSE).
