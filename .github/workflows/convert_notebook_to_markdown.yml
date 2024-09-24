@@ -150,7 +150,7 @@ jobs:
               
               # Commit the changes with the improved message
               git commit -m "$full_commit_message"
-              git push
+              git push origin dev
           else
               echo "No new or modified files to commit."
           fi

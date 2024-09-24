@@ -31,7 +31,7 @@ jobs:
           if [ -n "$CHANGED" ]; then
             git add notebooks/*.ipynb
             git commit -m "Move newly added Jupyter notebooks to the notebooks folder"
-            git push
+            git push origin dev
           else
             echo "No new notebooks to move or delete."
           fi
