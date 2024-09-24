@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+ <title>Learning curve</title>
+ <link href="http://localhost:4000/atom.xml" rel="self"/>
+ <link href="http://localhost:4000/"/>
+ <updated>2024-08-04T07:06:12+05:30</updated>
+ <id>http://localhost:4000</id>
+ <author>
+   <name>Nishanth R</name>
+   <email>nishanthrajamani@gmail.com</email>
+ </author>
+
+ 
+ <entry>
+   <title>Linear Regression - teaching a machine to take baby steps to draw a general trend line.</title>
+   <link href="http://localhost:4000/2024/08/03/linear-regression/"/>
+   <updated>2024-08-03T00:00:00+05:30</updated>
+   <id>http://localhost:4000/2024/08/03/linear-regression</id>
+   <content type="html">&lt;h2 id=&quot;historical-context&quot;&gt;Historical Context&lt;/h2&gt;
+&lt;p&gt;Linear regression, a fundamental statistical method, traces its roots to the early 19th century. It was initially developed by Francis Galton in the context of studying the relationship between parental and offspring traits. Galton’s work was extended by Karl Pearson, who formalized the method and introduced the concept of the correlation coefficient. Later, the work of Ronald A. Fisher laid the groundwork for modern statistical theory, including the least squares method for estimating linear regression parameters.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;current-usage&quot;&gt;Current Usage&lt;/h2&gt;
+&lt;p&gt;Today, linear regression is widely used in various fields such as economics, biology, engineering, and social sciences. It is employed to model relationships between variables, forecast trends, and make data-driven decisions. In machine learning, linear regression serves as a fundamental technique for predictive modeling and as a building block for more complex algorithms.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;basic-idea&quot;&gt;Basic Idea&lt;/h2&gt;
+&lt;p&gt;Linear regression aims to model the relationship between a dependent variable (target) and one or more independent variables (features) by fitting a linear equation to observed data. The linear equation can be represented as:&lt;/p&gt;
+
+\[[ y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_n x_n + \epsilon]\]
+
+&lt;p&gt;where:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;\(( y )\) is the dependent variable.&lt;/li&gt;
+  &lt;li&gt;\(( \beta_0 )\) is the intercept.&lt;/li&gt;
+  &lt;li&gt;\(( \beta_1, \beta_2, \ldots, \beta_n )\) are the coefficients for the independent variables.&lt;/li&gt;
+  &lt;li&gt;\(( x_1, x_2, \ldots, x_n )\) are the independent variables.&lt;/li&gt;
+  &lt;li&gt;\(( \epsilon )\) is the error term.$$&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;how-does-one-understand-the-math&quot;&gt;How Does One Understand the Math?&lt;/h2&gt;
+&lt;p&gt;Understanding the math behind linear regression involves grasping several key concepts:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;Least Squares Method&lt;/strong&gt;: This method minimizes the sum of the squared differences between observed and predicted values. Mathematically, it solves for the coefficients (\beta) that minimize the cost function:&lt;/li&gt;
+&lt;/ol&gt;
+
+\[\text{Cost}(\beta) = \sum_{i=1}^{m} (y_i - \beta_0 - \beta_1 x_{i1} - \cdots - \beta_n x_{in})^2\]
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;Normal Equation&lt;/strong&gt;: This is an analytical solution to the least squares problem, given by:&lt;/li&gt;
+&lt;/ol&gt;
+
+\[[ \beta = (X^T X)^{-1} X^T y ]\]
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;Gradient Descent&lt;/strong&gt;: An iterative optimization algorithm used when the normal equation is computationally expensive. It updates the coefficients iteratively to minimize the cost function:&lt;/li&gt;
+&lt;/ol&gt;
+
+\[[ \beta_j := \beta_j - \alpha \frac{\partial}{\partial \beta_j} \text{Cost}(\beta) ]\]
+
+&lt;p&gt;where \((\alpha)\) is the learning rate.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;Assumptions&lt;/strong&gt;: Linear regression makes several assumptions, including linearity, independence, homoscedasticity (constant variance of errors), and normality of errors.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;deep-dive&quot;&gt;Deep Dive&lt;/h2&gt;
+&lt;p&gt;A deeper exploration of linear regression involves understanding advanced topics such as:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Regularization&lt;/strong&gt;: Techniques like Ridge and Lasso regression add penalty terms to the cost function to prevent overfitting.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Multicollinearity&lt;/strong&gt;: The presence of highly correlated independent variables can lead to unreliable coefficient estimates. Methods like variance inflation factor (VIF) help detect and mitigate this issue.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Model Evaluation&lt;/strong&gt;: Metrics like R-squared, adjusted R-squared, Mean Squared Error (MSE), and Root Mean Squared Error (RMSE) are used to evaluate model performance.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Diagnostics&lt;/strong&gt;: Residual analysis, Q-Q plots, and leverage plots are used to check for violations of regression assumptions.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;hands-on&quot;&gt;Hands-on&lt;/h2&gt;
+&lt;p&gt;To apply linear regression in a practical scenario, one typically follows these steps:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;Data Preparation&lt;/strong&gt;: Clean the dataset, handle missing values, and preprocess the data (e.g., normalization, encoding categorical variables).&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Model Building&lt;/strong&gt;: Use libraries like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scikit-learn&lt;/code&gt; in Python to create and train a linear regression model.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Model Evaluation&lt;/strong&gt;: Assess the model’s performance using appropriate metrics and validate it using techniques like cross-validation.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Interpretation&lt;/strong&gt;: Analyze the coefficients to understand the impact of each feature on the dependent variable.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Here is a basic example in Python using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scikit-learn&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;numpy&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pandas&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sklearn.model_selection&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;train_test_split&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sklearn.linear_model&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LinearRegression&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sklearn.metrics&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mean_squared_error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;r2_score&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Load dataset
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;read_csv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;data.csv&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;X&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;feature1&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;sh&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;feature2&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;sh&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;feature3&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# Independent variables
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# Dependent variable
+&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Split data into training and test sets
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;X_train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;X_test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y_train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y_test&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;train_test_split&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test_size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;random_state&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;42&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Initialize and train the model
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;LinearRegression&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;X_train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y_train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Make predictions
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y_pred&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;predict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;X_test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Evaluate the model
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mse&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;mean_squared_error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y_test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y_pred&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;r2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;r2_score&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y_test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y_pred&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sa&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Mean Squared Error: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mse&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sa&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;R-squared: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;r2&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This example demonstrates a basic linear regression workflow, from data preparation to model evaluation, providing a foundation for more complex analyses and applications.&lt;/p&gt;
+</content>
+ </entry>
+ 
+
+</feed>
