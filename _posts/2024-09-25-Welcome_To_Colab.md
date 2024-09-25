@@ -155,13 +155,10 @@ Colab is used extensively in the machine learning community with applications in
 
 To see sample Colab notebooks that demonstrate machine learning applications, see the [machine learning examples](#machine-learning-examples) below.
 
-<div class="markdown-google-sans">
-
 ## More Resources
 
 ### Working with Notebooks in Colab
 
-</div>
 
 - [Overview of Colab](/notebooks/basic_features_overview.ipynb)
 - [Guide to Markdown](/notebooks/markdown_guide.ipynb)
@@ -170,43 +167,26 @@ To see sample Colab notebooks that demonstrate machine learning applications, se
 - [Interactive forms](/notebooks/forms.ipynb)
 - [Interactive widgets](/notebooks/widgets.ipynb)
 
-<div class="markdown-google-sans">
 
-<a name="working-with-data"></a>
 ### Working with Data
-</div>
 
 - [Loading data: Drive, Sheets, and Google Cloud Storage](/notebooks/io.ipynb)
 - [Charts: visualizing data](/notebooks/charts.ipynb)
 - [Getting started with BigQuery](/notebooks/bigquery.ipynb)
 
-<div class="markdown-google-sans">
-
 ### Machine Learning Crash Course
-
-<div>
 
 These are a few of the notebooks from Google's online Machine Learning course. See the [full course website](https://developers.google.com/machine-learning/crash-course/) for more.
 - [Intro to Pandas DataFrame](https://colab.research.google.com/github/google/eng-edu/blob/main/ml/cc/exercises/pandas_dataframe_ultraquick_tutorial.ipynb)
 - [Intro to RAPIDS cuDF to accelerate pandas](https://nvda.ws/rapids-cudf)
 - [Linear regression with tf.keras using synthetic data](https://colab.research.google.com/github/google/eng-edu/blob/main/ml/cc/exercises/linear_regression_with_synthetic_data.ipynb)
 
-<div class="markdown-google-sans">
-
-<a name="using-accelerated-hardware"></a>
 ### Using Accelerated Hardware
-</div>
 
 - [TensorFlow with GPUs](/notebooks/gpu.ipynb)
 - [TensorFlow with TPUs](/notebooks/tpu.ipynb)
 
-<div class="markdown-google-sans">
-
-<a name="machine-learning-examples"></a>
-
 ### Featured examples
-
-</div>
 
 - [Retraining an Image Classifier](https://tensorflow.org/hub/tutorials/tf2_image_retraining): Build a Keras model on top of a pre-trained image classifier to distinguish flowers.
 - [Text Classification](https://tensorflow.org/hub/tutorials/tf2_text_classification): Classify IMDB movie reviews as either *positive* or *negative*.
