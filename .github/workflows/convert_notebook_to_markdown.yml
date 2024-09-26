@@ -58,12 +58,6 @@ jobs:
               # Define the output markdown file path
               output_file="$final_folder/${sanitized_filename}.md"
 
-              # Check if the Markdown file already exists, skip conversion if it does
-              if [ -f "$output_file" ]; then
-                  echo "Skipping $notebook, corresponding Markdown file already exists."
-                  continue
-              fi
-
               echo "Processing $notebook"
               
               # Convert the Jupyter notebook to Markdown
