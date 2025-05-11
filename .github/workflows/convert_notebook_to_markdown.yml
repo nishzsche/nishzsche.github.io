@@ -1,0 +1,152 @@
+name: convert-notebooks-to-markdown
+
+on:
+  push:
+    branches:
+      dev
+    paths:
+      - 'notebooks/*.ipynb'  # Triggers when a .ipynb file is added or modified in the notebooks folder
+  pull_request:
+    branches:
+      dev
+    paths:
+      - 'notebooks/*.ipynb'  # Triggers when a .ipynb file is included in a PR in the notebooks folder
+  workflow_run:
+    branches:
+      dev
+    workflows: ["move-notebooks-to-folder"]  # Trigger after "Move Notebooks to Folder" completes
+    types:
+      - completed
+  create:  # Triggers when a new branch or tag is created
+    branches:
+      dev
+    paths:
+      - 'notebooks/*'  # Monitors the notebooks folder
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install nbconvert and dependencies
+        run: |
+          pip install nbconvert jupyter
+
+      - name: Convert Notebooks to Markdown and Add Headings
+        run: |
+          # Define the final output folder
+          final_folder="_posts"
+
+          # Ensure the output folder exists
+          mkdir -p "$final_folder"
+          for notebook in $(find notebooks -name '*.ipynb'); do
+              # Sanitize the notebook filename by replacing special characters
+              sanitized_filename=$(basename "$notebook" .ipynb | sed 's/[^a-zA-Z0-9]/_/g')
+
+              # Add current date 
+              date=$(date '+%Y-%m-%d')
+              sanitized_filename="${date}-${sanitized_filename}"
+
+              # Define the output markdown file path
+              output_file="$final_folder/${sanitized_filename}.md"
+
+              echo "Processing $notebook"
+              
+              # Convert the Jupyter notebook to Markdown
+              jupyter nbconvert --to markdown "$notebook"
+
+              # Determine the generated Markdown filename
+              markdown_file="${notebook%.ipynb}.md"
+
+              # Normalize the path: Replace backslashes (\) with forward slashes (/)
+              markdown_file=$(echo "$markdown_file" | sed 's/\\/\//g')
+
+              # Ensure the markdown file exists
+              if [ ! -f "$markdown_file" ]; then
+                  echo "Error: Markdown conversion failed for $notebook"
+                  exit 1
+              fi
+
+              # Extract the first heading from the converted Markdown file
+              title=$(grep -m 1 '^# ' "$markdown_file" | sed 's/^# //')
+
+              # If no title was found, set a default title based on the filename
+              if [ -z "$title" ]; then
+                  title=$(basename "$notebook" .ipynb)
+              fi
+
+              # Add the full markdown heading to the file with the extracted title
+              echo -e "---\nlayout: post\ntitle: \"$title\"\n---\n\n$(cat "$markdown_file")" > "$output_file"
+
+              # Print the sanitized filename and normalized paths for debugging
+              echo "Markdown file created: $output_file"
+          done
+
+      - name: Commit changes
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+      
+          # Identify new and modified files
+          added_files=$(git ls-files --others --exclude-standard _posts/*.md)
+          modified_files=$(git diff --name-only _posts/*.md)
+      
+          # Initialize variables for commit message and file counts
+          commit_message=""
+          total_added=0
+          total_modified=0
+      
+          # Function to determine version number for a specific file
+          get_file_version() {
+              file=$1
+              # Count the number of times the file has been edited
+              edit_count=$(git log --oneline -- "$file" | wc -l)
+              # Increment edit count by 1 to determine the new version number
+              echo $((edit_count + 1))
+          }
+      
+          # Process newly added files
+          for file in $added_files; do
+              if [ -n "$file" ]; then
+                  total_added=$((total_added + 1))
+                  version=$(get_file_version "$file")
+                  commit_message+="New file: $file (Version $version) at $(date +"%Y-%m-%d %H:%M:%S")\n"
+              fi
+          done
+      
+          # Process modified files
+          for file in $modified_files; do
+              if [ -n "$file" ]; then
+                  total_modified=$((total_modified + 1))
+                  version=$(get_file_version "$file")
+                  commit_message+="Modified file: $file (Version $version) at $(date +"%Y-%m-%d %H:%M:%S")\n"
+              fi
+          done
+      
+          # Check if there were files to commit
+          if [ $total_added -gt 0 ] || [ $total_modified -gt 0 ]; then
+              # Create a summary line for the commit message
+              summary_line="Converted Jupyter Notebooks to Markdown: $total_added new file(s) added, $total_modified file(s) modified."
+      
+              # Combine the summary line with detailed messages
+              full_commit_message="$summary_line\n\nDetails:\n$commit_message"
+      
+              # Stage new and modified files
+              git add $added_files $modified_files
+              
+              # Commit the changes with the improved message
+              git commit -m "$full_commit_message"
+              git push origin dev
+          else
+              echo "No new or modified files to commit."
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
