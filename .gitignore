@@ -41,5 +41,8 @@ validation-report.json
 # Folders to ignore
 node_modules
 bower_components
+<<<<<<< HEAD
 
 archive
+=======
+>>>>>>> 1ff71d3d31e7aef78496a479ff3afe9372386283
