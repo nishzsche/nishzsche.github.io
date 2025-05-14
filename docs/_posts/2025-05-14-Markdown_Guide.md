@@ -3,8 +3,11 @@ layout: post
 title: "Section 1"
 ---
 
+<<<<<<< HEAD
 <a href="https://colab.research.google.com/github/nishzsche/nishzsche.github.io/blob/gh-pages/Markdown_Guide.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
+=======
+>>>>>>> dev
 ## What is Markdown?
 
 Colab has two types of cells: text and code. Text cells are formatted using a simple markup language called Markdown.

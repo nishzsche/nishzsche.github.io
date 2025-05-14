@@ -20,11 +20,6 @@ jobs:
           # Find and move all .ipynb files outside the notebooks folder
           find . -type f -name '*.ipynb' ! -path './notebooks/*' -exec mv {} notebooks/ \;
 
-      - name: Delete original .ipynb files outside the notebooks folder
-        run: |
-          # Find and delete .ipynb files outside the notebooks folder if any remain
-          find . -type f -name '*.ipynb' ! -path './notebooks/*' -delete
-
       - name: Commit and push changes
         run: |
           git config --local user.name "github-actions[bot]"
@@ -33,8 +28,8 @@ jobs:
           CHANGED=$(git status --porcelain | grep 'notebooks/')
           if [ -n "$CHANGED" ]; then
             git add notebooks/*.ipynb
-            git commit -m "Move newly added Jupyter notebooks to the notebooks folder and delete originals"
-            git push
+            git commit -m "Move newly added Jupyter notebooks to the notebooks folder"
+            git push origin dev
           else
             echo "No new notebooks to move or delete."
           fi
