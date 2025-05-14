@@ -2,10 +2,8 @@ name: move-notebooks-to-folder
 
 on:
   push:
-    branches:
-      dev
-    paths:
-        - '*.ipynb'  # Triggers the workflow when any .ipynb file is added or modified
+    branches: [dev]
+    paths: ['*.ipynb']  # Triggers the workflow when any .ipynb file is added or modified
 
 jobs:
   move-notebooks:
