@@ -2,9 +2,10 @@
 name: staging-for-tests
 
 on:
-  push:
-    branches:
-      - dev  # Staging branch where work happens
+  workflow_run:
+    workflows: ["convert-notebooks-to-markdown"]
+    types: [completed]
+    branches: [dev]
 
 jobs:
   custom-job:

@@ -2,27 +2,12 @@ name: convert-notebooks-to-markdown
 
 on:
   push:
-    branches:
-      dev
-    paths:
-      - 'notebooks/*.ipynb'  # Triggers when a .ipynb file is added or modified in the notebooks folder
-  pull_request:
-    branches:
-      dev
-    paths:
-      - 'notebooks/*.ipynb'  # Triggers when a .ipynb file is included in a PR in the notebooks folder
+    branches: [dev]
+    paths: ['notebooks/*.ipynb']  # Triggers when a .ipynb file is added or modified in the notebooks folder
   workflow_run:
-    branches:
-      dev
+    branches: [dev]
     workflows: ["move-notebooks-to-folder"]  # Trigger after "Move Notebooks to Folder" completes
-    types:
-      - completed
-  create:  # Triggers when a new branch or tag is created
-    branches:
-      dev
-    paths:
-      - 'notebooks/*'  # Monitors the notebooks folder
-
+    types: [completed]
 jobs:
   convert:
     runs-on: ubuntu-latest
@@ -51,17 +36,10 @@ jobs:
               # Sanitize the notebook filename by replacing special characters
               sanitized_filename=$(basename "$notebook" .ipynb | sed 's/[^a-zA-Z0-9]/_/g')
 
-<<<<<<< HEAD
               # Add current date 
               date=$(date '+%Y-%m-%d')
               sanitized_filename="${date}-${sanitized_filename}"
 
-              # Define the output markdown file path
-              output_file="$final_folder/${sanitized_filename}.md"
-
-              echo "Processing $notebook"
-              
-=======
               # Define the output markdown file path
               output_file="$final_folder/${sanitized_filename}.md"
 
@@ -73,7 +51,6 @@ jobs:
 
               echo "Processing $notebook"
 
->>>>>>> 1ff71d3d31e7aef78496a479ff3afe9372386283
               # Convert the Jupyter notebook to Markdown
               jupyter nbconvert --to markdown "$notebook"
 
@@ -158,11 +135,7 @@ jobs:
               
               # Commit the changes with the improved message
               git commit -m "$full_commit_message"
-<<<<<<< HEAD
-              git push origin dev
-=======
               git push
->>>>>>> 1ff71d3d31e7aef78496a479ff3afe9372386283
           else
               echo "No new or modified files to commit."
           fi
