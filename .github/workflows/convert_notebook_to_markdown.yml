@@ -69,7 +69,10 @@ jobs:
               fi
 
               # Add the full markdown heading to the file with the extracted title
-              echo -e "---\nlayout: post\ntitle: \"$title\"\nliquid: false\n---\n\n$(cat \"$markdown_file\")" > "$output_file"
+              echo -e "---\nlayout: post\ntitle: \"$title\"\n---\n$(cat \"$markdown_file\")" > "$output_file"
+
+              # delete any lines containing the Colab callback
+              sed -i '/google\.colab\.kernel\.invokeFunction/d' "$output_file"
 
               # Print the sanitized filename and normalized paths for debugging
               echo "Markdown file created: $output_file"
