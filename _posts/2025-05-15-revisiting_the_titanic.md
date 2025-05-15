@@ -1,7 +1,5 @@
 ---
 layout: post
 title: "IMPORTANT: RUN THIS CELL IN ORDER TO IMPORT YOUR KAGGLE DATA SOURCES"
-liquid: false
 ---
-
 
