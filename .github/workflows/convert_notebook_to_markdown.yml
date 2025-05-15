@@ -69,7 +69,7 @@ jobs:
               fi
 
               # Add the full markdown heading to the file with the extracted title
-              echo -e "---\nlayout: post\ntitle: \"$title\"\n---\n\n$(cat "$markdown_file")" > "$output_file"
+              echo -e "---\nlayout: post\ntitle: \"$title\"\n---\n\n$(cat "$markdown_file")\nliquid: false" > "$output_file"
 
               # Print the sanitized filename and normalized paths for debugging
               echo "Markdown file created: $output_file"
