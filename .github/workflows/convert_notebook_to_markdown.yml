@@ -28,7 +28,7 @@ jobs:
       - name: Convert Notebooks to Markdown and Add Headings
         run: |
           # Define the final output folder
-          final_folder="docs/_posts"
+          final_folder="_posts"
 
           # Ensure the output folder exists
           mkdir -p "$final_folder"
