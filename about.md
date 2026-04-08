@@ -3,42 +3,41 @@ layout: page
 title: About
 ---
 
-### Nishanth Rajamani - Senior Data Scientist
+There's a specific feeling I'm chasing with this blog: the moment a confusing thing suddenly makes sense. Not the textbook version of the concept — the messy, actual process of being wrong, then less wrong, then occasionally right.
 
-Hello and welcome to my corner of the internet! I'm Nishanth Rajamani, a Senior Data Scientist with over a decade of experience diving deep into the realms of machine learning, predictive analytics, and NLP. My journey in data science has been an exhilarating ride through various domains, from optimizing credit risk models to enhancing customer interactions using cutting-edge AI techniques.
+I'm Nishanth. I've spent a decade building ML systems — fintech, aviation analytics, consulting — and I'm still regularly confused by things I feel I should understand by now. This blog is where I work through that.
 
-### Professional Snapshot
-
-I currently lead the charge at Ramboll Pvt. Ltd. as a Senior Data Scientist, where I enable ML Ops adoption on Azure ML and work on multi-domain AI/ML solutions. My previous stints include managing an ML Ops package team at ADF Data Science Pvt. Ltd. and working on sustainable aviation fuel optimization.
-
-Some of my key accomplishments include:
-
-- Building an ML framework for scalable analytical experimentation in the fintech domain.
-- Developing a call center analytics product using advanced NLP techniques.
-- Leading various hackathons to democratize ML Ops tools like ML Flow, DVC, and Optuna.
-
-### Educational Background
-
-I am pursuing a MicroMasters in Statistics and Data Science from MITx with a keen interest in Social Analytics. I hold a Bachelor's degree in Electrical and Electronics Engineering. My thirst for knowledge is insatiable, and I believe in the power of lifelong learning.
-
-### Awards and Recognitions
-
-- Best Employee Award at ADF Data Science Pvt. Ltd.
-- Winners of ADF Internal Analytics Hackathon.
-- Best Fresher runner-up at IBM India.
-
-### Volunteer Work
-
-I’m passionate about giving back to the community. Currently, I’m involved with WWF India, working on tiger conservation efforts in the Godavari basin. I’ve also contributed to beach and hill clean-ups with the Chennai Trekking Club.
-
-### Personal Interests
-
-When I’m not crunching numbers or building models, you can find me indulging in my love for books, sports like football and volleyball, swimming, cycling, and backpacking. I lift heavy functionally with mobility
-
-### Connect with Me
-
-I love connecting with like-minded individuals and fellow data enthusiasts. Feel free to reach out to me via [LinkedIn](https://www.linkedin.com/in/nishanthrajamani) or check out my projects on [GitHub](https://github.com/nishzsche). You can also follow my musings and updates on Twitter [@nishzsche](https://twitter.com/nishzsche).
+The tagline up top — *"an authentic pursuit to rid the imposter in me"* — is not marketing copy. It's the actual situation.
 
 ---
 
-Thanks for reading!
+### What I write here
+
+Short posts about things that confused me, and how I eventually resolved them. Occasionally longer posts walking through experiments and implementations from notebooks.
+
+Most things are ML-adjacent: probability, optimization, neural architectures, MLOps patterns, and whatever I'm currently working through in the [MITx MicroMasters in Statistics and Data Science](https://micromasters.mit.edu/ds/) or OMSCS coursework.
+
+The approach is Feynman-ish: if I can't explain it clearly, I probably don't understand it yet.
+
+I try to write at the level of someone who knows the domain but hasn't encountered *this specific nuance* — usually me, six months ago.
+
+---
+
+### Background
+
+Senior Data Scientist at [Ramboll](https://www.ramboll.com), currently focused on MLOps adoption on Azure.
+
+Previously: ML frameworks in fintech at scale, NLP-driven contact centre analytics, sustainable aviation fuel modelling.
+
+Education: MITx MicroMasters in Statistics and Data Science · B.E. in Electrical and Electronics Engineering.
+
+---
+
+### Outside work
+
+Volunteer with [WWF India](https://www.wwfindia.org) on tiger conservation in the Godavari basin.
+Functional fitness, cycling, backpacking. Read a lot. Play football when I can find eleven people.
+
+---
+
+[LinkedIn](https://www.linkedin.com/in/nishanthrajamani) &middot; [GitHub](https://github.com/nishzsche) &middot; [Twitter / X](https://twitter.com/nishzsche)
