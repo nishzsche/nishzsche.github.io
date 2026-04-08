@@ -127,32 +127,80 @@ You're a practitioner doing grad school. That's rare. Honour both sides.
 | | Notebook post | Short post |
 |---|---|---|
 | **Length** | Long — code + explanation | Short — 200–400 words |
-| **Source** | `notebooks/` → automation pipeline | `_drafts/` → written directly |
+| **Source** | `notebooks/` → automation pipeline | GitHub Issues → `_posts/` directly |
 | **Best for** | Experiments, data exploration, algorithm comparisons | Conceptual confusions, mental model corrections, OMSCS insights |
 | **Rule of thumb** | The *process* matters (what you tried, what happened) | The *moment* matters (one thing that clicked) |
 
 ---
 
-## The Draft Workflow
+## Posting Frequency
+
+**Don't set a cadence. Set a trigger.**
+
+The trigger is: *resolved confusion → post opportunity*.
+
+With active OMSCS + MITx studying, that's naturally 1–4 short posts a month without forcing anything. A "post every week" commitment produces mediocre posts written just to hit the number. Write when something clicks. The constraint isn't time — it's having the resolution.
+
+The window matters: write within 48 hours of the moment something clicks. After that, the confusion feels obvious in hindsight and you lose the ability to explain it to someone who's still confused.
+
+---
+
+## The Draft Workflow: GitHub Issues as Drafts
+
+Short posts live entirely in GitHub Issues until publish time. You don't need a laptop until the last step.
 
 ```
-INBOX  →  _drafts/  →  _posts/
+GitHub Issue (phone)  →  _posts/ (laptop, when ready)
 ```
 
-1. **Capture:** Add a one-liner to `_drafts/INBOX.md` the moment you feel the confusion.
-   On your phone: open a GitHub Issue labelled "confusion". Don't elaborate yet.
+**Labels to use:**
 
-2. **Draft:** Copy `_drafts/_template.md` to `_drafts/your-topic.md`.
-   Fill in Move 1 and Move 2 immediately — they don't require a resolution.
-   Leave Move 3 blank.
+| Label | Meaning |
+|---|---|
+| `confusion` | Captured — the confusion exists, resolution pending |
+| `drafting` | Moves 1 + 2 written, working on resolution |
+| `ready` | All three moves complete, ready to publish |
 
-3. **Resolve:** Work through it (course material, paper, experiment, ask someone).
-   Return to the draft and fill in Move 3.
+**The workflow:**
 
-4. **Publish:** Rename to `_posts/YYYY-MM-DD-your-topic.md`. Add the date to front matter.
-   Push to `dev`. Done.
+1. **Capture (phone):** Feel confusion → open GitHub Issue → write one sentence → label `confusion`.
+   The issue title = your post's working title.
 
-A draft can sit for weeks. That's fine. The goal is to **never lose a confusion**.
+2. **Draft (phone or laptop):** Fill in Move 1 and Move 2 in the issue body using the template below.
+   Change label to `drafting`. Leave Move 3 blank — that's fine.
+
+3. **Iterate:** Add comments to the issue as you think more about it.
+   Edit the body as your understanding evolves.
+
+4. **Resolve:** Work through the confusion. When you have it, fill in Move 3.
+   Change label to `ready`.
+
+5. **Publish (laptop):** Copy the issue body into `_posts/YYYY-MM-DD-slug.md`.
+   Add front matter. Push to `dev`. Close the issue. Done.
+
+**Issue body template** (paste this into every new Issue):
+
+```markdown
+## The Confusion
+
+
+## What I Thought Was True
+
+
+## The Resolution
+<!-- leave blank until resolved -->
+
+## The Takeaway
+<!-- leave blank until resolved -->
+
+---
+*Source:*
+```
+
+**Notebook posts** still use the automation pipeline (`notebooks/` → GitHub Actions → `_posts/`).
+The `_drafts/` folder in the repo is only for notebook-related staging; short posts skip it entirely.
+
+An issue can sit open for weeks. That's fine. The goal is to **never lose a confusion**.
 
 ---
 
