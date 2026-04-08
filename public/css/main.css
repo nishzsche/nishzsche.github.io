@@ -245,6 +245,19 @@ tbody tr:nth-child(even) td { background: #fafafb; }
 
 
 /* -------------------------
+   Home tagline
+   ------------------------- */
+
+.site-tagline {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin: -1.75rem 0 2.5rem;   /* pulls up close under the nav border */
+  letter-spacing: 0.01em;
+}
+
+
+/* -------------------------
    Post List (Home)
    ------------------------- */
 
