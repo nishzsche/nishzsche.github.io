@@ -1,0 +1,392 @@
+/*
+ * Learning Curve — main.css
+ * Replaces poole.css + lanyon.css with a clean, sidebar-free design.
+ * Optimised for reading: centered column, generous spacing, code-friendly.
+ */
+
+
+/* -------------------------
+   Reset & Base
+   ------------------------- */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+               "Helvetica Neue", Arial, sans-serif;
+  font-size: 18px;
+  line-height: 1.75;
+  color: #1a1a1a;
+  background: #ffffff;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+@media (max-width: 640px) {
+  html { font-size: 16px; }
+}
+
+
+/* -------------------------
+   Container
+   ------------------------- */
+
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+
+/* -------------------------
+   Navigation
+   ------------------------- */
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 0 1.25rem;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.site-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111;
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+
+.site-title:hover {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.nav-links a {
+  margin-left: 1.5rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+  text-decoration: none;
+}
+
+.nav-links a:hover {
+  color: #111;
+  text-decoration: none;
+}
+
+
+/* -------------------------
+   Typography
+   ------------------------- */
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 2rem 0 0.6rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #111;
+  letter-spacing: -0.01em;
+}
+
+h1 { font-size: 1.75rem; margin-top: 0; }
+h2 { font-size: 1.3rem; }
+h3 { font-size: 1.1rem; }
+h4, h5, h6 { font-size: 1rem; }
+
+p {
+  margin: 0 0 1.25rem;
+}
+
+a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+strong { color: #111; }
+
+em { font-style: italic; }
+
+hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 2.5rem 0;
+}
+
+abbr[title] {
+  cursor: help;
+  border-bottom: 1px dotted #9ca3af;
+  text-decoration: none;
+}
+
+
+/* -------------------------
+   Lists
+   ------------------------- */
+
+ul, ol {
+  margin: 0 0 1.25rem;
+  padding-left: 1.5rem;
+}
+
+li { margin-bottom: 0.25rem; }
+
+
+/* -------------------------
+   Blockquote
+   ------------------------- */
+
+blockquote {
+  margin: 1.75rem 0;
+  padding: 0.5rem 0 0.5rem 1.25rem;
+  border-left: 3px solid #2563eb;
+  color: #4b5563;
+  font-style: italic;
+}
+
+blockquote p:last-child { margin-bottom: 0; }
+
+
+/* -------------------------
+   Code
+   ------------------------- */
+
+code {
+  font-family: "JetBrains Mono", "Fira Code", Menlo, Monaco,
+               "Courier New", monospace;
+  font-size: 0.83em;
+  background: #f4f4f5;
+  color: #be185d;
+  padding: 0.15em 0.4em;
+  border-radius: 3px;
+}
+
+pre {
+  background: #1e1e2e;
+  color: #cdd6f4;
+  padding: 1.25rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 0.83rem;
+  line-height: 1.6;
+  margin: 0 0 1.5rem;
+}
+
+pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  font-size: 100%;
+  border-radius: 0;
+}
+
+/* Rouge highlight block */
+.highlight {
+  background: #1e1e2e;
+  border-radius: 8px;
+  margin: 0 0 1.5rem;
+  overflow-x: auto;
+}
+
+.highlight pre {
+  margin: 0;
+  background: transparent;
+  border-radius: 0;
+}
+
+
+/* -------------------------
+   Images & Tables
+   ------------------------- */
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1.5rem 0;
+  border-radius: 6px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+}
+
+th, td {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+th {
+  background: #f9fafb;
+  font-weight: 600;
+}
+
+tbody tr:nth-child(even) td {
+  background: #fafafa;
+}
+
+
+/* -------------------------
+   Post List (Home)
+   ------------------------- */
+
+.post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.post-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 1.25rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.post-list li:first-child {
+  border-top: 1px solid #f3f4f6;
+}
+
+.post-date {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+  min-width: 90px;
+}
+
+.post-link {
+  color: #1a1a1a;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.post-link:hover {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+@media (max-width: 480px) {
+  .post-list li {
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+}
+
+
+/* -------------------------
+   Post Page
+   ------------------------- */
+
+.post-header {
+  margin-bottom: 2.5rem;
+}
+
+.post-title {
+  font-size: 1.75rem;
+  margin: 0 0 0.5rem;
+  line-height: 1.25;
+}
+
+.post-meta {
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+.post-meta time { color: #6b7280; }
+
+.reading-time::before { content: " · "; }
+
+.tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  color: #6b7280;
+  background: #f3f4f6;
+  padding: 0.1em 0.5em;
+  border-radius: 3px;
+}
+
+.post-content {
+  margin-top: 0;
+}
+
+/* Section headings inside posts */
+.post-content h2 {
+  margin-top: 2.5rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+
+/* -------------------------
+   About / Static Pages
+   ------------------------- */
+
+.page-title {
+  font-size: 1.75rem;
+  margin: 0 0 2rem;
+}
+
+
+/* -------------------------
+   Pagination
+   ------------------------- */
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 3rem 0;
+  font-size: 0.9rem;
+}
+
+.pagination a {
+  color: #2563eb;
+  font-weight: 500;
+}
+
+.pagination a:hover { text-decoration: underline; }
+
+.pagination-disabled {
+  color: #d1d5db;
+}
+
+
+/* -------------------------
+   Footer
+   ------------------------- */
+
+.site-footer {
+  margin-top: 4rem;
+  padding: 2rem 0 3rem;
+  border-top: 1px solid #e5e7eb;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.site-footer a {
+  color: #6b7280;
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  color: #111;
+}

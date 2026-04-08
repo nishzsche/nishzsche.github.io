@@ -3,11 +3,12 @@ name: convert-notebooks-to-markdown
 on:
   push:
     branches: [dev]
-    paths: ['notebooks/*.ipynb']  # Triggers when a .ipynb file is added or modified in the notebooks folder
+    paths: ['notebooks/*.ipynb']  # Triggers when a .ipynb file is added or modified
   workflow_run:
     branches: [dev]
-    workflows: ["move-notebooks-to-folder"]  # Trigger after "Move Notebooks to Folder" completes
+    workflows: ["move-notebooks-to-folder"]
     types: [completed]
+
 jobs:
   convert:
     runs-on: ubuntu-latest
@@ -21,127 +22,147 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Install nbconvert and dependencies
-        run: |
-          pip install nbconvert jupyter
+      - name: Install dependencies
+        run: pip install nbconvert jupyter
 
-      - name: Convert Notebooks to Markdown and Add Headings
+      - name: Filter notebook cells (pip installs + Colab boilerplate)
         run: |
-          # Define the final output folder
+          python3 - <<'PYEOF'
+          import json, glob, sys
+
+          # Patterns that mark a cell as boilerplate to remove
+          COLAB_PATTERNS = [
+              'from google.colab import',
+              'drive.mount(',
+              'auth.authenticate_user',
+              'google.colab.kernel.invokeFunction',
+              '# @title',
+              '# @param',
+          ]
+
+          def is_boilerplate(cell):
+              src = ''.join(cell.get('source', []))
+              stripped = src.strip()
+
+              # Remove pip / conda install cells
+              if cell.get('cell_type') == 'code':
+                  if (stripped.startswith('!pip') or
+                      stripped.startswith('%pip') or
+                      stripped.startswith('!conda') or
+                      stripped.startswith('%conda')):
+                      return True
+
+              # Remove Colab-specific cells (code or markdown)
+              for pattern in COLAB_PATTERNS:
+                  if pattern in src:
+                      return True
+
+              return False
+
+          for nb_path in glob.glob('notebooks/*.ipynb'):
+              with open(nb_path, encoding='utf-8') as f:
+                  nb = json.load(f)
+
+              before = len(nb['cells'])
+              nb['cells'] = [c for c in nb['cells'] if not is_boilerplate(c)]
+              removed = before - len(nb['cells'])
+
+              with open(nb_path, 'w', encoding='utf-8') as f:
+                  json.dump(nb, f, indent=1, ensure_ascii=False)
+
+              print(f"  {nb_path}: removed {removed} boilerplate cell(s), {len(nb['cells'])} remaining")
+          PYEOF
+
+      - name: Convert notebooks to Markdown and add front matter
+        run: |
           final_folder="_posts"
-
-          # Ensure the output folder exists
           mkdir -p "$final_folder"
+
           for notebook in $(find notebooks -name '*.ipynb'); do
-              # Sanitize the notebook filename by replacing special characters
-              sanitized_filename=$(basename "$notebook" .ipynb | sed 's/[^a-zA-Z0-9]/_/g')
 
-              # Add current date 
+              # --- Sanitise filename ---
+              sanitized=$(basename "$notebook" .ipynb | sed 's/[^a-zA-Z0-9]/_/g')
               date=$(date '+%Y-%m-%d')
-              sanitized_filename="${date}-${sanitized_filename}"
+              output_file="$final_folder/${date}-${sanitized}.md"
 
-              # Define the output markdown file path
-              output_file="$final_folder/${sanitized_filename}.md"
+              echo "Processing: $notebook → $output_file"
 
-              echo "Processing $notebook"
-              
-              # Convert the Jupyter notebook to Markdown
+              # --- Convert to Markdown ---
               jupyter nbconvert --to markdown "$notebook"
-
-              # Determine the generated Markdown filename
               markdown_file="${notebook%.ipynb}.md"
-
-              # Normalize the path: Replace backslashes (\) with forward slashes (/)
               markdown_file=$(echo "$markdown_file" | sed 's/\\/\//g')
 
-              # Ensure the markdown file exists
               if [ ! -f "$markdown_file" ]; then
-                  echo "Error: Markdown conversion failed for $notebook"
+                  echo "Error: conversion failed for $notebook"
                   exit 1
               fi
 
-              # Extract the first heading from the converted Markdown file
-              title=$(grep -m 1 '^# ' "$markdown_file" | sed 's/^# //')
+              # --- Derive title from filename (not first heading) ---
+              raw_name=$(basename "$notebook" .ipynb)
+              title=$(python3 - <<PYEOF
+          import re, sys
+          name = """$raw_name"""
+          # Strip leading date patterns like 2025-05-15- or 01_
+          name = re.sub(r'^\d{4}-\d{2}-\d{2}[-_]', '', name)
+          name = re.sub(r'^\d+[-_]', '', name)
+          # Replace separators and title-case
+          title = name.replace('_', ' ').replace('-', ' ').title()
+          print(title)
+          PYEOF
+          )
 
-              # If no title was found, set a default title based on the filename
-              if [ -z "$title" ]; then
-                  title=$(basename "$notebook" .ipynb)
-              fi
-
-              # Add the full markdown heading to the file with the extracted title
+              # --- Assemble post with front matter ---
               {
                 echo '---'
                 echo "layout: post"
                 echo "title: \"$title\""
+                echo "date: $date"
+                echo "tags: []"
                 echo '---'
-                echo    # blank line
+                echo
                 cat "$markdown_file"
               } > "$output_file"
 
-              # delete any lines containing the Colab callback
-              sed -i '/google\.colab\.kernel\.invokeFunction/d' "$output_file"
-
-              # Print the sanitized filename and normalized paths for debugging
-              echo "Markdown file created: $output_file"
+              echo "Created: $output_file (title: $title)"
           done
 
-      - name: Commit changes
+      - name: Commit and push
         run: |
-          git config --local user.name "github-actions[bot]"
+          git config --local user.name  "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
-      
-          # Identify new and modified files
+
           added_files=$(git ls-files --others --exclude-standard _posts/*.md)
           modified_files=$(git diff --name-only _posts/*.md)
-      
-          # Initialize variables for commit message and file counts
-          commit_message=""
+
           total_added=0
           total_modified=0
-      
-          # Function to determine version number for a specific file
-          get_file_version() {
-              file=$1
-              # Count the number of times the file has been edited
-              edit_count=$(git log --oneline -- "$file" | wc -l)
-              # Increment edit count by 1 to determine the new version number
-              echo $((edit_count + 1))
+          commit_message=""
+
+          get_version() {
+              echo $(( $(git log --oneline -- "$1" | wc -l) + 1 ))
           }
-      
-          # Process newly added files
+
           for file in $added_files; do
-              if [ -n "$file" ]; then
-                  total_added=$((total_added + 1))
-                  version=$(get_file_version "$file")
-                  commit_message+="New file: $file (Version $version) at $(date +"%Y-%m-%d %H:%M:%S")\n"
-              fi
+              [ -n "$file" ] || continue
+              total_added=$(( total_added + 1 ))
+              commit_message+="New: $file (v$(get_version $file)) at $(date +"%Y-%m-%d %H:%M:%S")\n"
           done
-      
-          # Process modified files
+
           for file in $modified_files; do
-              if [ -n "$file" ]; then
-                  total_modified=$((total_modified + 1))
-                  version=$(get_file_version "$file")
-                  commit_message+="Modified file: $file (Version $version) at $(date +"%Y-%m-%d %H:%M:%S")\n"
-              fi
+              [ -n "$file" ] || continue
+              total_modified=$(( total_modified + 1 ))
+              commit_message+="Updated: $file (v$(get_version $file)) at $(date +"%Y-%m-%d %H:%M:%S")\n"
           done
-      
-          # Check if there were files to commit
-          if [ $total_added -gt 0 ] || [ $total_modified -gt 0 ]; then
-              # Create a summary line for the commit message
-              summary_line="Converted Jupyter Notebooks to Markdown: $total_added new file(s) added, $total_modified file(s) modified."
-      
-              # Combine the summary line with detailed messages
-              full_commit_message="$summary_line\n\nDetails:\n$commit_message"
-      
-              # Stage new and modified files
+
+          if [ $(( total_added + total_modified )) -gt 0 ]; then
+              summary="Notebooks → Markdown: $total_added added, $total_modified updated"
               git add $added_files $modified_files
-              
-              # Commit the changes with the improved message
-              git commit -m "$full_commit_message"
+              git commit -m "$summary
+
+          $commit_message"
               git push origin dev
           else
-              echo "No new or modified files to commit."
+              echo "Nothing to commit."
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
