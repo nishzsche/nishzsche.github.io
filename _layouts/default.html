@@ -3,38 +3,36 @@
 
   {% include head.html %}
 
-  <body class="theme-base-0f">
+  <body>
+    <div class="container">
 
-    {% include sidebar.html %}
-
-    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
-         content to avoid any CSS collisions with our real content. -->
-    <div class="wrap">
-      <div class="masthead">
-        <div class="container">
-          <h3 class="masthead-title">
-            <a href="{{ site.baseurl }}/" title="Home">{{ site.title }}</a>
-            <small>{{ site.tagline }}</small>
-          </h3>
+      <nav class="site-nav">
+        <a class="site-title" href="{{ site.baseurl }}/">{{ site.title }}</a>
+        <div class="nav-links">
+          <a href="{{ site.baseurl }}/about">About</a>
+          <a href="{{ site.baseurl }}/atom.xml">Feed</a>
         </div>
-      </div>
+      </nav>
 
-      <div class="container content">
-        {{ content }}
-      </div>
+      {{ content }}
+
+      <footer class="site-footer">
+        &copy; {{ site.time | date: '%Y' }} {{ site.author.name }}
+        &middot; <a href="{{ site.author.url }}">@nishzsche</a>
+        &middot; <a href="{{ site.baseurl }}/atom.xml">RSS</a>
+      </footer>
+
     </div>
 
-    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [['$','$'], ['\\(','\\)']],
+          processEscapes: true
+        }
+      });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
 
-    <script src='{{ site.baseurl }}/public/js/script.js'></script>
   </body>
 </html>
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [['$','$'], ['\\(','\\)']],
-      processEscapes: true
-    }
-  });
-  </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>

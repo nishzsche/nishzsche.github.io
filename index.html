@@ -3,35 +3,30 @@ layout: default
 title: Home
 ---
 
-<div class="posts">
+<ul class="post-list">
   {% for post in paginator.posts %}
-  <div class="post">
-    <h1 class="post-title">
-      <a href="{{ site.baseurl }}/{{ post.url }}">
-        {{ post.title }}
-      </a>
-    </h1>
-
-    <span class="post-date">{{ post.date | date_to_string }}</span>
-
-    {{ post.content }}
-  </div>
+  <li>
+    <span class="post-date">{{ post.date | date: "%b %d, %Y" }}</span>
+    <a class="post-link" href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+  </li>
   {% endfor %}
-</div>
+</ul>
 
+{% if paginator.total_pages > 1 %}
 <div class="pagination">
   {% if paginator.next_page %}
-    <a class="pagination-item older" href="{{ site.baseurl }}/page{{paginator.next_page}}">Older</a>
+    <a href="{{ paginator.next_page_path | prepend: site.baseurl }}">&#8592; Older</a>
   {% else %}
-    <span class="pagination-item older">Older</span>
+    <span class="pagination-disabled">&#8592; Older</span>
   {% endif %}
   {% if paginator.previous_page %}
-    {% if paginator.page == 2 %}
-      <a class="pagination-item newer" href="{{ site.baseurl }}/">Newer</a>
+    {% if paginator.previous_page == 1 %}
+      <a href="{{ site.baseurl }}/">Newer &#8594;</a>
     {% else %}
-      <a class="pagination-item newer" href="{{ site.baseurl }}/page{{paginator.previous_page}}">Newer</a>
+      <a href="{{ paginator.previous_page_path | prepend: site.baseurl }}">Newer &#8594;</a>
     {% endif %}
   {% else %}
-    <span class="pagination-item newer">Newer</span>
+    <span class="pagination-disabled">Newer &#8594;</span>
   {% endif %}
 </div>
+{% endif %}
