@@ -14,13 +14,13 @@ tags: []
 ## What I Thought Was True
 
 <!-- Your wrong mental model before the resolution.
-     Write it out fully — readers who share your model will get the most from this. -->
+     Write it out fully - readers who share your model will get the most from this. -->
 
 ## The Resolution
 
 <!-- What actually makes sense and why.
      One concrete example or analogy often does more than a formal explanation.
-     Leave this blank until you have it — that's fine. -->
+     Leave this blank until you have it - that's fine. -->
 
 ## The Takeaway
 
@@ -28,4 +28,4 @@ tags: []
 
 ---
 
-*Source: [what helped — paper, course, experiment, person, code]*
+*Source: [what helped - paper, course, experiment, person, code]*
