@@ -1,5 +1,5 @@
 /*
- * Learning Curve — main.css
+ * Learning Curve - main.css
  * Option B: sidebar-free, centered column.
  * Palette: warm stone background · violet accent · dark code blocks.
  */
@@ -10,7 +10,7 @@
    ------------------------- */
 
 :root {
-  --bg:           #fafaf9;   /* stone-50 — barely off-white, warm */
+  --bg:           #fafaf9;   /* stone-50 - barely off-white, warm */
   --surface:      #f4f4f5;   /* inline code bg */
   --border:       #e4e4e7;   /* zinc-200 */
   --border-soft:  #f0f0f2;   /* post list divider, very subtle */

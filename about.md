@@ -5,7 +5,7 @@ title: About
 
 There's a specific feeling I'm chasing with this blog: the moment a confusing thing suddenly makes sense. Not the textbook version of the concept. The messy, actual process of being wrong, then less wrong, then occasionally right.
 
-I'm Nishanth. I've spent a decade building ML systems in fintech, operations, consulting, marketing, engineering, and now insurance — and I'm still regularly confused by things I feel I should understand by now. This blog is where I work through that.
+I'm Nishanth. I've spent a decade building ML systems in fintech, operations, consulting, marketing, engineering, and now insurance, and I'm still regularly confused by things I feel I should understand by now. This blog is where I work through that.
 
 ---
 
@@ -17,13 +17,13 @@ Most things are ML-adjacent: probability, optimization, neural architectures, ML
 
 The approach is Feynman-ish: if I can't explain it clearly, I probably don't understand it yet.
 
-I try to write at the level of someone who knows the domain but hasn't encountered this specific nuance — usually me, six months ago.
+I try to write at the level of someone who knows the domain but hasn't encountered this specific nuance - usually me, six months ago.
 
 ---
 
 ### Background
 
-Lead Data Scientist at [OIP Insurtech](https://oipinsurtech.com), currently focused on an AI-driven insurance triage product — BoundAI.
+Lead Data Scientist at [OIP Insurtech](https://oipinsurtech.com), currently focused on an AI-driven insurance triage product - BoundAI.
 
 Previously: ML frameworks in fintech at scale, NLP-driven contact centre analytics, market research, and more.
 
@@ -34,7 +34,7 @@ Education: M.S. in Computer Science at Georgia Tech (OMSCS) · B.E. in Electrica
 ### Outside work
 
 Functional fitness, cycling, backpacking. Read a lot.
-Working through physical rehabilitation post traumatic injuries — swimming is part of the comeback.
+Working through physical rehabilitation post traumatic injuries - swimming is part of the comeback.
 
 ---
 

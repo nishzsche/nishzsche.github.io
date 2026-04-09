@@ -14,7 +14,7 @@ Short posts about things that confused me and how I eventually resolved them. Oc
 
 - **Generator:** [Jekyll](https://jekyllrb.com) via [GitHub Pages](https://pages.github.com)
 - **Branch structure:** `dev` → working branch (all changes go here) · `main`/`gh-pages` → deployed by GitHub Pages
-- **Theme:** Custom — no third-party theme dependency. Layouts in `_layouts/`, styles in `public/css/main.css`
+- **Theme:** Custom - no third-party theme dependency. Layouts in `_layouts/`, styles in `public/css/main.css`
 
 ## Running locally
 

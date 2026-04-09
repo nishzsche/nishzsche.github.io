@@ -1,6 +1,6 @@
 # Confusion Inbox
 
-Raw captures. One line per confusion. Don't elaborate here — just log it and move on.
+Raw captures. One line per confusion. Don't elaborate here - just log it and move on.
 Develop into a full draft in `_drafts/` when you have time.
 
 **From your phone:** Open a GitHub Issue with label `confusion`. Process issues into this file weekly.
