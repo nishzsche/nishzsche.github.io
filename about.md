@@ -13,7 +13,7 @@ I'm Nishanth. I've spent a decade building ML systems in fintech, operations, co
 
 Short posts about things that confused me and how I eventually resolved them, or about things I'm intrigued by. Occasionally longer posts walking through experiments and implementations from notebooks.
 
-Most things are ML-adjacent: probability, optimization, neural architectures, MLOps patterns, and whatever I'm currently working through in my OMSCS coursework or just at work.
+ML, OMSCS coursework, hardware tinkering, and whatever else currently has my attention - watercolors, cycle mechanics, guitar. The domain doesn't matter much. The learning posture does.
 
 The approach is Feynman-ish: if I can't explain it clearly, I probably don't understand it yet.
 
