@@ -15,7 +15,7 @@ Guidelines for any AI assistant working in this repository.
 - **Working branch is `dev`.** All changes go to `dev`.
   Never commit directly to `main` or `gh-pages` - those are deployed by GitHub Pages.
 
-- The working directory for this project is `C:/Users/nisha/Documents/portfolio-dev`.
+- The working directory for this project is `C:/Users/nisha/Documents/nishzsche.github.io`.
   The original clone at `Education & Learning/GitHub/nishzsche.github.io` has a corrupt
   git object database and should not be used.
 
