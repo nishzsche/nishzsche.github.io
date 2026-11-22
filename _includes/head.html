@@ -34,6 +34,15 @@
   <!-- Canonical -->
   <link rel="canonical" href="{{ page.url | absolute_url }}">
 
+  <!-- Review copies (front matter): keep out of search engines; Hypothesis for comments -->
+  {% if page.noindex %}
+  <meta name="robots" content="noindex, nofollow">
+  {% endif %}
+  {% if page.hypothesis %}
+  <script type="application/json" class="js-hypothesis-config">{"showHighlights": "always"}</script>
+  <script src="https://hypothes.is/embed.js" async></script>
+  {% endif %}
+
   <!-- CSS -->
   <link rel="stylesheet" href="{{ '/public/css/main.css'   | absolute_url }}">
   <link rel="stylesheet" href="{{ '/public/css/syntax.css' | absolute_url }}">

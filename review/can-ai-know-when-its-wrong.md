@@ -3,7 +3,14 @@ layout: post
 title: "Can AI actually know when it's wrong?"
 date: 2026-11-23
 tags: [probability]
+permalink: /review/can-ai-know-when-its-wrong/
+# Review copy: not listed on the home page or in the feed, hidden from search engines,
+# with Hypothesis loaded for comments. To launch, move it to _posts/ and drop these three.
+noindex: true
+hypothesis: true
 ---
+
+> **Draft for review, not yet published.** Thank you for reading. To comment, select any text and click **Annotate**, or open the sidebar with the arrow at the top right. Commenting needs a free [Hypothesis](https://web.hypothes.is/) account. I'd most like to know: where did you get lost or bored, does the twist in finding 3 land, and does anything feel overstated?
 
 *I gave eight models the same 2,000 real credit-card customers and checked whether their percentages meant what they said.*
 
@@ -109,11 +116,11 @@ The catch: labelled outcomes are exactly what zero-shot AI was supposed to free 
 
 ### 6. What it costs
 
-- **Sol:** about $0.74 per 1,000 decisions, at around two seconds each.
+- **Sol:** about 74 cents per 1,000 decisions, at around two seconds each.
 - **Jev, through its API:** about 2 cents per 1,000.
 - **The open models, on one rented GPU:** under 2 cents per 1,000, with answers in milliseconds.
 - **The scorecard:** essentially free to run.
-- **The whole experiment,** every check included, cost about $14 in API calls plus a few dollars of GPU time.
+- **The whole experiment,** every check included, cost about 14 dollars in API calls plus a few more for GPU time.
 
 ![Cost vs ranking ability](/public/images/can-ai-know-when-its-wrong/5_cost_vs_auc.png)
 
