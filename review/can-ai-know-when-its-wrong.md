@@ -24,7 +24,12 @@ I spent years building credit-risk models, where an honest probability matters m
 
 ## The experiment
 
-I used a well-known public dataset: 30,000 credit-card customers of a bank in Taiwan in 2005, and whether each one missed their next payment. About 22% did. I set aside 2,000 customers as the test, the same 2,000 for every contestant.
+I used a well-known public dataset: 30,000 credit-card customers of a bank in Taiwan in 2005, and whether each one missed their next payment. About 22% did. I split the customers into four groups:
+
+- **Test (2,000):** every model is scored on these same customers, and no model or setting was ever adjusted using them.
+- **Train (20,000):** for teaching the two classic models.
+- **Tune (2,000):** customers with known outcomes, used only to correct the AI models' percentages ("recalibration", below).
+- **Reserve (6,000):** never used.
 
 Each contestant saw the same information about each customer: the credit limit and six months of bills, payments and repayment status. Nothing else. I left out age, sex, marital status and education on purpose. A lending model shouldn't use them, and leaving them out keeps the comparison clean. For the AI models, that became a short text summary:
 
@@ -41,24 +46,26 @@ Jul 2005 | -NT$527 (credit) | NT$396 | not late (code -2)
 
 followed by one question: *will this customer miss next month's payment?*
 
-Eight contestants answered.
+Eight contestants answered. Together they cover the main ways a business can get a probability out of AI today: buy a model built for decisions, run an open one yourself, read one out of a general-purpose model, or simply ask a chatbot. Two classic models set the bar.
 
-**Six AI models, answering cold**, with no examples:
-- **Jev**, from TypeSafe: a commercial "decision model", built to answer closed questions with a confidence.
-- **Kev-4B, Kev-0.8B and Laya**: open-source decision models, which I ran on a rented GPU.
-- **Qwen3.5-4B**: a small, free, general-purpose language model. I read its probability straight from its internals: how much weight it put on "yes" versus "no".
-- **GPT-6.2 Sol**: the model ChatGPT starts new chats on, simply asked for a probability from 0 to 100.
+| Contestant | What it is | Why it's here |
+|---|---|---|
+| **Jev** (TypeSafe) | A commercial "decision model": ask it a yes-or-no question and it answers with a confidence | The newest kind of AI built for exactly this job, and sold on its confidence |
+| **Kev-4B, Kev-0.8B** | Open-source decision models, in a larger and a smaller size, free to run on your own hardware | What a bank could run in-house, where customer data can't leave the building |
+| **Laya** | A much smaller open decision model | Can a tiny, fast model be honest? |
+| **Qwen3.5-4B** | A small, free, general-purpose language model. I read its probability straight from its internals: how much weight it put on "yes" versus "no" | The do-it-yourself route, with any open model |
+| **GPT-6.2 Sol** | The model ChatGPT starts new chats on, asked for a probability from 0 to 100 | What most people would actually do: ask ChatGPT |
+| **Scorecard** | A logistic regression, trained on the 20,000 train customers | The kind of model banks have used for decades |
+| **Gradient boosting** | The standard modern machine-learning model, trained on the same 20,000 | The modern bar |
 
-**Two classic models**, trained the old way on 20,000 customers whose outcomes were known:
-- a **scorecard** (a logistic regression), the kind banks have used for decades;
-- **gradient boosting**, the standard modern machine-learning approach.
+The six AI models answered cold, with no examples.
 
 That difference matters, and I'll repeat it wherever I compare them: the classic models learned from 20,000 labelled examples, and the AI models got none. But that *is* the practical question. Do you need the new AI, or the old model and some data?
 
 Each AI model answered three ways:
 1. **Out of the box.**
 2. **With one extra sentence:** "In this portfolio, about 22.1% of customers miss next month's payment."
-3. **After recalibration:** 2,000 *other* customers with known outcomes were used to correct its percentages.
+3. **After recalibration:** like fixing a bathroom scale that always reads 3 kg heavy. You work out the correction on people whose weight you know, then apply it to everyone else. Here the correction was learned from the 2,000 tune customers and applied, unchanged, to the test customers.
 
 ## What "honest" looks like
 
@@ -66,7 +73,14 @@ Here's the whole test in one picture. For each model, I sorted the customers fro
 
 ![Promised vs actual default rate](/public/images/can-ai-know-when-its-wrong/1_promised_vs_actual.png)
 
-On the diagonal, the model is honest: when it says 30%, 30% default. The grey line is the scorecard, and it hugs the diagonal. I'll sum up the gap as one number: the average distance between promised and actual, known as *calibration error* (ECE). The scorecard's is 0.014, so its percentages are off by about 1.4 points on average.
+How to read it:
+- **Each dot is a tenth of the customers.** Take the top-right dot in Jev's panel: the 200 customers Jev rated riskiest. Jev promised that about 80% of them would default; 63% did.
+- **On the diagonal, the model is honest.** When it says 30%, 30% default.
+- **Below the diagonal, it's too pessimistic.** It promised more defaults than happened, as with that Jev dot. Above the diagonal, it's too optimistic.
+- **A flat line means it can't tell customers apart.** Kev-4B's promises range from 24% to 67%, but what actually happened only ranges from 14% to 30%.
+- **The grey line is the scorecard,** and it hugs the diagonal.
+
+I'll sum up the gap as one number: the average distance between promised and actual, known as *calibration error* (ECE). The scorecard's is 0.014, so its percentages are off by about 1.4 points on average.
 
 ## What I found
 
@@ -110,7 +124,7 @@ Honest percentages are half the job. The other half is putting risky customers a
 
 ### 5. You can buy honesty back, with labels
 
-Recalibration with 2,000 labelled customers brought every AI model's error down to between 0.3 and 4 points, close to the scorecard's 1.4. It doesn't change how well a model ranks, only what its numbers mean.
+Recalibration on the 2,000 tune customers brought every AI model's error down to between 0.3 and 4 points, close to the scorecard's 1.4. It doesn't change how well a model ranks, only what its numbers mean.
 
 The catch: labelled outcomes are exactly what zero-shot AI was supposed to free you from needing. And with 20,000 of them, a scorecard ranks better than any of the AI models.
 
@@ -137,17 +151,63 @@ Before running anything, I wrote down my guesses and committed them to the repos
 
 One out of four. Which is rather the point: confident guesses need checking.
 
+Looking back, the evidence was in front of me. The 20-customer test run I did before guessing had Jev averaging 55% and Laya 23%, on customers who defaulted 20% of the time. I went with reputation over a small sample, and the small sample was right. The next section explains what was going on: Jev wasn't so much dishonest as starting from the wrong assumption, Laya looked honest partly because its answers barely move, and the scorecard had learned something about this data that no AI model knew.
+
+## Why the results look like this
+
+I broke the test customers down by their most recent repayment status and compared what actually happened with what each model predicted.
+
+| Most recent status | Customers | Actually defaulted | Jev | Kev-4B | Laya | GPT-6.2 Sol | Scorecard |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Paid on time (code −1) | 405 | 14% | 30% | 37% | 12% | 13% | 15% |
+| Not late (code 0) | 971 | 12% | 51% | 54% | 20% | 18% | 13% |
+| 1 month late | 245 | 37% | 61% | 51% | 27% | 51% | 36% |
+| 2 months late | 170 | 72% | 75% | 58% | 34% | 74% | 66% |
+
+- **One group causes most of the overstatement.** Half the customers are "not late (code 0)": they carry a balance and pay part of it, on time. They're the safest group in the data, and only 12% defaulted. Jev predicted 51% for them and Kev-4B 54%, which accounts for about three quarters of both models' overstatement. To a lender, paying part of a balance on time is ordinary; it's how card issuers earn interest. The models seem to read a small payment against a large bill as a customer in trouble.
+- **Some models start near even odds.** Kev-4B gives 80% of customers between 30% and 64%, centred near 49%, and Jev averages 48%. My best explanation is that decision models learn from tasks where "yes" isn't rare, so with no base rate they start close to 50/50. Kev's published training data fits this: general text-classification sets, and nothing like this data. Jev's training data isn't published. This is exactly what the base-rate sentence corrects.
+- **Honest on average isn't the same as useful.** Laya's percentages are close to right on average, but they barely move with risk. It gives customers two months late 34%, when 72% of them defaulted. Calibration and ranking are separate skills, and Laya has more of the first.
+- **Sol tracks reality group by group:** 13% for on-time payers (14% actual) and 74% for two months late (72% actual). That fits a model that knows this data, as finding 3 suggests.
+- **Small models can misread context.** Told that "about 22% of customers miss a payment", Kev-0.8B raised its average from 31% to 49%. It seems to treat the sentence as a warning sign, not a statistic.
+- **The ceiling is low.** Even gradient boosting, trained on 20,000 customers, reaches only 0.789. Six months of payment history can only tell you so much. The best AI models' 0.75 is about 88% of the way from a coin flip to the best trained model.
+- **The scorecard learned what the AI models had to guess.** From 20,000 labelled examples, it learned what this data's repayment codes really mean, starting with the most important lesson: customers paying part of their balance on time are the safest, not the riskiest.
+
+## What would change with different data
+
+**The portfolio's default rate changes who looks honest.** These customers defaulted at 22%. I reweighted the same customers to imitate portfolios where 5% or 50% default: the same kinds of defaulters and non-defaulters, in different proportions. Then I measured calibration error again, in points off:
+
+| If the default rate were | 5% | 22% (actual) | 50% |
+|---|---:|---:|---:|
+| Jev | 41 | 27 | 11 |
+| Kev-4B | 43 | 27 | 5 |
+| Kev-0.8B | 23 | 9 | 15 |
+| Laya | 14 | 5 | 28 |
+| Qwen3.5-4B | 28 | 14 | 10 |
+| GPT-6.2 Sol | 17 | 5 | 17 |
+| Scorecard (trained at 22%) | 13 | 1.4 | 23 |
+
+- **In a low-risk book, everyone overstates.** In a typical prime card portfolio, where far fewer than 22% default, every model looks worse, and the models that start near even odds look far worse.
+- **In a high-risk book, the ranking flips.** At 50%, Kev-4B becomes the most honest model and Laya the least.
+- **The scorecard is no exception.** It's honest at 22% because that's the rate it was trained on.
+- **Ranking ability doesn't move.** AUC compares defaulters with non-defaulters, so the mix doesn't affect it. Honesty does.
+
+So "is this model honest?" only has an answer for a particular portfolio, and you need some of your own labelled outcomes to find it. Other things that would likely change the picture:
+- **Data the models haven't seen.** On a bank's own customers, Sol can't recognise the portfolio, and I'd expect its out-of-the-box honesty to fall back towards the others'. I haven't tested this.
+- **A different era.** 2005 was the height of Taiwan's credit-card debt crisis, which is why so many customers defaulted. A normal year means a lower default rate: see the table.
+- **Richer data.** Income, credit-bureau scores or a longer history would raise the ceiling for the trained models. Whether they help the AI models depends on whether a longer summary stays easy to read.
+- **Different wording.** I used one fixed template for every AI model. Other wordings could shift these numbers, and that's worth testing before trusting any one result.
+
 ## What I'd tell a bank
 
 - **Ask "when it says 30%, how often is it right?", not just "how accurate is it?"** A model can rank customers well and still give you numbers that are double the truth.
-- **Don't take a zero-shot percentage at face value.** Hold back a labelled sample and recalibrate. Here, 2,000 customers was enough.
+- **Don't take a zero-shot percentage at face value.** Hold back a labelled sample from your own portfolio and recalibrate. Here, 2,000 customers was enough. Honesty depends on your default rate, so a test on someone else's data won't tell you.
 - **Tell the model your base rate.** It's free, and it helped five of six models. But test it, because it broke one.
 - **Test on data the model can't have seen.** Famous public datasets flatter large language models, which can be remarkably good at recognising them.
 - **For ranking alone, the old scorecard is hard to beat.** The case for AI here isn't better risk ranking, at least not yet.
 
 ## What this test can't tell you
 
-- **One dataset:** one bank, one country, 2005.
+- **One dataset:** one bank, one country, 2005. The section above shows how much the default rate alone could change.
 - **A famous dataset:** AI models have seen it in training. I tested the ones I could, but the decision models can't be probed this way.
 - **No demographic fields, on purpose:** every contestant lost them equally.
 - **Partly undocumented repayment codes:** so I showed the AI models the raw codes rather than guess their meaning.
