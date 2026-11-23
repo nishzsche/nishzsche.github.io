@@ -10,26 +10,48 @@
     {% endif %}
   </title>
 
-  {% assign page_description = page.excerpt | default: site.description | strip_html | strip_newlines | truncate: 160 %}
+  {% comment %}
+    Link previews. Per page, set in front matter:
+      description: one or two sentences, under 160 characters (else the first paragraph is used)
+      image:       path to a 1200x630 card, e.g. /public/images/<post>/social-card.png
+      image_alt:   what the card shows, for screen readers
+    Site-wide fallback image: og_image in _config.yml.
+  {% endcomment %}
+  {% if page.url == "/" %}
+    {% assign page_title = site.title %}
+  {% else %}
+    {% assign page_title = page.title | default: site.title %}
+  {% endif %}
+  {% assign page_description = page.description | default: page.excerpt | default: site.description | strip_html | strip_newlines | strip | truncate: 160 %}
+  {% assign page_image = page.image | default: site.og_image %}
+  {% assign page_image_alt = page.image_alt | default: page_title %}
 
-  <meta name="description" content="{{ page_description }}">
+  <meta name="description" content="{{ page_description | escape }}">
 
   <!-- Open Graph -->
-  <meta property="og:title"       content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
-  <meta property="og:description" content="{{ page_description }}">
+  <meta property="og:title"       content="{{ page_title | escape }}">
+  <meta property="og:description" content="{{ page_description | escape }}">
   <meta property="og:url"         content="{{ page.url | absolute_url }}">
   <meta property="og:site_name"   content="{{ site.title }}">
   <meta property="og:type"        content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
+  {% if page_image %}
+  <meta property="og:image"       content="{{ page_image | absolute_url }}">
+  <meta property="og:image:alt"   content="{{ page_image_alt | escape }}">
+  {% endif %}
   {% if page.layout == 'post' %}
   <meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">
   {% endif %}
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card"        content="summary">
+  <!-- Twitter / X card: large image when the page has one -->
+  <meta name="twitter:card"        content="{% if page_image %}summary_large_image{% else %}summary{% endif %}">
   <meta name="twitter:site"        content="@nishzsche">
   <meta name="twitter:creator"     content="@nishzsche">
-  <meta name="twitter:title"       content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
-  <meta name="twitter:description" content="{{ page_description }}">
+  <meta name="twitter:title"       content="{{ page_title | escape }}">
+  <meta name="twitter:description" content="{{ page_description | escape }}">
+  {% if page_image %}
+  <meta name="twitter:image"       content="{{ page_image | absolute_url }}">
+  <meta name="twitter:image:alt"   content="{{ page_image_alt | escape }}">
+  {% endif %}
 
   <!-- Canonical -->
   <link rel="canonical" href="{{ page.url | absolute_url }}">
@@ -54,7 +76,10 @@
   <!-- RSS -->
   <link rel="alternate" type="application/rss+xml" title="RSS" href="{{ '/atom.xml' | absolute_url }}">
 
-  <!-- Google Analytics (GA4) -->
+  <!-- Analytics: switched on by goatcounter_code or google_analytics_id in _config.yml -->
+  {% if site.goatcounter_code %}
+  <script data-goatcounter="https://{{ site.goatcounter_code }}.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  {% endif %}
   {% if site.google_analytics_id %}
   <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google_analytics_id }}"></script>
   <script>

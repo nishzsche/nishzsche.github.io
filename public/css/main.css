@@ -441,6 +441,17 @@ tbody tr:nth-child(even) td { background: #fafafb; }
 
 
 /* -------------------------
+   Comments (Giscus)
+   ------------------------- */
+
+.comments {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px dashed var(--border);
+}
+
+
+/* -------------------------
    Footer
    ------------------------- */
 

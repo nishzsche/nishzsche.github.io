@@ -3,6 +3,9 @@ layout: post
 title: "Can AI know when it's wrong? I tested Jev and 7 other models on 2,000 real credit-card customers"
 date: 2026-11-23
 tags: [probability]
+description: "I asked Jev and 7 other models how likely 2,000 real credit-card customers were to default, then checked whether their percentages came true."
+image: /public/images/can-ai-know-when-its-wrong/social-card.png
+image_alt: "Chart: Jev said 48% of these customers would default, and 22% did. A trained scorecard stays close to the honest diagonal."
 permalink: /review/can-ai-know-when-its-wrong/
 # Review copy: not listed on the home page or in the feed, hidden from search engines,
 # with Hypothesis loaded for comments. To launch, move it to _posts/ and drop these three.
@@ -159,7 +162,7 @@ Before running anything, I wrote down my guesses and committed them to the repos
 |---|---|
 | Jev would be the most honest | ✗ Out of the box, its percentages ran about 26 points high |
 | Laya would be the least honest | ✗ Laya was among the closest on average |
-| Telling the base rate would help most models | ✓ Mostly: it clearly helped four, made no clear difference to one, and broke one |
+| Telling the base rate would help most models | ✓ Mostly: it helped four (Qwen's numbers at a cost to its ranking), made no clear difference to one, and broke one |
 | At least one AI model would beat the scorecard at ranking | ✗ None did |
 
 One out of four. Which is rather the point: confident guesses need checking.

@@ -1,19 +1,25 @@
-# Tech Blog
+# To do
 
-This project automates publishing of technical blogs from jupyter notebooks to gihub pages.
+### Launch: "Can AI know when it's wrong?"
 
-<em>[TODO.md spec & Kanban Board](https://bit.ly/3fCwKfM)</em>
+- [ ] Analytics: create a free site at goatcounter.com and set `goatcounter_code` in `_config.yml`
+- [ ] Comments: enable Discussions in the repo settings, install the giscus app, fill in `giscus.repo_id` and `giscus.category_id` in `_config.yml`
+- [ ] Move `review/can-ai-know-when-its-wrong.md` to `_posts/YYYY-MM-DD-can-ai-know-when-its-wrong.md`
+  - drop `permalink`, `noindex` and `hypothesis` from the front matter, and set `date`
+  - remove the "Draft for review" note at the top
+  - keep `description`, `image` and `image_alt` (they drive the link preview)
+- [ ] Check the preview after deploy: LinkedIn Post Inspector and opengraph.xyz
+- [ ] Update the About page background
 
-### Todo
+### Site
 
-- [ ] Clean pip install cells  
-- [ ] Remove google colab cells  
-- [ ] Extract title from the file name  
-
-### In Progress
-
+- [ ] Notebook pipeline: any push to `dev` that touches `notebooks/*.ipynb` re-converts every notebook into a new, today-dated post in `_posts/`, then merges `dev` into `gh-pages`. Decide whether the two old notebooks should be published before the first notebook change, or move them out of `notebooks/`
+- [ ] Remove `_includes/sidebar.html` (left over from Lanyon, not used by any layout)
 
 ### Done ✓
 
-- [x] Change index page format to publish blogs one by one  
-
+- [x] Link previews: per-page description and 1200x630 image, large X card
+- [x] Clean pip install cells (in the notebook workflow)
+- [x] Remove Google Colab cells (in the notebook workflow)
+- [x] Extract the title from the file name (in the notebook workflow)
+- [x] Change index page format to publish blogs one by one

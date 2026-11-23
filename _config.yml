@@ -1,7 +1,8 @@
 # Setup
 title:               Learning curve
 tagline:             'An authentic pursuit to rid the imposter in me 🧘'
-description:         'A learning journal. Figuring things out - ML, OMSCS, hobbies, whatever currently has attention. Feynman-ish: if I cannot explain it clearly, I probably do not understand it yet. By <a href="https://twitter.com/nishzsche" target="_blank">@nishzsche</a>'
+# Used in link previews and search results: keep it under 160 characters, plain text
+description:         'A learning journal: ML, OMSCS and whatever currently has my attention. Feynman-ish: if I cannot explain it clearly, I probably do not understand it yet.'
 url:                 https://nishzsche.github.io
 baseurl:             ''
 paginate:            5
@@ -10,13 +11,28 @@ permalink:           pretty
 # About/contact
 author:
   name:              Nishanth R
-  url:               https://twitter.com/nishzsche
+  url:               https://x.com/nishzsche
   email:             nishanthrajamani@gmail.com
 
 # Gems
 plugins:
   - jekyll-paginate
 
+# Link previews: fallback image for pages without their own `image:` (1200x630)
+og_image:
+
+# Analytics: set one to switch it on (empty = off)
+goatcounter_code:    # e.g. nishzsche, from https://www.goatcounter.com
+google_analytics_id: # e.g. G-XXXXXXXXXX
+
+# Comments (Giscus, backed by GitHub Discussions on this repo).
+# Switch on: enable Discussions in the repo settings, install https://github.com/apps/giscus,
+# then copy repo_id and category_id from https://giscus.app.
+giscus:
+  repo:              nishzsche/nishzsche.github.io
+  repo_id:
+  category:          Announcements
+  category_id:
+
 # Custom vars
 version:             1.1.0
-google_analytics_id: #UA-XXXX-Y
