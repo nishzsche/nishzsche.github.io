@@ -44,13 +44,13 @@ bundle exec jekyll serve --drafts
 
 ### Drawings
 
-Every post gets one of my drawings as its icon, picked at random once. New drawings (phone photos) go in `_drawings/`, which is git-ignored because the originals are large and carry location data; `home.jpg` there is the homepage photo. Then run:
+My sketchbook shows up in three places: the homepage background (`home.jpg`, the park sketch held up in the park), faded behind each post's title (one drawing per post, picked at random once), and the slideshow at the end of the About page (every drawing). New drawings (phone photos) go in `_drawings/`, which is git-ignored because the originals are large and carry location data. Then run:
 
 ```bash
 uv run scripts/drawings.py
 ```
 
-It crops each new drawing to a 256 px square in `public/drawings/` (metadata stripped), and gives every post without an `icon:` a random unused drawing in its front matter. Run it again after adding a post. If a crop catches the cutting mat, add the drawing to `CROPS` in the script and rerun with `--redo <id>`.
+It crops each new drawing to a square (`public/drawings/`, 1024 px, plus a 400 px thumbnail in `thumbs/`, metadata stripped) and gives every post without an `icon:` a random unused drawing in its front matter. Run it again after adding a post. Add a caption for a new drawing in `_data/drawings.yml`. If a crop catches the cutting mat, add the drawing to `CROPS` in the script and rerun with `--redo <id>`.
 
 There's no notebook pipeline any more: `notebooks/` keeps two old notebooks for reference and isn't published.
 

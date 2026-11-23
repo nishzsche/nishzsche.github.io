@@ -2,20 +2,25 @@
 # requires-python = ">=3.10"
 # dependencies = ["pillow"]
 # ///
-"""My drawings on the blog: a square icon per post, picked at random once, and the homepage photo.
+"""My drawings on the blog: one per post, picked at random once; the About gallery; the home photo.
 
-    uv run scripts/drawings.py              # process new drawings, then give icon-less posts one
+    uv run scripts/drawings.py              # process new drawings, then give drawing-less posts one
     uv run scripts/drawings.py --redo ID    # re-crop one drawing (after changing CROPS below)
+    uv run scripts/drawings.py --redo all   # re-make everything (after changing the sizes)
 
 1. Originals go in _drawings/ (git-ignored: phone photos are large and carry location data).
-   home.jpg there is the homepage photo; every other image is a drawing.
-2. Each new drawing becomes public/drawings/<id>.jpg: cropped to the sketchbook page, squared,
-   256 px, with all metadata (including location) stripped. The page is found as the bright,
-   low-saturation area against the dark cutting mat; CROPS overrides that where it goes wrong.
-   home.jpg becomes public/images/home.jpg, 480 px wide, also stripped.
+   home.jpg there is the homepage background; every other image is a drawing.
+2. Each new drawing is cropped to the sketchbook page and squared, then saved as
+   public/drawings/<id>.jpg (1024 px: behind the post title, and the gallery's enlarged view) and
+   public/drawings/thumbs/<id>.jpg (400 px: the About gallery), with all metadata (including
+   location) stripped. The page is found as the bright, low-saturation area against the dark
+   cutting mat; CROPS overrides that where it goes wrong. home.jpg becomes public/images/home.jpg,
+   1600 px wide, also stripped.
 3. Every post in _posts/ without `icon:` in its front matter gets a random drawing that no other
    post uses (once all are used, one of the least used), written into the front matter. It stays
    from then on; delete the line to draw again.
+
+The gallery shows every thumbnail; its alt text comes from _data/drawings.yml (id: description).
 """
 
 from __future__ import annotations
@@ -33,8 +38,10 @@ SRC = ROOT / "_drawings"
 OUT = ROOT / "public" / "drawings"
 HOME_OUT = ROOT / "public" / "images" / "home.jpg"
 POSTS = ROOT / "_posts"
-ICON_PX = 256
-HOME_PX = 480
+THUMBS = OUT / "thumbs"
+DRAWING_PX = 1024
+THUMB_PX = 400
+HOME_PX = 1600  # width: it fills the screen behind the homepage
 IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png"}
 
 # Manual crops for photos the page finder gets wrong: id -> (left, top, right, bottom) as fractions
@@ -43,6 +50,7 @@ CROPS: dict[str, tuple[float, float, float, float]] = {
     "20261004-153005": (0.15, 0.27, 0.66, 0.71),  # cacti: page photographed at an angle
     "20261028-175141": (0.22, 0.31, 0.74, 0.70),  # watercolour animal: narrow, tilted page
     "20261030-163259": (0.255, 0.165, 0.68, 0.48),  # two portraits on one page: the top one
+    "20261027-155301": (0.29, 0.09, 0.79, 0.76),  # trench coat: open book, mat along the top
 }
 
 
@@ -80,39 +88,45 @@ def page_box(im: Image.Image) -> tuple[int, int, int, int]:
     return tuple(round(c * k) for c in box)  # type: ignore[return-value]
 
 
-def square_icon(im: Image.Image, did: str) -> Image.Image:
+def square_crop(im: Image.Image, did: str) -> Image.Image:
     if did in CROPS:
         l, t, r, b = CROPS[did]
         box = (l * im.width, t * im.height, r * im.width, b * im.height)
     else:
         l, t, r, b = page_box(im)
-        inset = 0.04 * min(r - l, b - t)  # drop the page edge and its rounded corners
+        inset = 0.07 * min(r - l, b - t)  # drop the page edge and its rounded corners
         box = (l + inset, t + inset, r - inset, b - inset)
     l, t, r, b = box
     side = min(r - l, b - t)
     cx, cy = (l + r) / 2, (t + b) / 2
-    crop = im.crop((round(cx - side / 2), round(cy - side / 2),
+    return im.crop((round(cx - side / 2), round(cy - side / 2),
                     round(cx + side / 2), round(cy + side / 2)))  # fmt: skip
-    return crop.resize((ICON_PX, ICON_PX), Image.LANCZOS)
+
+
+def save(im: Image.Image, path: Path, quality: int = 80) -> None:
+    clean(im).save(path, quality=quality, optimize=True, progressive=True)
 
 
 def process(redo: set[str]) -> list[str]:
-    """Write icons for drawings that don't have one yet (or are in `redo`), and the home photo."""
-    OUT.mkdir(parents=True, exist_ok=True)
+    """Make the sizes for drawings that don't have them yet (or are in `redo`), and the home photo."""
+    THUMBS.mkdir(parents=True, exist_ok=True)
+    every = "all" in redo
     made = []
     for path in sorted(p for p in SRC.glob("*") if p.suffix.lower() in IMAGE_SUFFIXES):
         if path.stem.lower() == "home":
-            if not HOME_OUT.exists() or "home" in redo:
+            if not HOME_OUT.exists() or "home" in redo or every:
                 im = load(path)
                 im.thumbnail((HOME_PX, HOME_PX * 2))
-                clean(im).save(HOME_OUT, quality=82, optimize=True, progressive=True)
+                save(im, HOME_OUT, quality=78)
                 made.append("home")
             continue
         did = drawing_id(path)
-        out = OUT / f"{did}.jpg"
-        if out.exists() and did not in redo:
+        out, thumb = OUT / f"{did}.jpg", THUMBS / f"{did}.jpg"
+        if out.exists() and thumb.exists() and did not in redo and not every:
             continue
-        clean(square_icon(load(path), did)).save(out, quality=82, optimize=True, progressive=True)
+        crop = square_crop(load(path), did)
+        save(crop.resize((DRAWING_PX, DRAWING_PX), Image.LANCZOS), out)
+        save(crop.resize((THUMB_PX, THUMB_PX), Image.LANCZOS), thumb)
         made.append(did)
     return made
 
@@ -154,7 +168,7 @@ def assign() -> list[tuple[str, str]]:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--redo", nargs="*", default=[], help="drawing ids (or 'home') to process again")
+    ap.add_argument("--redo", nargs="*", default=[], help="drawing ids, 'home' or 'all' to process again")
     args = ap.parse_args()
     for did in process(set(args.redo)):
         print(f"processed  {did}")

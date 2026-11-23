@@ -3,8 +3,8 @@ layout: default
 ---
 
 <article class="post">
-  <header class="post-header">
-    {% if page.icon %}<img class="post-icon post-icon-header" src="{{ page.icon | relative_url }}" alt="" width="256" height="256">{% endif %}
+  {% comment %} The post's drawing (front matter `icon:`, picked once by scripts/drawings.py) fades in behind the title {% endcomment %}
+  <header class="post-header{% if page.icon %} has-drawing{% endif %}"{% if page.icon %} style="--drawing: url('{{ page.icon | relative_url }}')"{% endif %}>
     <h1 class="post-title">{{ page.title }}</h1>
     <div class="post-meta">
       <time>{{ page.date | date: "%b %d, %Y" }}</time>

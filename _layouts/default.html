@@ -3,7 +3,7 @@
 
   {% include head.html %}
 
-  <body>
+  <body{% if page.url == "/" %} class="home"{% endif %}>
     <div class="container">
 
       <nav class="site-nav">
