@@ -76,9 +76,12 @@
     })();
   </script>
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="{{ '/public/css/main.css'   | absolute_url }}">
-  <link rel="stylesheet" href="{{ '/public/css/syntax.css' | absolute_url }}">
+  <!-- CSS. ?v= is the build time, so after each deploy browsers fetch the new styles instead of
+       pairing the new page with a stylesheet they saved earlier (GitHub Pages lets them keep it
+       for 10 minutes). -->
+  {% assign build = site.time | date: '%s' %}
+  <link rel="stylesheet" href="{{ '/public/css/main.css'   | absolute_url }}?v={{ build }}">
+  <link rel="stylesheet" href="{{ '/public/css/syntax.css' | absolute_url }}?v={{ build }}">
 
   <!-- Icons -->
   <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ '/public/apple-touch-icon-precomposed.png' | absolute_url }}">
