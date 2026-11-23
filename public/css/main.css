@@ -308,6 +308,13 @@ tbody tr:nth-child(even) td { background: var(--row-alt); }
   letter-spacing: 0.01em;
 }
 
+/* Homepage line under the tagline: who writes this */
+.site-intro {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: -1.5rem 0 2.5rem;    /* collapses with the tagline's bottom margin to a 1rem gap */
+}
+
 
 /* -------------------------
    Post List (Home)
