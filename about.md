@@ -23,7 +23,7 @@ I try to write at the level of someone who knows the domain but hasn't encounter
 
 ### Background
 
-Lead Data Scientist at [OIP Insurtech](https://oipinsurtech.com), currently focused on an AI-driven insurance triage product - BoundAI.
+Lead Machine Learning Engineer at [OIP Insurtech](https://oipinsurtech.com), currently focused on an AI-driven insurance triage product - BoundAI.
 
 Previously: credit-risk models and ML frameworks in fintech at scale, NLP-driven contact centre analytics, market research, and more.
 
