@@ -11,6 +11,10 @@
         <div class="nav-links">
           <a href="{{ site.baseurl }}/about">About</a>
           <a href="{{ site.baseurl }}/atom.xml">Feed</a>
+          <button class="theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode">
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          </button>
         </div>
       </nav>
 
@@ -27,6 +31,58 @@
       </footer>
 
     </div>
+
+    <script>
+    // Light/dark toggle. The starting theme is set in head.html; a click saves the choice.
+    // Until the reader picks one, the page follows the system setting, even if it changes.
+    (function () {
+      var root = document.documentElement;
+      var button = document.querySelector('.theme-toggle');
+      var media = window.matchMedia('(prefers-color-scheme: dark)');
+      var giscusReady = false;
+
+      function saved() {
+        try { return localStorage.getItem('theme'); } catch (e) { return null; }
+      }
+
+      // Giscus comments live in an iframe, so they get the theme by message
+      function syncGiscus() {
+        var frame = document.querySelector('iframe.giscus-frame');
+        if (!frame) return;
+        var theme = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+        frame.contentWindow.postMessage({ giscus: { setConfig: { theme: theme } } }, 'https://giscus.app');
+      }
+
+      function apply(theme) {
+        root.setAttribute('data-theme', theme);
+        var label = 'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' mode';
+        button.setAttribute('aria-label', label);
+        button.title = label;
+        syncGiscus();
+      }
+
+      apply(root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+
+      button.addEventListener('click', function () {
+        var theme = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        try { localStorage.setItem('theme', theme); } catch (e) {}
+        apply(theme);
+      });
+
+      if (media.addEventListener) {
+        media.addEventListener('change', function (e) {
+          if (!saved()) apply(e.matches ? 'dark' : 'light');
+        });
+      }
+
+      // Giscus loads lazily: once it first reports in, make sure it has the current theme
+      window.addEventListener('message', function (e) {
+        if (giscusReady || e.origin !== 'https://giscus.app' || !e.data || !e.data.giscus) return;
+        giscusReady = true;
+        syncGiscus();
+      });
+    })();
+    </script>
 
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
