@@ -84,6 +84,8 @@
     })();
     </script>
 
+    {% if page.math %}
+    <!-- Math rendering, only on pages with `math: true`: elsewhere a dollar sign in prose stays a dollar sign -->
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
         tex2jax: {
@@ -93,6 +95,7 @@
       });
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    {% endif %}
 
   </body>
 </html>

@@ -39,7 +39,7 @@ bundle exec jekyll serve --drafts
 1. Run the experiment in its own project repo (code, data, results and the write-up live there)
 2. Optionally publish an unlisted review copy in `review/` (`noindex: true`) for feedback
 3. Copy the finished post to `_posts/YYYY-MM-DD-slug.md`, with its figures in `public/images/<slug>/`
-4. Set `description`, `image` and `image_alt` for link previews, and `toc: true` for a contents list
+4. Set `description`, `image` and `image_alt` for link previews, `toc: true` for a contents list, and `math: true` if the post has equations (MathJax only loads there)
 5. Listening: every post gets a Listen button that reads it aloud with the reader's device voice. Set `audio: /public/audio/<slug>.mp3` to offer a narrated recording instead, or `listen: false` to hide it
 
 There's no notebook pipeline any more: `notebooks/` keeps two old notebooks for reference and isn't published.

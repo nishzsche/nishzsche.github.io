@@ -1,10 +1,9 @@
 source "https://rubygems.org"
 
-gem "jekyll", "~> 4.2.0"
-gem "webrick", "~> 1.7"
+# The same Jekyll and plugin versions GitHub Pages builds with, so local previews match the live site.
+# Plugins only run on GitHub Pages when they are also listed under `plugins:` in _config.yml.
+gem "github-pages", group: :jekyll_plugins
+gem "webrick", "~> 1.8"
 
-group :jekyll_plugins do
-  gem "jekyll-paginate"
-  gem "jekyll-feed"
-  gem "jekyll-sitemap"
-end
+# Windows has no system time zone database
+gem "tzinfo-data", platforms: [:windows, :jruby]

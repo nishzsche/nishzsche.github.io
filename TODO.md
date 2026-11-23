@@ -3,7 +3,7 @@
 ### Launch: "Can AI know when it's wrong?"
 
 - [x] Analytics: GoatCounter is on (`goatcounter_code: nishzsche` in `_config.yml`; stats at nishzsche.goatcounter.com)
-- [x] Comments: Giscus is on, stored as Discussions in nishzsche/can-ai-know-when-its-wrong (Announcements). It shows on published posts, not on review copies
+- [x] Comments: Giscus is on, stored as Discussions in this repo, nishzsche/nishzsche.github.io (Announcements). It shows on published posts, not on review copies
 - [x] Published as `_posts/2026-11-23-can-ai-know-when-its-wrong.md`, the review URL redirects; the deep dive lives in the project repo (writeup/deep_dive.md)
   - drop `permalink`, `noindex` and `hypothesis` from the front matter, and set `date`
   - remove the "Draft for review" note at the top
@@ -13,8 +13,10 @@
 
 ### Site
 
+- [x] Giscus app installed on nishzsche.github.io
 - [x] Notebook pipeline removed (it republished old notebooks as new posts); `notebooks/` stays, unpublished
-- [ ] Remove `_includes/sidebar.html` (left over from Lanyon, not used by any layout)
+- [x] Removed Lanyon leftovers: `sidebar.html`, `lanyon.css`, `poole.css`, `script.js`
+- [x] Repo docs and `notebooks/` excluded from the site; sitemap.xml and robots.txt on; MathJax only with `math: true`
 
 ### Done ✓
 
