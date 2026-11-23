@@ -10,7 +10,11 @@ noindex: true
 hypothesis: true
 ---
 
-> **Draft for review, version 3 (23 November), not yet published.** Thank you for reading. Since the last version, a review panel checked every claim against the data, so several findings are worded more carefully, and there are two new checks: hiding the dates and currency, and a different table layout, which turned out to matter for one model. To comment, select any text and click **Annotate**, or open the sidebar with the arrow at the top right. Commenting needs a free [Hypothesis](https://web.hypothes.is/) account. I'd most like to know: where did you get lost or bored, does finding 3 still land, and does anything feel overstated?
+> **Draft for review, version 3 (23 November), not yet published.** Thank you for reading. Since the last version, a review panel checked every claim against the data, so several findings are worded more carefully, and there are two new checks: hiding the dates and currency, and a different table layout, which turned out to matter for one model.
+>
+> **To comment, no account needed:** reply to my message and quote the sentence you mean. If you already use [Hypothesis](https://web.hypothes.is/), you can also select text and click **Annotate**.
+>
+> I'd most like to know: where did you get lost or bored, does finding 3 still land, and does anything feel overstated?
 
 *I gave eight models the same 2,000 real credit-card customers and checked whether their percentages meant what they said.*
 
