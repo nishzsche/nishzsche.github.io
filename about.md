@@ -11,7 +11,7 @@ I'm Nishanth. I've spent a decade building ML systems in fintech, operations, co
 
 ### What I write here
 
-Short posts about things that confused me and how I eventually resolved them, or about things I'm intrigued by. Occasionally longer posts walking through experiments and implementations from notebooks.
+Short posts about things that confused me and how I eventually resolved them, or about things I'm intrigued by. Occasionally longer experiments, with the code and data on GitHub, like [Can AI know when it's wrong?](/2026/11/23/can-ai-know-when-its-wrong/).
 
 ML, OMSCS coursework, hardware tinkering, and whatever else currently has my attention - watercolors, cycle mechanics, guitar. The domain doesn't matter much. The learning posture does.
 
@@ -25,7 +25,7 @@ I try to write at the level of someone who knows the domain but hasn't encounter
 
 Lead Data Scientist at [OIP Insurtech](https://oipinsurtech.com), currently focused on an AI-driven insurance triage product - BoundAI.
 
-Previously: ML frameworks in fintech at scale, NLP-driven contact centre analytics, market research, and more.
+Previously: credit-risk models and ML frameworks in fintech at scale, NLP-driven contact centre analytics, market research, and more.
 
 Education: M.S. in Computer Science at Georgia Tech (OMSCS) · B.E. in Electrical and Electronics Engineering.
 

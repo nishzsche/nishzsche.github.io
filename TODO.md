@@ -4,16 +4,16 @@
 
 - [x] Analytics: GoatCounter is on (`goatcounter_code: nishzsche` in `_config.yml`; stats at nishzsche.goatcounter.com)
 - [x] Comments: Giscus is on, stored as Discussions in nishzsche/can-ai-know-when-its-wrong (Announcements). It shows on published posts, not on review copies
-- [ ] Move `review/can-ai-know-when-its-wrong.md` to `_posts/YYYY-MM-DD-can-ai-know-when-its-wrong.md`
+- [x] Published as `_posts/2026-11-23-can-ai-know-when-its-wrong.md`, with a deep dive alongside; the review URL redirects
   - drop `permalink`, `noindex` and `hypothesis` from the front matter, and set `date`
   - remove the "Draft for review" note at the top
   - keep `description`, `image` and `image_alt` (they drive the link preview), and `toc: true` (the contents list)
 - [ ] Check the preview after deploy: LinkedIn Post Inspector and opengraph.xyz
-- [ ] Update the About page background
+- [x] About page: credit-risk background and the experiment linked
 
 ### Site
 
-- [ ] Notebook pipeline: any push to `dev` that touches `notebooks/*.ipynb` re-converts every notebook into a new, today-dated post in `_posts/`, then merges `dev` into `gh-pages`. Decide whether the two old notebooks should be published before the first notebook change, or move them out of `notebooks/`
+- [x] Notebook pipeline removed (it republished old notebooks as new posts); `notebooks/` stays, unpublished
 - [ ] Remove `_includes/sidebar.html` (left over from Lanyon, not used by any layout)
 
 ### Done ✓

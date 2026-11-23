@@ -34,16 +34,14 @@ bundle exec jekyll serve --drafts
 3. Iterate in the issue; change label to `drafting`, then `ready`
 4. When ready: copy to `_posts/YYYY-MM-DD-slug.md` → push to `dev` → close issue
 
-### Notebook-derived posts (automated)
+### Longer experiment posts
 
-1. Write experiment in a Jupyter notebook
-2. Push `.ipynb` to `notebooks/` on `dev`
-3. GitHub Actions (`.github/workflows/convert_notebook_to_markdown.yml`) automatically:
-   - Strips `!pip` / `!conda` install cells
-   - Strips Google Colab boilerplate cells
-   - Converts to Markdown with Jekyll front matter
-   - Derives the post title from the notebook filename
-   - Commits the result to `_posts/`
+1. Run the experiment in its own project repo (code, data, results and the write-up live there)
+2. Optionally publish an unlisted review copy in `review/` (`noindex: true`) for feedback
+3. Copy the finished post to `_posts/YYYY-MM-DD-slug.md`, with its figures in `public/images/<slug>/`
+4. Set `description`, `image` and `image_alt` for link previews, and `toc: true` for a contents list
+
+There's no notebook pipeline any more: `notebooks/` keeps two old notebooks for reference and isn't published.
 
 ### Writing guide
 
@@ -61,13 +59,13 @@ See [`WRITING.md`](WRITING.md) for:
 ```
 ├── _layouts/          # default, post, page layouts
 ├── _includes/         # head.html (meta, OG tags, CSS)
-├── _posts/            # published posts (generated or hand-written)
-├── _drafts/           # notebook staging; short posts live in GitHub Issues
+├── _posts/            # published posts
+├── _drafts/           # drafts and templates; short posts live in GitHub Issues
 │   ├── _template.md   # three-move post template
 │   └── INBOX.md       # local confusion capture
-├── notebooks/         # Jupyter notebooks (trigger the automation pipeline)
+├── notebooks/         # old Jupyter notebooks, kept for reference (not published)
+├── review/            # unlisted review copies (noindex)
 ├── public/css/        # main.css (custom), syntax.css (Rouge highlighting)
-├── .github/workflows/ # notebook → markdown automation
 ├── WRITING.md         # writing guide and draft workflow
 └── _config.yml        # Jekyll configuration
 ```
