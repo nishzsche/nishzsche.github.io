@@ -38,4 +38,4 @@ Working through physical rehabilitation post traumatic injuries - swimming is pa
 
 ---
 
-[LinkedIn](https://www.linkedin.com/in/nishanthrajamani) &middot; [GitHub](https://github.com/nishzsche) &middot; [Twitter / X](https://twitter.com/nishzsche)
+[LinkedIn](https://www.linkedin.com/in/nishanthrajamani) &middot; [GitHub](https://github.com/nishzsche) &middot; [X](https://x.com/nishzsche)

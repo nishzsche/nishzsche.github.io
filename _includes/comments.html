@@ -1,0 +1,25 @@
+{% comment %}
+  Giscus comments, stored as GitHub Discussions on this repo. Nothing renders until
+  giscus.repo_id and giscus.category_id are set in _config.yml (values from https://giscus.app).
+  Hidden on review copies (noindex: true) and on any page with comments: false.
+{% endcomment %}
+{% if site.giscus.repo_id and site.giscus.category_id and page.comments != false and page.noindex != true %}
+<section class="comments">
+  <script src="https://giscus.app/client.js"
+          data-repo="{{ site.giscus.repo }}"
+          data-repo-id="{{ site.giscus.repo_id }}"
+          data-category="{{ site.giscus.category }}"
+          data-category-id="{{ site.giscus.category_id }}"
+          data-mapping="pathname"
+          data-strict="1"
+          data-reactions-enabled="1"
+          data-emit-metadata="0"
+          data-input-position="top"
+          data-theme="light"
+          data-lang="en"
+          data-loading="lazy"
+          crossorigin="anonymous"
+          async>
+  </script>
+</section>
+{% endif %}
