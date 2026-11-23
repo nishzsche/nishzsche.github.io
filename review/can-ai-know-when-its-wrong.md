@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Can AI actually know when it's wrong?"
+title: "Can AI know when it's wrong? I tested Jev and 7 other models on 2,000 real credit-card customers"
 date: 2026-11-23
 tags: [probability]
 permalink: /review/can-ai-know-when-its-wrong/
@@ -16,7 +16,7 @@ hypothesis: true
 >
 > I'd most like to know: where did you get lost or bored, does finding 3 still land, and does anything feel overstated?
 
-*I gave eight models the same 2,000 real credit-card customers and checked whether their percentages meant what they said.*
+*I checked whether their percentages come true, the way banks are expected to check their own.*
 
 When a weather app says there's a 70% chance of rain, you don't expect rain every time. You expect it on about seven of every ten days the app says that. If it rains on all ten, or on two, the app wasn't wrong on any single day. It was wrong about how sure it was.
 
