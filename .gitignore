@@ -49,3 +49,6 @@ archive
 
 # Local Ruby lock file: GitHub Pages ignores it
 Gemfile.lock
+
+# Drawing originals: large phone photos with location data; scripts/drawings.py publishes stripped copies
+_drawings/

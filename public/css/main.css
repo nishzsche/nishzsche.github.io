@@ -312,19 +312,40 @@ tbody tr:nth-child(even) td { background: var(--row-alt); }
    Home tagline
    ------------------------- */
 
+/* Homepage intro: the tagline and who writes this, beside the home photo */
+.home-intro {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  margin: -1.75rem 0 2.5rem;   /* pulls up close under the nav border */
+}
+
+.home-intro-text { flex: 1; }
+
 .site-tagline {
   font-size: 0.9rem;
   color: var(--text-muted);
   font-style: italic;
-  margin: -1.75rem 0 2.5rem;   /* pulls up close under the nav border */
+  margin: 0 0 0.75rem;
   letter-spacing: 0.01em;
 }
 
-/* Homepage line under the tagline: who writes this */
 .site-intro {
   font-size: 0.95rem;
   line-height: 1.6;
-  margin: -1.5rem 0 2.5rem;    /* collapses with the tagline's bottom margin to a 1rem gap */
+  margin: 0;
+}
+
+.home-photo {
+  width: 168px;
+  flex-shrink: 0;
+  margin: 0;
+  border-radius: 10px;
+}
+
+@media (max-width: 480px) {
+  .home-intro { gap: 1rem; }
+  .home-photo { width: 104px; }
 }
 
 
@@ -340,8 +361,8 @@ tbody tr:nth-child(even) td { background: var(--row-alt); }
 
 .post-list li {
   display: flex;
-  align-items: baseline;
-  gap: 1.25rem;
+  align-items: center;
+  gap: 1rem;
   padding: 0.85rem 0.6rem;
   margin: 0 -0.6rem;           /* bleed into padding for hover bg */
   border-bottom: 1px solid var(--border-soft);
@@ -395,8 +416,42 @@ tbody tr:nth-child(even) td { background: var(--row-alt); }
   text-decoration: none;
 }
 
+.post-entry {
+  display: flex;
+  align-items: baseline;
+  gap: 1.25rem;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Each post's drawing (front matter `icon:`, picked once by scripts/drawings.py) */
+.post-icon {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  margin: 0;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+:root[data-theme="dark"] .post-icon { filter: brightness(0.9); }
+
+.post-icon-header {
+  width: 88px;
+  height: 88px;
+  margin: 0 0 1.25rem;
+  border-radius: 12px;
+}
+
+/* The title link covers the whole row, so the drawing and date are clickable too */
+.post-list .post-link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
 @media (max-width: 480px) {
-  .post-list li { flex-direction: column; gap: 0.15rem; }
+  .post-entry { flex-direction: column; gap: 0.15rem; }
 }
 
 
