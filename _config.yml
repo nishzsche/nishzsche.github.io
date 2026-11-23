@@ -14,9 +14,22 @@ author:
   url:               https://x.com/nishzsche
   email:             nishanthrajamani@gmail.com
 
-# Gems
+# Gems: GitHub Pages runs only the plugins listed here, whatever the Gemfile says
 plugins:
   - jekyll-paginate
+  - jekyll-sitemap   # sitemap.xml and robots.txt
+
+# Not published. GitHub Pages turns Markdown without front matter into pages, so repo docs go here.
+# Listing anything replaces Jekyll's default list, so Gemfile and vendor are repeated.
+exclude:
+  - README.md
+  - CLAUDE.md
+  - TODO.md
+  - WRITING.md
+  - notebooks/
+  - Gemfile
+  - Gemfile.lock
+  - vendor/
 
 # Link previews: fallback image for pages without their own `image:` (1200x630)
 og_image:
@@ -25,13 +38,13 @@ og_image:
 goatcounter_code:    nishzsche   # https://nishzsche.goatcounter.com
 google_analytics_id: # e.g. G-XXXXXXXXXX
 
-# Comments (Giscus): stored as GitHub Discussions in the repo below, one discussion per page
-# path. Values from https://giscus.app. Every post's comments go to this repo.
+# Comments (Giscus): stored as GitHub Discussions in this blog's repo, one discussion per page
+# path. Values from https://giscus.app; the giscus app must be installed on the repo.
 giscus:
-  repo:              nishzsche/can-ai-know-when-its-wrong
-  repo_id:           R_kgDOV3TY_Q
+  repo:              nishzsche/nishzsche.github.io
+  repo_id:           R_kgDOIpfVpg
   category:          Announcements
-  category_id:       DIC_kwDOV3TY_c4DLx7h
+  category_id:       DIC_kwDOIpfVps4DLzJ9
 
 # Custom vars
 version:             1.1.0

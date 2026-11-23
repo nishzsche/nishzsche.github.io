@@ -46,3 +46,6 @@ archive
 
 # Local Python environments
 .venv/
+
+# Local Ruby lock file: GitHub Pages ignores it
+Gemfile.lock
