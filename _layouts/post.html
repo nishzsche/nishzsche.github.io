@@ -13,6 +13,7 @@ layout: default
         {% for tag in page.tags %}<span class="tag">{{ tag }}</span>{% unless forloop.last %}, {% endunless %}{% endfor %}
       {% endif %}
     </div>
+    {% include listen.html %}
   </header>
 
   {% if page.toc %}
