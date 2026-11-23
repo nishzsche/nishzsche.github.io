@@ -25,14 +25,13 @@ og_image:
 goatcounter_code:    nishzsche   # https://nishzsche.goatcounter.com
 google_analytics_id: # e.g. G-XXXXXXXXXX
 
-# Comments (Giscus, backed by GitHub Discussions on this repo).
-# Switch on: enable Discussions in the repo settings, install https://github.com/apps/giscus,
-# then copy repo_id and category_id from https://giscus.app.
+# Comments (Giscus): stored as GitHub Discussions in the repo below, one discussion per page
+# path. Values from https://giscus.app. Every post's comments go to this repo.
 giscus:
-  repo:              nishzsche/nishzsche.github.io
-  repo_id:
+  repo:              nishzsche/can-ai-know-when-its-wrong
+  repo_id:           R_kgDOV3TY_Q
   category:          Announcements
-  category_id:
+  category_id:       DIC_kwDOV3TY_c4DLx7h
 
 # Custom vars
 version:             1.1.0

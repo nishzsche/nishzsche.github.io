@@ -3,7 +3,7 @@
 ### Launch: "Can AI know when it's wrong?"
 
 - [x] Analytics: GoatCounter is on (`goatcounter_code: nishzsche` in `_config.yml`; stats at nishzsche.goatcounter.com)
-- [ ] Comments: enable Discussions in the repo settings, install the giscus app, fill in `giscus.repo_id` and `giscus.category_id` in `_config.yml`
+- [x] Comments: Giscus is on, stored as Discussions in nishzsche/can-ai-know-when-its-wrong (Announcements). It shows on published posts, not on review copies
 - [ ] Move `review/can-ai-know-when-its-wrong.md` to `_posts/YYYY-MM-DD-can-ai-know-when-its-wrong.md`
   - drop `permalink`, `noindex` and `hypothesis` from the front matter, and set `date`
   - remove the "Draft for review" note at the top
