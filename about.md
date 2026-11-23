@@ -15,6 +15,12 @@ I'm Nishanth Rajamani. I've spent a decade building machine learning systems in 
 
 ### What I write here
 
+> <span lang="ta">தெய்வத்தான் ஆகா தெனினும் முயற்சிதன்<br>மெய்வருத்தக் கூலி தரும்.</span>
+>
+> Even if fate won't let the work succeed, effort still pays the wages of your toil.
+>
+> *Thirukkural 619*
+
 There's a specific feeling I'm chasing with this blog: the moment a confusing thing suddenly makes sense. Not the textbook version of the concept. The messy, actual process of being wrong, then less wrong, then occasionally right.
 
 Short posts about things that confused me and how I eventually resolved them, or about things I'm intrigued by. Occasionally longer experiments, with the code and data on GitHub, like [Can AI know when it's wrong?](/2026/11/23/can-ai-know-when-its-wrong/).

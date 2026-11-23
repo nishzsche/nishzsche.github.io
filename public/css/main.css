@@ -227,6 +227,9 @@ blockquote {
 
 blockquote p:last-child { margin-bottom: 0; }
 
+/* Tamil has no italic face, so the browser would only slant it: keep it upright */
+[lang="ta"] { font-style: normal; }
+
 
 /* -------------------------
    Code
