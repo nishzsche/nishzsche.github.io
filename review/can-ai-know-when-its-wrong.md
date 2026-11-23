@@ -6,6 +6,7 @@ tags: [probability]
 description: "I asked Jev and 7 other models how likely 2,000 real credit-card customers were to default, then checked whether their percentages came true."
 image: /public/images/can-ai-know-when-its-wrong/social-card.png
 image_alt: "Chart: Jev said 48% of these customers would default, and 22% did. A trained scorecard stays close to the honest diagonal."
+toc: true
 permalink: /review/can-ai-know-when-its-wrong/
 # Review copy: not listed on the home page or in the feed, hidden from search engines,
 # with Hypothesis loaded for comments. To launch, move it to _posts/ and drop these three.

@@ -22,7 +22,7 @@ plugins:
 og_image:
 
 # Analytics: set one to switch it on (empty = off)
-goatcounter_code:    # e.g. nishzsche, from https://www.goatcounter.com
+goatcounter_code:    nishzsche   # https://nishzsche.goatcounter.com
 google_analytics_id: # e.g. G-XXXXXXXXXX
 
 # Comments (Giscus, backed by GitHub Discussions on this repo).

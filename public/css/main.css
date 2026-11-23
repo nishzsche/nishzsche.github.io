@@ -452,6 +452,76 @@ tbody tr:nth-child(even) td { background: #fafafb; }
 
 
 /* -------------------------
+   Table of contents (posts with toc: true; filled in by the script in post.html)
+   ------------------------- */
+
+.post-content h2,
+.post-content h3 { scroll-margin-top: 1.5rem; }
+
+.toc,
+.toc-inline { display: none; }
+
+.toc-list,
+.toc-list ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.toc-list ol { margin: 0.15rem 0 0.4rem; padding-left: 0.9rem; }
+.toc-list li { margin: 0.25rem 0; line-height: 1.35; }
+.toc-list a { color: var(--text-muted); text-decoration: none; border: 0; }
+.toc-list a:hover { color: var(--accent); }
+.toc-list a.active { color: var(--accent); font-weight: 600; }
+
+/* Narrow screens: a collapsible box above the post */
+.toc-inline.ready {
+  display: block;
+  margin: 0 0 2rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  font-size: 0.85rem;
+}
+
+.toc-inline summary { cursor: pointer; font-weight: 600; color: var(--text); }
+.toc-inline[open] .toc-list { margin-top: 0.6rem; }
+
+/* Wide screens: a sticky list in the right margin, beside the 700px column */
+@media (min-width: 1280px) {
+  .toc-inline.ready { display: none; }
+
+  .toc.ready {
+    display: block;
+    position: fixed;
+    top: 5rem;
+    left: calc(50% + 350px + 2.25rem);
+    width: 200px;
+    max-height: calc(100vh - 7rem);
+    overflow-y: auto;
+    padding-left: 0.9rem;
+    border-left: 1px solid var(--border);
+    font-size: 0.72rem;
+  }
+
+  .toc-title {
+    margin: 0 0 0.6rem;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-subtle);
+  }
+}
+
+@media print {
+  .toc,
+  .toc-inline { display: none !important; }
+}
+
+
+/* -------------------------
    Footer
    ------------------------- */
 

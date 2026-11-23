@@ -15,9 +15,91 @@ layout: default
     </div>
   </header>
 
+  {% if page.toc %}
+  {% comment %}
+    Table of contents for long posts: set `toc: true` in front matter. Built in the browser from
+    the post's h2/h3 headings (kramdown gives them ids), so it needs no plugin. Wide screens get a
+    sticky list in the right margin that tracks the section being read; narrower ones get a
+    collapsible box above the post.
+  {% endcomment %}
+  <details class="toc-inline">
+    <summary>Contents</summary>
+    <ol class="toc-list"></ol>
+  </details>
+  <nav class="toc" aria-label="Contents">
+    <p class="toc-title">Contents</p>
+    <ol class="toc-list"></ol>
+  </nav>
+  {% endif %}
+
   <div class="post-content">
     {{ content }}
   </div>
 
   {% include comments.html %}
 </article>
+
+{% if page.toc %}
+<script>
+(function () {
+  var content = document.querySelector('.post-content');
+  if (!content) return;
+  var heads = Array.prototype.slice.call(content.querySelectorAll('h2[id], h3[id]'));
+  if (heads.length < 3) return;
+
+  function esc(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  // h3s nest under the h2 before them (or sit at the top level if no h2 came first)
+  var html = '', inH2 = false, inSub = false;
+  heads.forEach(function (h) {
+    var link = '<a href="#' + h.id + '" data-id="' + h.id + '">' + esc(h.textContent) + '</a>';
+    if (h.tagName === 'H3' && inH2) {
+      if (!inSub) { html += '<ol>'; inSub = true; }
+      html += '<li>' + link + '</li>';
+    } else {
+      if (inSub) { html += '</ol>'; inSub = false; }
+      if (inH2) html += '</li>';
+      html += '<li>' + link;
+      inH2 = h.tagName === 'H2';
+      if (!inH2) html += '</li>';
+    }
+  });
+  if (inSub) html += '</ol>';
+  if (inH2) html += '</li>';
+
+  var boxes = document.querySelectorAll('.toc, .toc-inline');
+  Array.prototype.forEach.call(boxes, function (box) {
+    box.querySelector('.toc-list').innerHTML = html;
+    box.classList.add('ready');
+  });
+
+  // Close the inline box after a jump, so the reader lands on the section
+  var inline = document.querySelector('.toc-inline');
+  inline.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A') inline.open = false;
+  });
+
+  // Highlight the section being read in the side list
+  var side = document.querySelector('.toc');
+  var current = null, ticking = false;
+  function update() {
+    ticking = false;
+    var active = null;
+    for (var i = 0; i < heads.length; i++) {
+      if (heads[i].getBoundingClientRect().top <= 120) active = heads[i]; else break;
+    }
+    var id = active ? active.id : null;
+    if (id === current) return;
+    current = id;
+    Array.prototype.forEach.call(side.querySelectorAll('a'), function (a) {
+      a.classList.toggle('active', a.getAttribute('data-id') === id);
+    });
+  }
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; window.requestAnimationFrame(update); }
+  }, { passive: true });
+  update();
+})();
+</script>
+{% endif %}

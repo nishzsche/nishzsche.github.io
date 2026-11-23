@@ -2,12 +2,12 @@
 
 ### Launch: "Can AI know when it's wrong?"
 
-- [ ] Analytics: create a free site at goatcounter.com and set `goatcounter_code` in `_config.yml`
+- [x] Analytics: GoatCounter is on (`goatcounter_code: nishzsche` in `_config.yml`; stats at nishzsche.goatcounter.com)
 - [ ] Comments: enable Discussions in the repo settings, install the giscus app, fill in `giscus.repo_id` and `giscus.category_id` in `_config.yml`
 - [ ] Move `review/can-ai-know-when-its-wrong.md` to `_posts/YYYY-MM-DD-can-ai-know-when-its-wrong.md`
   - drop `permalink`, `noindex` and `hypothesis` from the front matter, and set `date`
   - remove the "Draft for review" note at the top
-  - keep `description`, `image` and `image_alt` (they drive the link preview)
+  - keep `description`, `image` and `image_alt` (they drive the link preview), and `toc: true` (the contents list)
 - [ ] Check the preview after deploy: LinkedIn Post Inspector and opengraph.xyz
 - [ ] Update the About page background
 
