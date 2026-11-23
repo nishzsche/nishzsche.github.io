@@ -4,28 +4,21 @@ title: Home
 ---
 
 {% if paginator.page == 1 %}
+{% comment %} The background behind this page is my park sketch (public/images/home.jpg, set in main.css) {% endcomment %}
 <div class="home-intro">
-  <div class="home-intro-text">
-    <p class="site-tagline">{{ site.tagline }}</p>
-    <p class="site-intro">
-      I'm <a href="{{ site.baseurl }}/about">{{ site.author.name }}</a>, a Lead Machine Learning Engineer.
-      I've spent a decade building ML systems, from credit-risk models in fintech to insurance triage today.
-    </p>
-  </div>
-  <img class="home-photo" src="{{ '/public/images/home.jpg' | relative_url }}" width="480" height="639"
-       alt="My sketch of trees and an Amul ice-cream cart, held up in the park it shows">
+  <p class="site-tagline">{{ site.tagline }}</p>
+  <p class="site-intro">
+    I'm <a href="{{ site.baseurl }}/about">{{ site.author.name }}</a>, a Lead Machine Learning Engineer.
+    I've spent a decade building ML systems, from credit-risk models in fintech to insurance triage today.
+  </p>
 </div>
 {% endif %}
 
 <ul class="post-list">
   {% for post in paginator.posts %}
   <li>
-    {% comment %} The post's drawing, picked once by scripts/drawings.py {% endcomment %}
-    {% if post.icon %}<img class="post-icon" src="{{ post.icon | relative_url }}" alt="" width="256" height="256" loading="lazy">{% endif %}
-    <div class="post-entry">
-      <span class="post-date">{{ post.date | date: "%b %d, %Y" }}</span>
-      <a class="post-link" href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
-    </div>
+    <span class="post-date">{{ post.date | date: "%b %d, %Y" }}</span>
+    <a class="post-link" href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
   </li>
   {% endfor %}
 </ul>

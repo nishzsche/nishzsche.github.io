@@ -1,0 +1,64 @@
+{% comment %}
+  My sketchbook as a slideshow: one large drawing with previous/next arrows, a caption, and a strip
+  of thumbnails that switches it. Every drawing in public/drawings/thumbs/ (made by
+  scripts/drawings.py) is included, in date order; captions and alt text come from
+  _data/drawings.yml. Arrow keys work once the slideshow has focus. Without JavaScript the arrows are
+  hidden and each thumbnail links to its drawing. Wrapped in one div so kramdown passes it through
+  as a single HTML block.
+{% endcomment %}
+{% assign thumbs = site.static_files | where_exp: "f", "f.path contains '/public/drawings/thumbs/'" | sort: "name" %}
+{% assign first = thumbs | first %}
+{% assign first_alt = site.data.drawings[first.basename] | default: "A page from my sketchbook" %}
+<div class="sketchbook" tabindex="0" aria-label="Sketchbook slideshow">
+  <figure class="sketchbook-stage">
+    <div class="sketchbook-frame">
+      <button class="sketchbook-arrow sketchbook-prev" type="button" aria-label="Previous drawing">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4 7 12l8 8"/></svg>
+      </button>
+      <img class="sketchbook-main" src="{{ '/public/drawings/' | append: first.name | relative_url }}" alt="{{ first_alt | escape }}" width="1024" height="1024">
+      <button class="sketchbook-arrow sketchbook-next" type="button" aria-label="Next drawing">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 4 8 8-8 8"/></svg>
+      </button>
+    </div>
+    <figcaption class="sketchbook-caption">{{ first_alt }}</figcaption>
+  </figure>
+
+  <div class="sketchbook-thumbs">
+    {% for f in thumbs %}{% assign alt = site.data.drawings[f.basename] | default: "A page from my sketchbook" %}
+    <a href="{{ '/public/drawings/' | append: f.name | relative_url }}" data-alt="{{ alt | escape }}"{% if forloop.first %} aria-current="true"{% endif %}><img src="{{ f.path | relative_url }}" alt="{{ alt | escape }}" width="400" height="400" loading="lazy"></a>
+    {% endfor %}
+  </div>
+
+  <script>
+  (function () {
+    var root = document.querySelector('.sketchbook');
+    if (!root) return;
+    var main = root.querySelector('.sketchbook-main');
+    var caption = root.querySelector('.sketchbook-caption');
+    var links = Array.prototype.slice.call(root.querySelectorAll('.sketchbook-thumbs a'));
+    var current = 0;
+
+    function show(i) {
+      current = (i + links.length) % links.length;
+      var link = links[current];
+      main.src = link.href;
+      main.alt = link.getAttribute('data-alt');
+      caption.textContent = link.getAttribute('data-alt');
+      links.forEach(function (l, j) {
+        if (j === current) l.setAttribute('aria-current', 'true'); else l.removeAttribute('aria-current');
+      });
+    }
+
+    links.forEach(function (link, i) {
+      link.addEventListener('click', function (e) { e.preventDefault(); show(i); });
+    });
+    root.querySelector('.sketchbook-prev').addEventListener('click', function () { show(current - 1); });
+    root.querySelector('.sketchbook-next').addEventListener('click', function () { show(current + 1); });
+    root.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); show(current - 1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); show(current + 1); }
+    });
+    root.classList.add('ready');  // shows the arrows
+  })();
+  </script>
+</div>

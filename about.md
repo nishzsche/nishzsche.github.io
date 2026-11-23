@@ -31,3 +31,9 @@ I try to write at the level of someone who knows the domain but hasn't encounter
 
 Functional fitness, cycling, backpacking, and a lot of reading.
 Working through physical rehabilitation after traumatic injuries - swimming is part of the comeback.
+
+---
+
+### From my sketchbook
+
+{% include gallery.html %}

@@ -26,6 +26,8 @@
   --accent-ink:   #3b0764;   /* text on accent-soft (blockquotes, table headers) */
   --row-alt:      #fafafb;   /* striped table rows */
   --on-accent:    #fff;      /* text on a solid accent background */
+  --veil:         rgba(250, 250, 249, 0.80);  /* page colour over the homepage photo */
+  --drawing-opacity: 0.24;   /* a post's drawing behind its title */
   color-scheme: light;
 }
 
@@ -48,6 +50,8 @@
   --accent-ink:   #ddd6fe;   /* violet-200 */
   --row-alt:      #1f1f23;
   --on-accent:    #18181b;
+  --veil:         rgba(24, 24, 27, 0.80);
+  --drawing-opacity: 0.16;
   color-scheme: dark;
 }
 
@@ -292,6 +296,88 @@ th, td {
   text-align: left;
 }
 
+/* About page: my sketchbook as a slideshow (one large drawing, arrows, a strip of thumbnails) */
+.sketchbook { margin: 1.5rem 0 0; outline: none; }
+
+.sketchbook-stage { margin: 0; }
+
+.sketchbook-frame {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sketchbook-main {
+  width: min(100%, 440px);
+  height: auto;
+  margin: 0;
+  border-radius: 4px;
+}
+
+.sketchbook-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: none;             /* shown once the script runs */
+  padding: 0.5rem;
+  background: none;
+  border: none;
+  color: var(--text-subtle);
+  cursor: pointer;
+}
+
+.sketchbook.ready .sketchbook-arrow { display: block; }
+.sketchbook-prev { left: 0; }
+.sketchbook-next { right: 0; }
+.sketchbook-arrow:hover { color: var(--text); }
+
+.sketchbook-arrow svg {
+  display: block;
+  width: 28px;
+  height: 28px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+
+.sketchbook-caption {
+  min-height: 1.5em;
+  margin: 0.75rem 0 1.25rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.sketchbook-thumbs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
+  gap: 0.5rem;
+}
+
+.sketchbook-thumbs a {
+  display: block;
+  opacity: 0.55;
+  transition: opacity 0.15s ease;
+}
+
+.sketchbook-thumbs a:hover,
+.sketchbook-thumbs a[aria-current="true"] { opacity: 1; }
+
+.sketchbook-thumbs a[aria-current="true"] img { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.sketchbook-thumbs img {
+  width: 100%;
+  height: auto;
+  margin: 0;
+  border-radius: 3px;
+}
+
+/* Mobile: the arrows sit over the drawing's edges, on a soft backing */
+@media (max-width: 520px) {
+  .sketchbook-arrow { background: var(--veil); border-radius: 50%; }
+}
+
 /* A second, smaller line in a cell (e.g. "22% of customers") stays on one line */
 td small { white-space: nowrap; }
 
@@ -312,15 +398,22 @@ tbody tr:nth-child(even) td { background: var(--row-alt); }
    Home tagline
    ------------------------- */
 
-/* Homepage intro: the tagline and who writes this, beside the home photo */
-.home-intro {
-  display: flex;
-  align-items: center;
-  gap: 1.75rem;
-  margin: -1.75rem 0 2.5rem;   /* pulls up close under the nav border */
+/* Homepage: my park sketch photo fills the screen behind everything, under a veil of the page
+   colour so the text stays readable. A fixed layer rather than background-attachment: fixed,
+   which phones ignore. */
+body.home::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(var(--veil), var(--veil)),
+              url('/public/images/home.jpg') center 70% / cover no-repeat;
 }
 
-.home-intro-text { flex: 1; }
+/* Homepage intro: the tagline and who writes this */
+.home-intro {
+  margin: -1.75rem 0 2.5rem;   /* pulls up close under the nav border */
+}
 
 .site-tagline {
   font-size: 0.9rem;
@@ -336,18 +429,6 @@ tbody tr:nth-child(even) td { background: var(--row-alt); }
   margin: 0;
 }
 
-.home-photo {
-  width: 168px;
-  flex-shrink: 0;
-  margin: 0;
-  border-radius: 10px;
-}
-
-@media (max-width: 480px) {
-  .home-intro { gap: 1rem; }
-  .home-photo { width: 104px; }
-}
-
 
 /* -------------------------
    Post List (Home)
@@ -361,8 +442,8 @@ tbody tr:nth-child(even) td { background: var(--row-alt); }
 
 .post-list li {
   display: flex;
-  align-items: center;
-  gap: 1rem;
+  align-items: baseline;
+  gap: 1.25rem;
   padding: 0.85rem 0.6rem;
   margin: 0 -0.6rem;           /* bleed into padding for hover bg */
   border-bottom: 1px solid var(--border-soft);
@@ -416,34 +497,7 @@ tbody tr:nth-child(even) td { background: var(--row-alt); }
   text-decoration: none;
 }
 
-.post-entry {
-  display: flex;
-  align-items: baseline;
-  gap: 1.25rem;
-  flex: 1;
-  min-width: 0;
-}
-
-/* Each post's drawing (front matter `icon:`, picked once by scripts/drawings.py) */
-.post-icon {
-  width: 52px;
-  height: 52px;
-  flex-shrink: 0;
-  margin: 0;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-}
-
-:root[data-theme="dark"] .post-icon { filter: brightness(0.9); }
-
-.post-icon-header {
-  width: 88px;
-  height: 88px;
-  margin: 0 0 1.25rem;
-  border-radius: 12px;
-}
-
-/* The title link covers the whole row, so the drawing and date are clickable too */
+/* The title link covers the whole row, so the date is clickable too */
 .post-list .post-link::after {
   content: '';
   position: absolute;
@@ -451,7 +505,7 @@ tbody tr:nth-child(even) td { background: var(--row-alt); }
 }
 
 @media (max-width: 480px) {
-  .post-entry { flex-direction: column; gap: 0.15rem; }
+  .post-list li { flex-direction: column; gap: 0.15rem; }
 }
 
 
@@ -463,6 +517,28 @@ tbody tr:nth-child(even) td { background: var(--row-alt); }
   margin-bottom: 2.5rem;
   padding-bottom: 1.5rem;
   border-bottom: 1px solid var(--border);
+}
+
+/* A post's drawing (front matter `icon:`) fades in behind its title and out at the edges */
+.post-header.has-drawing {
+  position: relative;
+  isolation: isolate;
+  padding-top: 2.5rem;
+}
+
+.post-header.has-drawing::before {
+  content: '';
+  position: absolute;
+  inset: -1rem 0 0;
+  z-index: -1;
+  background: var(--drawing) center 40% / cover no-repeat;
+  opacity: var(--drawing-opacity);
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 35%, transparent 72%);
+          mask-image: radial-gradient(ellipse at center, #000 35%, transparent 72%);
+}
+
+@media (min-width: 760px) {
+  .post-header.has-drawing::before { inset: -1.5rem -3rem 0; }
 }
 
 .post-title {
