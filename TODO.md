@@ -4,7 +4,7 @@
 
 - [x] Analytics: GoatCounter is on (`goatcounter_code: nishzsche` in `_config.yml`; stats at nishzsche.goatcounter.com)
 - [x] Comments: Giscus is on, stored as Discussions in nishzsche/can-ai-know-when-its-wrong (Announcements). It shows on published posts, not on review copies
-- [x] Published as `_posts/2026-11-23-can-ai-know-when-its-wrong.md`, with a deep dive alongside; the review URL redirects
+- [x] Published as `_posts/2026-11-23-can-ai-know-when-its-wrong.md`, the review URL redirects; the deep dive lives in the project repo (writeup/deep_dive.md)
   - drop `permalink`, `noindex` and `hypothesis` from the front matter, and set `date`
   - remove the "Draft for review" note at the top
   - keep `description`, `image` and `image_alt` (they drive the link preview), and `toc: true` (the contents list)
