@@ -3,6 +3,12 @@ layout: page
 title: About
 ---
 
+> <span lang="ta">ஊழையும் உப்பக்கம் காண்பர் உலைவின்றித்<br>தாழாது உஞற்று பவர்.</span>
+>
+> Those who strive tirelessly without fainting will eventually see even fate turn its back and yield to them.
+>
+> *Thirukkural 620*
+
 I'm Nishanth Rajamani. I've spent a decade building machine learning systems in fintech, operations, consulting, marketing, engineering, and now insurance.
 
 - **Now:** Lead Machine Learning Engineer at [OIP Insurtech](https://oipinsurtech.com), focused on BoundAI, an AI-driven insurance triage product.
@@ -14,12 +20,6 @@ I'm Nishanth Rajamani. I've spent a decade building machine learning systems in 
 ---
 
 ### What I write here
-
-> <span lang="ta">தெய்வத்தான் ஆகா தெனினும் முயற்சிதன்<br>மெய்வருத்தக் கூலி தரும்.</span>
->
-> Even if fate won't let the work succeed, effort still pays the wages of your toil.
->
-> *Thirukkural 619*
 
 There's a specific feeling I'm chasing with this blog: the moment a confusing thing suddenly makes sense. Not the textbook version of the concept. The messy, actual process of being wrong, then less wrong, then occasionally right.
 
