@@ -53,7 +53,19 @@
         frame.contentWindow.postMessage({ giscus: { setConfig: { theme: theme } } }, 'https://giscus.app');
       }
 
+      // Charts with a dark version (data-dark-src on the img, set in the post) follow the theme
+      function swapCharts(theme) {
+        var imgs = document.querySelectorAll('img[data-dark-src]');
+        Array.prototype.forEach.call(imgs, function (img) {
+          if (!img.hasAttribute('data-light-src')) img.setAttribute('data-light-src', img.getAttribute('src'));
+          var src = img.getAttribute(theme === 'dark' ? 'data-dark-src' : 'data-light-src');
+          if (img.getAttribute('src') !== src) img.setAttribute('src', src);
+          img.setAttribute('data-theme-ready', '');
+        });
+      }
+
       function apply(theme) {
+        swapCharts(theme);
         root.setAttribute('data-theme', theme);
         var label = 'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' mode';
         button.setAttribute('aria-label', label);

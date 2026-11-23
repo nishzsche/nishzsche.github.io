@@ -292,6 +292,18 @@ th, td {
   text-align: left;
 }
 
+/* A second, smaller line in a cell (e.g. "22% of customers") stays on one line */
+td small { white-space: nowrap; }
+
+/* Wide tables scroll inside themselves on phones instead of widening the page */
+@media (max-width: 640px) {
+  .post-content table { display: block; overflow-x: auto; }
+}
+
+/* Charts with a dark version (data-dark-src, set in the post): hidden in dark mode until the
+   script in default.html swaps the source, so the light chart never flashes */
+:root[data-theme="dark"] img[data-dark-src]:not([data-theme-ready]) { visibility: hidden; }
+
 th { background: var(--accent-soft); font-weight: 600; color: var(--accent-ink); }
 tbody tr:nth-child(even) td { background: var(--row-alt); }
 

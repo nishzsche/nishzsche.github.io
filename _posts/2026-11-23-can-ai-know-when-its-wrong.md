@@ -58,7 +58,7 @@ Each AI model answered three ways:
 
 Here's the whole test in one picture, a [reliability diagram](https://scikit-learn.org/stable/modules/calibration.html#calibration-curves). For each model, I sorted the customers by predicted risk, split them into ten equal groups, and plotted what the model promised for each group against what actually happened.
 
-![Promised vs actual default rate](/public/images/can-ai-know-when-its-wrong/1_promised_vs_actual.png)
+![Six panels, one per AI model, plotting the default rate each promised against what actually happened, for ten groups of customers. Jev and Kev-4B sit far below the honest diagonal; Kev-0.8B and Qwen3.5-4B sit below it; Laya and GPT-6.2 Sol stay close to it, like the scorecard's grey reference line.](/public/images/can-ai-know-when-its-wrong/1_promised_vs_actual.png){: data-dark-src="/public/images/can-ai-know-when-its-wrong/1_promised_vs_actual-dark.png"}
 
 On the diagonal, a model is honest: when it says 30%, 30% default. Below it, the model is too pessimistic. Take the top-right dot in Jev's panel, the 200 customers Jev rated riskiest: it promised that about 80% of them would default, and 63% did. The grey line is the scorecard, and it hugs the diagonal.
 
@@ -70,7 +70,18 @@ I'll sum up the gap as one number, the *expected calibration error* ([ECE](https
 
 Five of the six overstated the risk. Jev said 48% of these customers would default, on average, and Kev-4B said 49%. The real figure was 22%. A bank acting on Jev's numbers would put 70% of its customers in the "40% or more" risk band, where only 26% actually defaulted.
 
-![What a bank would see](/public/images/can-ai-know-when-its-wrong/4_risk_bands.png)
+**What a bank would see.** Customers grouped by the risk each model predicted, out of the box. Each cell shows the default rate the model promised → the rate that actually happened, and the share of customers in that band. Starred models were trained on 20,000 labelled customers.
+
+| Model | 0–10% | 10–20% | 20–40% | 40% or more |
+|---|:---:|:---:|:---:|:---:|
+| Scorecard\* | 8% → 6%<br><small>22% of customers</small> | 14% → 14%<br><small>49% of customers</small> | 28% → 31%<br><small>15% of customers</small> | 64% → 64%<br><small>14% of customers</small> |
+| Gradient boosting\* | 7% → 6%<br><small>28% of customers</small> | 14% → 14%<br><small>39% of customers</small> | 28% → 30%<br><small>18% of customers</small> | 62% → 63%<br><small>15% of customers</small> |
+| Jev | 8% → 19%<br><small>1% of customers</small> | 15% → 16%<br><small>7% of customers</small> | 30% → 13%<br><small>23% of customers</small> | 58% → 26%<br><small>70% of customers</small> |
+| Kev-4B | 9% → 22%<br><small>&lt;1% of customers</small> | 16% → 14%<br><small>1% of customers</small> | 32% → 16%<br><small>25% of customers</small> | 55% → 24%<br><small>74% of customers</small> |
+| Kev-0.8B | none | 19% → 11%<br><small>22% of customers</small> | 25% → 14%<br><small>53% of customers</small> | 53% → 50%<br><small>25% of customers</small> |
+| Laya | 7% → 11%<br><small>18% of customers</small> | 15% → 17%<br><small>50% of customers</small> | 27% → 34%<br><small>21% of customers</small> | 57% → 40%<br><small>11% of customers</small> |
+| Qwen3.5-4B | 9% → 12%<br><small>&lt;1% of customers</small> | 16% → 14%<br><small>5% of customers</small> | 29% → 13%<br><small>68% of customers</small> | 56% → 47%<br><small>26% of customers</small> |
+| GPT-6.2 Sol | 8% → 12%<br><small>14% of customers</small> | 14% → 10%<br><small>47% of customers</small> | 27% → 24%<br><small>21% of customers</small> | 72% → 61%<br><small>17% of customers</small> |
 
 Jev's error is mostly a constant shift: it ranks customers sensibly, but every number starts too high. Part of Kev-4B's error was my fault, as I explain below. Only Laya and GPT-6.2 Sol were near the truth out of the box, both about 5 points off.
 
@@ -80,7 +91,7 @@ The one extra sentence took Kev-4B from 27 points off to 3, Jev from 26 to about
 
 There's a more reliable way to use the same fact: shift each model's numbers by one fixed amount until they average 22%. That needs no customer outcomes and can't change how a model ranks. It beat the sentence for four of the six models, leaving Kev-4B 2 points off and Jev 7.
 
-![The honesty arc](/public/images/can-ai-know-when-its-wrong/2_honesty_arc.png)
+![Calibration error for each AI model in four versions: out of the box, told the base rate, shifted to a 22.1% average, and recalibrated. Recalibration brings every model's error down to 4 points or less. The base-rate sentence helps Kev-4B most and makes Kev-0.8B much worse; the shift does better than the sentence for Jev, Kev-4B, Kev-0.8B and Qwen3.5-4B.](/public/images/can-ai-know-when-its-wrong/2_honesty_arc.png){: data-dark-src="/public/images/can-ai-know-when-its-wrong/2_honesty_arc-dark.png"}
 
 ### 3. The closest model knew this dataset
 
@@ -94,11 +105,11 @@ It doesn't seem to know the file's patterns: it ranks the "not late" customers i
 
 ### 4. The trained models still rank customers best
 
-Honest percentages are half the job. The other half is putting risky customers above safe ones, measured by a score called [AUC](https://en.wikipedia.org/wiki/Receiver_operating_characteristic#Area_under_the_curve), where 0.5 is a coin flip and 1.0 is perfect. Gradient boosting scored 0.789 and the scorecard 0.777, both trained on 20,000 labelled customers. The best AI models, Kev-4B with the base rate (0.757) and Sol (0.754), were 2 points behind, which matches [earlier work on this same dataset](https://arxiv.org/abs/2608.30086).
+Honest percentages are half the job. The other half is putting risky customers above safe ones, measured by a score called [AUC](https://en.wikipedia.org/wiki/Receiver_operating_characteristic#Area_under_the_curve), where 0.5 is a coin flip and 1.0 is perfect. Gradient boosting scored 0.789 and the scorecard 0.777, both trained on 20,000 labelled customers. The best AI models, Kev-4B with the base rate (0.757) and Sol (0.754), were 2 to 3.5 points behind, which matches [earlier work on this same dataset](https://arxiv.org/abs/2608.30086).
 
 In lending terms, that gap is small. Approving the 80% of customers each model rated safest, 13.6% of the scorecard's approvals would default, against 13.4% of Sol's.
 
-![Ranking ability](/public/images/can-ai-know-when-its-wrong/3_ranking_auc_ks.png)
+![Bar charts of ranking ability (AUC and KS) for all eight models, out of the box. Gradient boosting (AUC 0.789) and the scorecard (0.777), both trained, rank best. The best zero-shot AI models, GPT-6.2 Sol (0.754) and Kev-0.8B (0.750), come next, and Kev-4B ranks worst (0.594).](/public/images/can-ai-know-when-its-wrong/3_ranking_auc_ks.png){: data-dark-src="/public/images/can-ai-know-when-its-wrong/3_ranking_auc_ks-dark.png"}
 
 ### 5. You can buy honesty back, with labels
 
@@ -108,16 +119,20 @@ Recalibrating on 2,000 customers with known outcomes brought every AI model to w
 
 Sol cost about 74 cents per 1,000 decisions, Jev about 2 cents, and the open models under 2 cents on one rented GPU. The whole experiment, every check included, cost about 14 dollars in API calls plus a few more for GPU time.
 
+![Scatter of cost per 1,000 decisions against ranking ability (AUC). The trained models cost almost nothing to run and rank best. GPT-6.2 Sol costs about 74 cents per 1,000 decisions and ranks about as well as Kev-0.8B, which costs under a cent.](/public/images/can-ai-know-when-its-wrong/5_cost_vs_auc.png){: data-dark-src="/public/images/can-ai-know-when-its-wrong/5_cost_vs_auc-dark.png"}
+
 ## Why the results look like this
 
 I broke the test customers down by their most recent repayment status:
 
 | Most recent status | Customers | Actually defaulted | Jev | Kev-4B | Laya | GPT-6.2 Sol | Scorecard |
 |---|---:|---:|---:|---:|---:|---:|---:|
+| Not late (code −2) | 177 | 15% | 24% | 33% | 19% | 10% | 12% |
 | Paid on time (code −1) | 405 | 14% | 30% | 37% | 12% | 13% | 15% |
 | Not late (code 0) | 971 | 12% | 51% | 54% | 20% | 18% | 13% |
 | 1 month late | 245 | 37% | 61% | 51% | 27% | 51% | 36% |
 | 2 months late | 170 | 72% | 75% | 58% | 34% | 74% | 66% |
+| 3+ months late | 32 | 75% | 81% | 63% | 30% | 87% | 79% |
 
 - **One group causes most of the overstatement.** Half the customers carry a balance and pay part of it on time ("not late, code 0"). They're about as safe as people who pay in full: only 12% defaulted. Jev predicted 51% for them and Kev-4B 54%, which accounts for about three quarters of both models' overstatement. To a lender, paying part of a balance on time is ordinary; it's how card issuers earn interest. The models seem to read a small payment against a large bill as a customer in trouble.
 - **Some models start near even odds.** Decision models learn from tasks where "yes" isn't rare, so with no base rate they seem to start close to 50/50. That's what the base-rate sentence corrects.
