@@ -192,10 +192,10 @@ You're a practitioner doing grad school. That's rare. Honour both sides.
 
 ## Post Formats at a Glance
 
-| | Resolution | Exploration | Notebook |
+| | Resolution | Exploration | Experiment |
 |---|---|---|---|
 | **Length** | 200-400 words | 200-400 words | Long - code + explanation |
-| **Source** | GitHub Issues → `_posts/` | GitHub Issues → `_posts/` | `notebooks/` → automation |
+| **Source** | GitHub Issues → `_posts/` | GitHub Issues → `_posts/` | Project repo → `_posts/` |
 | **Ends with** | A takeaway | Open questions | Observations + code |
 | **Trigger** | Something resolved | Something has attention | Experiment completed |
 
@@ -286,7 +286,7 @@ GitHub Issue (phone)  →  _posts/ (laptop, when ready)
 *Related to:*
 ```
 
-**Notebook posts** still use the automation pipeline (`notebooks/` → GitHub Actions → `_posts/`).
+**Experiment posts** are written in their own project repo and copied to `_posts/` by hand.
 
 An issue can sit open for weeks. The goal is to **never lose a curiosity or confusion**.
 

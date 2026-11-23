@@ -22,6 +22,7 @@ Guidelines for any AI assistant working in this repository.
 
 - Jekyll static site, deployed via GitHub Pages.
 - Layouts: `_layouts/` · Styles: `public/css/main.css` · Published posts: `_posts/`
-- Short posts originate from GitHub Issues. Notebook posts come through the automation
-  pipeline in `.github/workflows/convert_notebook_to_markdown.yml`.
+- Short posts originate from GitHub Issues. Longer experiment posts are written in their own
+  project repo and copied to `_posts/` by hand. There is no notebook pipeline any more:
+  `notebooks/` holds two old notebooks and is not published.
 - See `WRITING.md` for the full content and publishing workflow.
