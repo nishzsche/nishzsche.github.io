@@ -232,6 +232,7 @@ I'm not the first to put AI models in front of credit data, and two of my result
 - **Don't take a zero-shot percentage at face value.** Hold back a labelled sample from your own portfolio and recalibrate. Here, 2,000 customers was enough, though with 2,000 labels you could also train a scorecard that ranks as well. Honesty depends on your default rate, so a test on someone else's data won't tell you.
 - **Use your base rate, on the output.** Shifting a model's numbers until they average your default rate needs no labels, can't hurt its ranking, and beat putting the rate in the prompt for four of six models. Putting it in the prompt helped most models but broke one.
 - **Test on data the model can't have seen.** Famous public datasets flatter large language models, which can know a great deal about them.
+- **Test how you show the data.** One change to my table's layout halved Kev-4B's calibration error and lifted its ranking from 0.59 to 0.72, while it made Laya worse. Try more than one presentation before trusting any one result.
 - **For ranking alone, a trained model is hard to beat.** The case for AI here isn't better risk ranking, at least not yet.
 
 ## What this test can't tell you
