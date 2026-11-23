@@ -13,7 +13,7 @@ hypothesis: true
 comments: false
 ---
 
-> **Draft for review, version 1 (23 November), not yet published.** Thank you for reading. This is the follow-up to [Can AI know when it's wrong?](/2026/11/23/can-ai-know-when-its-wrong/), using the same 2,000 customers and the same predictions, so there are no new model runs behind it.
+> **Draft for review, version 2 (24 November), not yet published.** Thank you for reading. This is the follow-up to [Can AI know when it's wrong?](/2026/11/23/can-ai-know-when-its-wrong/), using the same 2,000 customers and the same predictions, so there are no new model runs behind it. **New since version 1**, thanks to a reviewer: a four-way count of each model's mistakes (a confusion matrix), and a clearer note on the AI built for tables, which comes in the next post.
 >
 > **To comment, no account needed:** reply to my message and quote the sentence you mean. If you already use [Hypothesis](https://web.hypothes.is/), you can also select text and click **Annotate**.
 >
@@ -57,7 +57,15 @@ So which model is best? Accuracy can't say, because it's answering the wrong que
 
 ## Three things accuracy hides
 
-**Which mistakes it makes.** Accuracy counts approving a customer who then defaults and turning away one who would have paid as the same mistake. To a lender they're not the same at all. Jev catches 72% of the defaulters, but only by flagging half of all customers (49%), most of whom would have paid.
+**Which mistakes it makes.** Accuracy counts approving a customer who then defaults and turning away one who would have paid as the same mistake. To a lender they're not the same at all. Of the 2,000 test customers, 442 defaulted and 1,558 paid. Here's where each of them landed, at the same 50% cut-off:
+
+| At the 50% cut-off | Defaulters caught | Defaulters missed | Payers turned away | Payers approved |
+|---|---|---|---|---|
+| Say "won't default" to everyone | 0 | 442 | 0 | 1,558 |
+| Scorecard* | 151 | 291 | 74 | 1,484 |
+| Jev | 316 | 126 | 656 | 902 |
+
+This four-way count is called a [confusion matrix](https://en.wikipedia.org/wiki/Confusion_matrix), and accuracy only adds up two of its columns: defaulters caught plus payers approved. The other two are where the money goes. The scorecard misses two defaulters in three but turns away few good customers. Jev catches 72% of the defaulters, but only by turning away 656 people who would have paid.
 
 **Whether it can rank.** Pick one customer who defaulted and one who paid, at random. How often does the model rate the defaulter as riskier? That's a model's ranking power, known as [AUC](https://en.wikipedia.org/wiki/Receiver_operating_characteristic#Area_under_the_curve), and 50% is a coin toss. The scorecard gets it right 78 times in 100, gradient boosting 79, Kev-0.8B 75 and Qwen 74. No cut-off is involved.
 
@@ -94,7 +102,7 @@ A bank can use each real model in two ways:
 
 ![Profit per 1,000 customers for each model, sorted by accuracy. Gradient boosting, the scorecard and GPT-6.2 Sol earn about 300 either way. Qwen earns 17 on its own percentages and 252 with a learned cut-off, Kev-0.8B 99 and 306, Jev 14 and 226. Approving everyone loses 105.](/public/images/why-99-percent-accuracy/post2_profit.png)
 
-- **Qwen is as accurate as the scorecard.** Taken at its word, it approves 5 customers in 100 and earns 17 units per 1,000, against the scorecard's 284. Its percentages run about 1.6 times too high, so almost everyone looks too risky to lend to.
+- **Qwen is as accurate as the scorecard.** Taken at its word, it approves 5 customers in 100 and earns 17 units per 1,000, against the scorecard's 284. Its percentages run about 1.6 times too high, so almost everyone looks too risky to lend to. The confusion matrix at the 20% cut-off shows it plainly: Qwen catches 428 of the 442 defaulters, but turns away 1,468 of the 1,558 customers who would have paid. The scorecard, at the same cut-off, catches 272 and turns away 309.
 - **Kev-0.8B is the most striking.** It ranks well enough that, with a cut-off learned from known outcomes, it earns 306, the most of any model in the table. Taken at its word, it earns 99. Two-thirds of its value is lost to percentages that don't mean what they say.
 - **Jev looks hopeless by accuracy (61%)**, yet used for its ranking alone it earns 226. That's more than Laya, which is 16 points more accurate.
 - **The honest models earn about the same either way.** Gradient boosting, the scorecard and Sol make roughly as much taking their own word as using a cut-off from known outcomes. That's what honest percentages buy you: you can use the number as it comes. (Sol carries the caveat from the last post: it recognizes this dataset and knows its default rate.)
@@ -124,6 +132,6 @@ A model that ranks well but states the wrong percentages is still usable, if you
 
 ## What's next
 
-Most of the gap in that table comes from AI models answering cold against models that learned from 20,000 customers. So I'm running the fair fight: every AI model gets those same 20,000 customers, by training where it can be trained and by seeing examples where it can't, alongside AI built specifically for tables. That's the next post.
+Most of the gap in that table comes from AI models answering cold against models that learned from 20,000 customers. So I'm running the fair fight: every AI model gets those same 20,000 customers, by training where it can be trained and by seeing examples where it can't. Two newcomers join them: AI models built specifically for tables, NVIDIA's [Kumo-Tabular](https://huggingface.co/nvidia/Kumo-Tabular) and [TabICLv2](https://github.com/soda-inria/tabicl). They read all 20,000 customers at once and predict the rest, with no training at all. That's the next post.
 
 The numbers here come from `analysis/accuracy.py` in the [project repo](https://github.com/nishzsche/can-ai-know-when-its-wrong), using the same predictions as the last post.
