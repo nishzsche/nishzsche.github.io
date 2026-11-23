@@ -1,6 +1,6 @@
 # Learning Curve
 
-> *An authentic pursuit to rid the imposter in me.*
+> *Testing what I think I know.*
 
 A personal ML learning blog by [Nishanth Rajamani](https://nishzsche.github.io/about).
 
