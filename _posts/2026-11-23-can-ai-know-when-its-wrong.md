@@ -165,6 +165,7 @@ One out of four. The 20-customer trial run I did before guessing had already sho
 
 ## What this test can't tell you
 
+- **Honest isn't self-aware:** "knowing when it's wrong" here means percentages you can trust, which tell *you* when to doubt a model. That's not the model being aware of its own mistakes. A model can be well calibrated with no insight into its reasoning, and still argue hard for a wrong answer.
 - **One dataset:** one bank, one country, 2005, and a portfolio where 22% defaulted. Honesty depends on that rate: where 5% default, every model here would overstate, the scorecard included.
 - **A famous dataset:** AI models have seen it in training. I tested the ones I could, but the decision models can't be checked this way.
 - **Not like for like:** the AI models answered cold, while the trained models learned from customers of the same bank and the same months. Banks validate on a later period, because patterns drift.
