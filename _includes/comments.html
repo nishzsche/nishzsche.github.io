@@ -3,6 +3,8 @@
   giscus.repo_id and giscus.category_id are set in _config.yml (values from https://giscus.app).
   Hidden on review copies (noindex: true) and on any page with comments: false.
   Options match the author's giscus.app settings; data-loading="lazy" waits until readers scroll near.
+  data-theme starts from the system setting; the theme script in default.html switches it to the
+  reader's light/dark choice once Giscus loads, and again whenever they use the toggle.
 {% endcomment %}
 {% if site.giscus.repo_id and site.giscus.category_id and page.comments != false and page.noindex != true %}
 <section class="comments">

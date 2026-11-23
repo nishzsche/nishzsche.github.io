@@ -22,6 +22,33 @@
   --accent-dark:  #5b21b6;   /* violet-800, for hover states */
   --code-dark:    #1e1e2e;   /* Catppuccin mocha */
   --code-text:    #cdd6f4;
+  --code-inline:  #be185d;   /* pink-700, inline code */
+  --accent-ink:   #3b0764;   /* text on accent-soft (blockquotes, table headers) */
+  --row-alt:      #fafafb;   /* striped table rows */
+  --on-accent:    #fff;      /* text on a solid accent background */
+  color-scheme: light;
+}
+
+/* Dark theme. head.html sets data-theme on <html> from the reader's saved choice
+   (the toggle in the nav), else from their system setting. */
+:root[data-theme="dark"] {
+  --bg:           #18181b;   /* zinc-900 */
+  --surface:      #27272a;   /* zinc-800 */
+  --border:       #3f3f46;   /* zinc-700 */
+  --border-soft:  #2a2a2e;
+  --text:         #e4e4e7;   /* zinc-200 */
+  --text-muted:   #a1a1aa;   /* zinc-400 */
+  --text-subtle:  #8b8b94;
+  --accent:       #a78bfa;   /* violet-400 */
+  --accent-soft:  #2a2342;   /* violet tint on the dark background */
+  --accent-dark:  #c4b5fd;   /* violet-300: hover goes lighter on dark */
+  --code-dark:    #11111b;   /* Catppuccin crust: code stays darker than the page */
+  --code-text:    #cdd6f4;
+  --code-inline:  #f9a8d4;   /* pink-300 */
+  --accent-ink:   #ddd6fe;   /* violet-200 */
+  --row-alt:      #1f1f23;
+  --on-accent:    #18181b;
+  color-scheme: dark;
 }
 
 
@@ -100,6 +127,31 @@ body { margin: 0; padding: 0; }
   text-decoration: none;
 }
 
+.nav-links {
+  display: flex;
+  align-items: center;
+}
+
+/* Light/dark toggle: shows a moon in light mode, a sun in dark mode */
+.theme-toggle {
+  display: inline-flex;
+  margin-left: 1.25rem;
+  padding: 0.25rem;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.theme-toggle:hover { color: var(--accent); }
+.theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.theme-toggle svg { width: 1.05rem; height: 1.05rem; }
+.theme-toggle .icon-sun,
+:root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+:root[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+
 
 /* -------------------------
    Typography
@@ -165,7 +217,7 @@ blockquote {
   border-left: 3px solid var(--accent);
   background: var(--accent-soft);
   border-radius: 0 6px 6px 0;
-  color: #3b0764;
+  color: var(--accent-ink);
   font-style: italic;
 }
 
@@ -181,7 +233,7 @@ code {
                "Courier New", monospace;
   font-size: 0.83em;
   background: var(--surface);
-  color: #be185d;
+  color: var(--code-inline);
   padding: 0.15em 0.4em;
   border-radius: 4px;
 }
@@ -240,8 +292,8 @@ th, td {
   text-align: left;
 }
 
-th { background: var(--accent-soft); font-weight: 600; color: #3b0764; }
-tbody tr:nth-child(even) td { background: #fafafb; }
+th { background: var(--accent-soft); font-weight: 600; color: var(--accent-ink); }
+tbody tr:nth-child(even) td { background: var(--row-alt); }
 
 
 /* -------------------------
@@ -431,7 +483,7 @@ tbody tr:nth-child(even) td { background: #fafafb; }
 
 .pagination a:hover {
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
   text-decoration: none;
 }
 
