@@ -42,6 +42,16 @@ bundle exec jekyll serve --drafts
 4. Set `description`, `image` and `image_alt` for link previews, `toc: true` for a contents list, and `math: true` if the post has equations (MathJax only loads there)
 5. Listening: every post gets a Listen button that reads it aloud with the reader's device voice. Set `audio: /public/audio/<slug>.mp3` to offer a narrated recording instead, or `listen: false` to hide it
 
+### Drawings
+
+Every post gets one of my drawings as its icon, picked at random once. New drawings (phone photos) go in `_drawings/`, which is git-ignored because the originals are large and carry location data; `home.jpg` there is the homepage photo. Then run:
+
+```bash
+uv run scripts/drawings.py
+```
+
+It crops each new drawing to a 256 px square in `public/drawings/` (metadata stripped), and gives every post without an `icon:` a random unused drawing in its front matter. Run it again after adding a post. If a crop catches the cutting mat, add the drawing to `CROPS` in the script and rerun with `--redo <id>`.
+
 There's no notebook pipeline any more: `notebooks/` keeps two old notebooks for reference and isn't published.
 
 ### Writing guide

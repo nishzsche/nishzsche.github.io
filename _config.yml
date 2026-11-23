@@ -27,6 +27,7 @@ exclude:
   - TODO.md
   - WRITING.md
   - notebooks/
+  - scripts/
   - Gemfile
   - Gemfile.lock
   - vendor/
