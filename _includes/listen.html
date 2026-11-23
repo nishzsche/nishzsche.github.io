@@ -1,0 +1,239 @@
+{% comment %}
+  Listen to this post. Front matter options:
+    (nothing)                              the reader's browser reads the post aloud with a voice from
+                                           their own device (Web Speech API: free, nothing to host,
+                                           quality depends on the device and browser)
+    audio: /public/audio/<post>.mp3        a narrated recording; the page shows an audio player instead
+    listen: false                          no listen option on this post
+  Read aloud: the title, headings, paragraphs and list items in order. Charts are announced by their
+  alt text; code blocks and tables are skipped with a short note.
+{% endcomment %}
+{% if page.listen != false %}
+{% if page.audio %}
+<div class="listen listen-audio">
+  <span class="listen-label">Listen to this post</span>
+  <audio controls preload="none" src="{{ page.audio | relative_url }}"></audio>
+</div>
+{% else %}
+{% assign listen_minutes = page.content | number_of_words | divided_by: 160 | plus: 1 %}
+<div class="listen" hidden>
+  <button class="listen-play" type="button" aria-label="Listen to this post">
+    <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l11-6.5a1 1 0 0 0 0-1.72l-11-6.5A1 1 0 0 0 8 5.5z"/></svg>
+    <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+    <span class="listen-play-text">Listen</span>
+  </button>
+  <span class="listen-status" aria-live="polite">about {{ listen_minutes }} min, read by your device's voice</span>
+  <span class="listen-controls" hidden>
+    <button class="listen-stop" type="button" aria-label="Stop and go back to the start">Stop</button>
+    <button class="listen-rate" type="button" aria-label="Reading speed">1&times;</button>
+    <select class="listen-voice" aria-label="Voice" hidden></select>
+  </span>
+</div>
+
+<script>
+(function () {
+  var box = document.querySelector('.listen:not(.listen-audio)');
+  if (!box || !('speechSynthesis' in window) || !window.SpeechSynthesisUtterance) return;
+
+  var synth = window.speechSynthesis;
+  var playBtn = box.querySelector('.listen-play');
+  var playText = box.querySelector('.listen-play-text');
+  var status = box.querySelector('.listen-status');
+  var controls = box.querySelector('.listen-controls');
+  var stopBtn = box.querySelector('.listen-stop');
+  var rateBtn = box.querySelector('.listen-rate');
+  var voiceSel = box.querySelector('.listen-voice');
+  var idleText = status.textContent;
+  var RATES = [1, 1.25, 1.5, 0.8];
+  var pageLang = (document.documentElement.lang || 'en').slice(0, 2).toLowerCase();
+
+  var chunks = null, index = 0, state = 'idle', token = 0, utterance = null, timer = null;
+  var voices = [], lit = null, counted = false;
+
+  function load(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
+  function save(key, value) { try { localStorage.setItem(key, value); } catch (e) {} }
+
+  var rate = parseFloat(load('listen-rate'));
+  if (RATES.indexOf(rate) < 0) rate = 1;
+
+  // Split into sentences at . ! ? followed by a space (not inside numbers like 0.265),
+  // then group them into pieces of about 200 characters: short enough that no browser cuts off.
+  function pieces(text) {
+    var out = [], re = /[.!?]+["'”’)\]]*\s+/g, start = 0, m, buf = '';
+    var parts = [];
+    while ((m = re.exec(text))) {
+      parts.push(text.slice(start, m.index + m[0].length).trim());
+      start = m.index + m[0].length;
+    }
+    if (start < text.length) parts.push(text.slice(start).trim());
+    parts.forEach(function (s) {
+      if (!s) return;
+      if (buf && (buf + ' ' + s).length > 200) { out.push(buf); buf = s; }
+      else { buf = buf ? buf + ' ' + s : s; }
+    });
+    if (buf) out.push(buf);
+    return out;
+  }
+
+  function clean(s) { return s.replace(/\s+/g, ' ').trim(); }
+
+  function collect() {
+    var list = [];
+    function add(text, el) {
+      pieces(clean(text)).forEach(function (t) { list.push({ text: t, el: el }); });
+    }
+    var title = document.querySelector('.post-title');
+    if (title) add(title.textContent + '.', title);
+    var content = document.querySelector('.post-content');
+    if (!content) return list;
+    var els = content.querySelectorAll('h2, h3, h4, p, li, pre, table, img');
+    Array.prototype.forEach.call(els, function (el) {
+      var tag = el.tagName;
+      if (tag !== 'PRE' && el.closest('pre')) return;
+      if (tag !== 'TABLE' && el.closest('table')) return;
+      if (tag === 'PRE') { add('A code example follows. It is easier to read on the page.', el); return; }
+      if (tag === 'TABLE') { add('A table follows. It is easier to read on the page.', el); return; }
+      if (tag === 'IMG') { if (el.alt) add('Chart: ' + el.alt + '.', el); return; }
+      if (tag === 'LI' && el.querySelector('p')) return;  // its paragraphs are read instead
+      var text = clean(el.textContent);
+      if (!text) return;
+      if (/^H[2-4]$/.test(tag) && !/[.!?:]$/.test(text)) text += '.';  // a pause after headings
+      add(text, el);
+    });
+    return list;
+  }
+
+  // Prefer natural-sounding voices for the page's language, then the reader's own locale
+  function score(v) {
+    var s = 0, n = v.name || '';
+    if (/natural|neural|online/i.test(n)) s += 4;
+    if (/enhanced|premium|siri/i.test(n)) s += 3;
+    if (/google/i.test(n)) s += 2;
+    if (v.lang === navigator.language) s += 2;
+    if (v['default']) s += 1;
+    return s;
+  }
+
+  function loadVoices() {
+    voices = synth.getVoices().filter(function (v) {
+      return (v.lang || '').slice(0, 2).toLowerCase() === pageLang;
+    }).sort(function (a, b) { return score(b) - score(a); });
+    var wanted = load('listen-voice');
+    voiceSel.innerHTML = '';
+    voices.forEach(function (v, i) {
+      var opt = document.createElement('option');
+      opt.value = v.name;
+      opt.textContent = v.name.replace(/^(Microsoft|Google)\s+/, '').replace(/\s+-\s+English.*$/, '') + ' (' + v.lang + ')';
+      if (v.name === wanted || (!wanted && i === 0)) opt.selected = true;
+      voiceSel.appendChild(opt);
+    });
+    voiceSel.hidden = voices.length < 2;
+  }
+
+  function voice() {
+    for (var i = 0; i < voices.length; i++) if (voices[i].name === voiceSel.value) return voices[i];
+    return voices[0] || null;
+  }
+
+  function highlight(el) {
+    if (lit === el) return;
+    if (lit) lit.classList.remove('listen-current');
+    lit = el;
+    if (el) el.classList.add('listen-current');
+  }
+
+  function render() {
+    box.classList.toggle('is-playing', state === 'playing');
+    controls.hidden = state === 'idle';
+    var label = state === 'playing' ? 'Pause' : state === 'paused' ? 'Resume' : 'Listen';
+    playText.textContent = label;
+    playBtn.setAttribute('aria-label', state === 'idle' ? 'Listen to this post' : label);
+    rateBtn.innerHTML = rate + '&times;';
+    if (state === 'idle') status.textContent = idleText;
+    else if (state === 'paused') status.textContent = 'Paused';
+    else status.textContent = 'Reading, ' + Math.round(100 * index / chunks.length) + '% through';
+  }
+
+  function speak() {
+    if (state !== 'playing') return;
+    if (index >= chunks.length) { stop(); status.textContent = 'Finished'; return; }
+    var my = ++token, piece = chunks[index];
+    var u = new SpeechSynthesisUtterance(piece.text);
+    var v = voice();
+    u.lang = v ? v.lang : document.documentElement.lang || 'en';
+    if (v) u.voice = v;
+    u.rate = rate;
+    u.onend = function () { if (my === token && state === 'playing') { index++; speak(); } };
+    u.onerror = function (e) {
+      if (my !== token || e.error === 'interrupted' || e.error === 'canceled') return;
+      index++; speak();
+    };
+    utterance = u;  // keep a reference: some browsers drop events of collected utterances
+    highlight(piece.el);
+    render();
+    synth.speak(u);
+  }
+
+  // Restart the current piece: used for resume and for speed or voice changes. Some browsers
+  // can't resume a paused voice reliably, so pausing stops and resuming re-reads the sentence.
+  function restart() {
+    token++;
+    synth.cancel();
+    clearTimeout(timer);
+    timer = setTimeout(speak, 60);
+  }
+
+  function play() {
+    if (!chunks) chunks = collect();
+    if (!chunks.length) return;
+    if (state === 'idle') index = 0;
+    state = 'playing';
+    render();
+    restart();
+    if (!counted && window.goatcounter && window.goatcounter.count) {
+      counted = true;
+      window.goatcounter.count({ path: 'listen' + location.pathname, title: 'Listen: ' + document.title, event: true });
+    }
+  }
+
+  function pause() {
+    state = 'paused';
+    clearTimeout(timer);
+    token++;
+    synth.cancel();
+    render();
+  }
+
+  function stop() {
+    state = 'idle';
+    clearTimeout(timer);
+    token++;
+    synth.cancel();
+    index = 0;
+    highlight(null);
+    render();
+  }
+
+  playBtn.addEventListener('click', function () { state === 'playing' ? pause() : play(); });
+  stopBtn.addEventListener('click', stop);
+  rateBtn.addEventListener('click', function () {
+    rate = RATES[(RATES.indexOf(rate) + 1) % RATES.length];
+    save('listen-rate', rate);
+    render();
+    if (state === 'playing') restart();
+  });
+  voiceSel.addEventListener('change', function () {
+    save('listen-voice', voiceSel.value);
+    if (state === 'playing') restart();
+  });
+
+  loadVoices();
+  if ('onvoiceschanged' in synth) synth.onvoiceschanged = loadVoices;
+  synth.cancel();  // clear anything left speaking from a previous page
+  window.addEventListener('pagehide', function () { token++; synth.cancel(); });
+  render();
+  box.hidden = false;
+})();
+</script>
+{% endif %}
+{% endif %}
