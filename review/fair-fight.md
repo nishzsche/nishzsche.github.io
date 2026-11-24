@@ -13,7 +13,7 @@ hypothesis: true
 comments: false
 ---
 
-> **Draft for review, version 1.1 (24 November), not yet published.** Version 1.1 adds four charts: how close the models are, Kev's calibration, cost, and what Sol does with its examples. Thank you for reading. This is the third post in the series, after [Can AI know when it's wrong?](/2026/11/23/can-ai-know-when-its-wrong/) and [Why 99% accuracy can still be a disaster](/2026/11/24/why-99-percent-accuracy/). It answers the biggest objection to the first: every AI model now learns from the same 20,000 customers the traditional models did. A panel of AI reviewers has already checked the statistics and every number; I'd like a human read now. One check is still running (re-training two models with different random seeds), so one limitation line may change.
+> **Draft for review, version 2 (24 November), not yet published.** New in version 2: the re-run check is in (two models retrained with different random seeds; see the honesty section and the limits), the headline chart now sits at the top, and a ceiling chart closes the results. Version 1.1 added four charts. Thank you for reading. This is the third post in the series, after [Can AI know when it's wrong?](/2026/11/23/can-ai-know-when-its-wrong/) and [Why 99% accuracy can still be a disaster](/2026/11/24/why-99-percent-accuracy/). It answers the biggest objection to the first: every AI model now learns from the same 20,000 customers the traditional models did. A panel of AI reviewers has already checked the statistics and every number; I'd like a human read now.
 >
 > **To comment, no account needed:** reply to my message and quote the sentence you mean. If you already use [Hypothesis](https://web.hypothes.is/), you can also select text and click **Annotate**.
 >
@@ -26,6 +26,8 @@ If one student studies last year's exam papers and another walks in cold, their 
 That was the fairest objection to [my first experiment](/2026/11/23/can-ai-know-when-its-wrong/). I asked eight models how likely 2,000 real credit-card customers were to miss next month's payment, and checked whether their percentages came true. Most AI models put the risk too high, the worst at about twice the real rate, and none ranked customers better than the scorecard banks have used for decades. But the scorecard, and a modern machine-learning model called gradient boosting, had studied 20,000 customers whose outcomes were known. The AI models had studied nobody. As one reader put it, generic models that haven't been trained on the task don't make a fair comparison.
 
 So I gave every AI model the same 20,000 customers, and asked the same 2,000 the same question.
+
+![Each AI model's ranking ability (AUC) answering cold and after learning from the 20,000 customers. Kev-4B goes from 0.594 to 0.792, Kev-0.8B from 0.750 to 0.790, Qwen from 0.744 to 0.780 and Laya from 0.666 to 0.778, around gradient boosting's 0.789 and above the scorecard's 0.777. Kumo-Tabular and TabICLv2 reach 0.794 and have no cold version. Jev and GPT-6.2 Sol, shown 20 examples, end at 0.743 and 0.762, around the 20-neighbours average of 0.764.](/public/images/fair-fight/m6_catch_up.png){: data-dark-src="/public/images/fair-fight/m6_catch_up-dark.png"}
 
 ## Three ways to learn from 20,000 customers
 
@@ -46,8 +48,6 @@ The bottom row is the only option for the two closed models. Jev's makers say it
 ## Train it, and it catches up
 
 To measure ranking I use the same score as before: pick one customer who defaulted and one who paid, and ask how often the model rates the defaulter as riskier ([AUC](https://en.wikipedia.org/wiki/Receiver_operating_characteristic#Area_under_the_curve); 0.5 is a coin toss). Gradient boosting rates the defaulter riskier 79 times in 100 (0.789), the scorecard 78 (0.777).
-
-![Each AI model's ranking ability (AUC) answering cold and after learning from the 20,000 customers. Kev-4B goes from 0.594 to 0.792, Kev-0.8B from 0.750 to 0.790, Qwen from 0.744 to 0.780 and Laya from 0.666 to 0.778, around gradient boosting's 0.789 and above the scorecard's 0.777. Kumo-Tabular and TabICLv2 reach 0.794 and have no cold version. Jev and GPT-6.2 Sol, shown 20 examples, end at 0.743 and 0.762, around the 20-neighbours average of 0.764.](/public/images/fair-fight/m6_catch_up.png){: data-dark-src="/public/images/fair-fight/m6_catch_up-dark.png"}
 
 Every model that actually learned from the data now lands next to them:
 
@@ -77,13 +77,13 @@ So the AI models caught up with gradient boosting, and the best of them edged pa
 
 Ranking is half the job. The other half, the subject of the first post, is whether a model's percentages come true. I measure it the same way: the average gap, in percentage points, between the risk a model promised and what happened ([calibration error](https://scikit-learn.org/stable/modules/calibration.html)). With 2,000 customers, a perfectly honest model stays below about 2.5 points in 95 samples out of 100, so anything under that is within chance.
 
-Raw output first: Laya is 1.7 points off on average, Kumo-Tabular 2.0 and Qwen 2.4, as honest as gradient boosting (1.7). But raw numbers aren't a fair comparison here. Laya's maker recipe ends with its own calibration step, which I kept. Kev's maker recipe ends with one too, and I skipped it: I served Kev straight out of training. So I compare honesty the way the first post compared recalibration: every model gets the same correction, learned from 2,000 separate customers and checked on the test customers.
+Raw output first: Laya is 1.7 points off on average, Kumo-Tabular 2.0 and Qwen 2.4, as honest as gradient boosting (1.7). That order isn't solid, though. I retrained Kev-0.8B and Laya twice more, changing only the random starting point, and Laya came out 2.2 and 3.5 points off: how honest a freshly trained model is depends partly on the luck of the run. And raw numbers aren't a fair comparison here anyway. Laya's maker recipe ends with its own calibration step, which I kept. Kev's maker recipe ends with one too, and I skipped it: I served Kev straight out of training. So I compare honesty the way the first post compared recalibration: every model gets the same correction, learned from 2,000 separate customers and checked on the test customers.
 
-![Calibration error for each model, raw and after the same correction learned from 2,000 separate customers. After the correction, Laya is 0.9 points off, GPT-6.2 Sol 1.2, Kev-0.8B 1.4, TabICLv2 1.6, Qwen 1.7, Jev 1.9 and Kumo-Tabular 2.0, all within the range a perfectly honest model reaches by chance, like the scorecard and gradient boosting. Kev-4B stays outside it at 3.3. Jev's raw error was 10.6.](/public/images/fair-fight/m6_honesty.png){: data-dark-src="/public/images/fair-fight/m6_honesty-dark.png"}
+![Calibration error for each model, raw and after the same correction learned from 2,000 separate customers. After the correction, Laya is 0.9 points off, GPT-6.2 Sol 1.2 (it recognizes this dataset), Kev-0.8B 1.4, TabICLv2 1.6, Qwen 1.7, Jev 1.9 and Kumo-Tabular 2.0, all within the range a perfectly honest model reaches by chance, like the scorecard and gradient boosting. Kev-4B stays outside it at 3.3. Jev's raw error was 10.6.](/public/images/fair-fight/m6_honesty.png){: data-dark-src="/public/images/fair-fight/m6_honesty-dark.png"}
 
-After the same correction, every model is within chance of perfectly honest except one: Laya is 0.9 points off, Sol 1.2, Kev-0.8B 1.4, TabICLv2 1.6, Qwen 1.7, Jev 1.9 and Kumo-Tabular 2.0, against the scorecard's 1.4 and gradient boosting's 2.0. The exception is Kev-4B, still 3.3 points off.
+After the same correction, every model is within chance of perfectly honest except one: Laya is 0.9 points off, Sol 1.2 (which, as before, recognizes this dataset and knows its default rate), Kev-0.8B 1.4, TabICLv2 1.6, Qwen 1.7, Jev 1.9 and Kumo-Tabular 2.0, against the scorecard's 1.4 and gradient boosting's 2.0. The exception is Kev-4B, still 3.3 points off. The correction also steadies the re-runs: Kev-0.8B's came out 1.5 and 1.3 points off, Laya's 1.8 and 2.5, the last right at the edge of chance.
 
-The Kev models show why the check matters after training too. Straight out of training they understate risk: about 18 to 19% against the 22% who defaulted, and worst in the middle, where Kev-0.8B promised 11% to a group in which 21% defaulted. That's the worse direction for a lender, because provisions and prices come out too low. Their percentages are too spread out, which is exactly what their skipped maker step corrects. A single adjustment of that kind, learned from the 2,000 calibration customers, brings Kev-0.8B's average back to 21% and its error from 4.5 points to 1.7. Kev-4B's average recovers too, but its error barely moves (3.6 to 3.3). Training is not calibration.
+The Kev models show why the check matters after training too. Straight out of training they understate risk: about 18 to 19% against the 22% who defaulted, and worst in the middle, where Kev-0.8B promised 11% to a group in which 21% defaulted. It isn't a fluke of one run: Kev-0.8B's two re-runs averaged 19% and 20%. That's the worse direction for a lender, because provisions and prices come out too low. Their percentages are too spread out, which is exactly what their skipped maker step corrects. A single adjustment of that kind, learned from the 2,000 calibration customers, brings Kev-0.8B's average back to 21% and its error from 4.5 points to 1.7. Kev-4B's average recovers too, but its error barely moves (3.6 to 3.3). Training is not calibration.
 
 ![Promised against actual default rate in ten risk groups for Kev-0.8B and Kev-4B, straight out of training and after the same correction. Straight out of training, both sit above the diagonal in the middle groups, promising too little: Kev-0.8B promised 11% to a group in which 21% defaulted. After the correction, Kev-0.8B follows the diagonal (1.4 points off), while Kev-4B still overstates risk for its safest groups and understates it in the middle (3.3 points off).](/public/images/fair-fight/m6_kev_calibration.png){: data-dark-src="/public/images/fair-fight/m6_kev_calibration-dark.png"}
 
@@ -114,16 +114,18 @@ It was also by far the most expensive option. The 20 examples made each of Sol's
 
 The most interesting result is what didn't happen. Eight very different models, from a decades-old scorecard to a 4-billion-parameter language model to NVIDIA's table model, rank customers within 0.02 of each other (0.777 to 0.794). And in the first experiment, a scorecard trained on just 2,000 customers, a tenth of the data, scored 0.758: ten times the data bought about 0.02. With a credit limit and six months of bills, payments and repayment codes, there's only so much anyone can tell. Here, more model didn't buy any signal this test could detect.
 
+![Ranking for every model that learned from the 20,000 customers, on the full scale from a coin flip (0.5) to perfect (1.0). Kumo-Tabular and TabICLv2 reach 0.794, Kev-4B 0.792, Kev-0.8B 0.790, gradient boosting 0.789, Qwen 0.780, Laya 0.778 and the scorecard 0.777: all within 0.02 of each other, and none past 0.80. A scorecard trained on a tenth of the data, 2,000 customers, reaches 0.758.](/public/images/fair-fight/m6_ceiling.png){: data-dark-src="/public/images/fair-fight/m6_ceiling-dark.png"}
+
 ## I got most of my predictions wrong, again
 
 Before any of these runs, I wrote down what I expected, judged on raw output:
 
 | My guess | What happened |
 |---|---|
-| Qwen would be the most honest after training | ✗ Laya was (1.7 points off), with Kumo-Tabular (2.0) and Qwen (2.4) close behind, all within chance of perfectly honest |
-| At least one trained AI model would beat gradient boosting at ranking | ✓ On the numbers, four did (0.790 to 0.794 against 0.789), though none by more than chance |
+| Qwen would be the most honest after training | ✗ Laya was (1.7 points off), with Kumo-Tabular (2.0) and Qwen (2.4) close behind. But Laya's re-runs were 2.2 and 3.5, so that order isn't stable |
+| At least one trained AI model would beat gradient boosting at ranking | ✓ On the numbers, four did (0.790 to 0.794 against 0.789), though none by more than chance, and Kev-0.8B's two re-runs scored 0.786 and 0.789, level with it or just below |
 | Jev and Sol, shown examples, would beat their 20 neighbours | ✗ Neither did: Sol matched them, and Jev ranked worse |
-| Kev-4B would be the least honest after training | ✗ Jev, shown examples, was (10.6 points off), then Kev-0.8B (4.5), then Kev-4B (3.6) |
+| Kev-4B would be the least honest after training | ✗ Jev, shown examples, was (10.6 points off), then Kev-0.8B (4.5; its re-runs were 3.0 and 3.3), then Kev-4B (3.6) |
 
 ## What I'd tell a bank
 
@@ -136,7 +138,7 @@ Before any of these runs, I wrote down what I expected, judged on raw output:
 
 - **"Default" is the dataset's label:** missing next month's payment, not the 90-days-overdue definition banks use for capital.
 - **One dataset, one moment:** one bank in Taiwan, 2005, where 22% defaulted. The test customers come from the same months as the training customers, so this says nothing about how calibration holds up as the economy or the customer mix shifts. Banks test that on later periods, and monitor it.
-- **One run each:** each model was trained once, and I haven't yet measured how much a re-run moves the numbers.
+- **Few re-runs:** I retrained two models, Kev-0.8B and Laya, twice more with a different random starting point. Their ranking moved by less than 0.01, but their raw honesty moved by up to 1.8 points, more than some of the gaps between models. Kev-4B and Qwen were trained once, so their raw honesty is just as uncertain.
 - **Small gaps are hard to see:** with 2,000 test customers, ranking differences under about 0.02 can't be told apart.
 - **No tuning:** each model used its maker's settings, or common ones for Qwen. More effort might move a model; the baselines got only a little.
 - **Fair lending isn't tested:** leaving out age, sex, marital status and education keeps them out of the inputs, not out of the outcomes. A fair-lending review would check whether approval rates differ by group; I haven't.
