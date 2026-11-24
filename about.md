@@ -42,4 +42,6 @@ Working through physical rehabilitation after traumatic injuries - swimming is p
 
 ### From my sketchbook
 
+Pages from my Inktober 2026, each drawn to that day's one-word prompt, and one sketch from a park.
+
 {% include gallery.html %}
