@@ -28,6 +28,7 @@
   --on-accent:    #fff;      /* text on a solid accent background */
   --veil:         rgba(250, 250, 249, 0.80);  /* translucent page colour (sketchbook arrows on phones) */
   --drawing-opacity: 0.24;   /* a post's drawing behind its title */
+  --page-drawing-opacity: 0.45;  /* a page's drawing (the park sketch on About) */
   color-scheme: light;
 }
 
@@ -52,6 +53,7 @@
   --on-accent:    #18181b;
   --veil:         rgba(24, 24, 27, 0.80);
   --drawing-opacity: 0.16;
+  --page-drawing-opacity: 0.32;
   color-scheme: dark;
 }
 
@@ -546,14 +548,16 @@ tbody tr:nth-child(even) td { background: var(--row-alt); }
   height: 30rem;
   z-index: -1;
   background: var(--drawing) center 92% / cover no-repeat;  /* the sketch, not the trees above it */
-  opacity: calc(var(--drawing-opacity) * 0.8);  /* a colour photo: a touch fainter than a sketch */
+  opacity: var(--page-drawing-opacity);
   -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
           mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
 }
 
-/* A quote over the drawing lets it show through a little */
+/* A quote over the drawing has no shading, so the drawing shows behind it; a soft glow in the
+   page colour keeps its text legible over the busy parts */
 .page.has-drawing blockquote {
-  background: color-mix(in srgb, var(--accent-soft) 72%, transparent);
+  background: none;
+  text-shadow: 0 0 2px var(--bg), 0 0 8px var(--bg), 0 0 14px var(--bg);
 }
 
 @media (min-width: 760px) {
