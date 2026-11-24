@@ -177,4 +177,4 @@ One out of four. The 20-customer trial run I did before guessing had already sho
 
 Everything behind these results is in [the deep dive](https://github.com/nishzsche/can-ai-know-when-its-wrong/blob/main/writeup/deep_dive.md): the statistics behind each claim, every check I ran to see whether the results could be fooling me, the tables model by model, related research and how to reproduce it all. The code and every prediction are on [GitHub](https://github.com/nishzsche/can-ai-know-when-its-wrong).
 
-Percentages that don't come true are one way a model can mislead you. A single headline number is another, so next I'll look at why 99% accuracy can still be a disaster. After that comes the sequel to this post: training my own small decision model and rewarding it for knowing when it doesn't know.
+Percentages that don't come true are one way a model can mislead you. A single headline number is another, so next I looked at [why 99% accuracy can still be a disaster](/2026/11/24/why-99-percent-accuracy/). After that comes the sequel to this post: training my own small decision model and rewarding it for knowing when it doesn't know.
