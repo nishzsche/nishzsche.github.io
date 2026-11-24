@@ -1,23 +1,13 @@
 ---
 layout: post
 title: "Why 99% accuracy can still be a disaster"
-date: 2026-11-23
+date: 2026-11-24 12:55:00 +0530
 tags: [probability]
-permalink: /review/why-99-percent-accuracy/
 description: "A model that says nobody will default is right 78% of the time on real credit data. A bank that used it would lose money."
-# Review copy: not listed on the home page or in the feed, hidden from search engines and the
-# sitemap, with Hypothesis for comments. To launch, move it to _posts/ and drop these four.
-noindex: true
-sitemap: false
-hypothesis: true
-comments: false
+image: /public/images/why-99-percent-accuracy/social-card.png
+image_alt: "Why 99% accuracy can still be a disaster. Profit per 1,000 customers: approving everyone (77.9% accurate) loses 105; Qwen3.5-4B (81.9% accurate) earns 17; the scorecard (81.8% accurate) earns 284."
+toc: true
 ---
-
-> **Draft for review, version 2 (24 November), not yet published.** Thank you for reading. This is the follow-up to [Can AI know when it's wrong?](/2026/11/23/can-ai-know-when-its-wrong/), using the same 2,000 customers and the same predictions, so there are no new model runs behind it. **New since version 1**, thanks to a reviewer: a four-way count of each model's mistakes (a confusion matrix), and a clearer note on the AI built for tables, which comes in the next post.
->
-> **To comment, no account needed:** reply to my message and quote the sentence you mean. If you already use [Hypothesis](https://web.hypothes.is/), you can also select text and click **Annotate**.
->
-> I'd most like to know: does the fraud example in the opening hook you, is the lending example (1 unit earned, 4 lost) easy to follow, can you read the chart on your phone, and does anything feel overstated?
 
 *On my credit data, a model that says "nobody will default" is right 78% of the time. A bank that used it would lose money.*
 
@@ -100,7 +90,7 @@ A bank can use each real model in two ways:
 
 \*Trained on 20,000 customers whose outcomes were known; the AI models answered cold.
 
-![Profit per 1,000 customers for each model, sorted by accuracy. Gradient boosting, the scorecard and GPT-6.2 Sol earn about 300 either way. Qwen earns 17 on its own percentages and 252 with a learned cut-off, Kev-0.8B 99 and 306, Jev 14 and 226. Approving everyone loses 105.](/public/images/why-99-percent-accuracy/post2_profit.png)
+![Profit per 1,000 customers for each model, sorted by accuracy. Gradient boosting, the scorecard and GPT-6.2 Sol earn about 300 either way. Qwen earns 17 on its own percentages and 252 with a learned cut-off, Kev-0.8B 99 and 306, Jev 14 and 226. Approving everyone loses 105.](/public/images/why-99-percent-accuracy/post2_profit.png){: data-dark-src="/public/images/why-99-percent-accuracy/post2_profit-dark.png"}
 
 - **Qwen is as accurate as the scorecard.** Taken at its word, it approves 5 customers in 100 and earns 17 units per 1,000, against the scorecard's 284. Its percentages run about 1.6 times too high, so almost everyone looks too risky to lend to. The confusion matrix at the 20% cut-off shows it plainly: Qwen catches 428 of the 442 defaulters, but turns away 1,468 of the 1,558 customers who would have paid. The scorecard, at the same cut-off, catches 272 and turns away 309.
 - **Kev-0.8B is the most striking.** It ranks well enough that, with a cut-off learned from known outcomes, it earns 306, the most of any model in the table. Taken at its word, it earns 99. Two-thirds of its value is lost to percentages that don't mean what they say.
