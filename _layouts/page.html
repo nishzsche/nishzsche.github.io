@@ -2,7 +2,8 @@
 layout: default
 ---
 
-<div class="page">
+{% comment %} Front matter `drawing:` fades that image in behind the title and the opening lines {% endcomment %}
+<div class="page{% if page.drawing %} has-drawing{% endif %}"{% if page.drawing %} style="--drawing: url('{{ page.drawing | relative_url }}')"{% endif %}>
   <h1 class="page-title">{{ page.title }}</h1>
   {{ content }}
 </div>

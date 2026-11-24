@@ -1,6 +1,7 @@
 ---
 layout: page
 title: About
+drawing: /public/drawings/home.jpg
 ---
 
 > <span lang="ta">ஊழையும் உப்பக்கம் காண்பர் உலைவின்றித்<br>தாழாது உஞற்று பவர்.</span>
@@ -42,6 +43,6 @@ Working through physical rehabilitation after traumatic injuries - swimming is p
 
 ### From my sketchbook
 
-Pages from my Inktober 2026, each drawn to that day's one-word prompt, and one sketch from a park.
+Pages from my Inktober 2026, each drawn to that day's one-word prompt.
 
 {% include gallery.html %}
