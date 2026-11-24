@@ -13,7 +13,7 @@ hypothesis: true
 comments: false
 ---
 
-> **Draft for review, version 1 (24 November), not yet published.** Thank you for reading. This is the third post in the series, after [Can AI know when it's wrong?](/2026/11/23/can-ai-know-when-its-wrong/) and [Why 99% accuracy can still be a disaster](/2026/11/24/why-99-percent-accuracy/). It answers the biggest objection to the first: every AI model now learns from the same 20,000 customers the traditional models did. A panel of AI reviewers has already checked the statistics and every number; I'd like a human read now. One check is still running (re-training two models with different random seeds), so one limitation line may change.
+> **Draft for review, version 1.1 (24 November), not yet published.** Version 1.1 adds four charts: how close the models are, Kev's calibration, cost, and what Sol does with its examples. Thank you for reading. This is the third post in the series, after [Can AI know when it's wrong?](/2026/11/23/can-ai-know-when-its-wrong/) and [Why 99% accuracy can still be a disaster](/2026/11/24/why-99-percent-accuracy/). It answers the biggest objection to the first: every AI model now learns from the same 20,000 customers the traditional models did. A panel of AI reviewers has already checked the statistics and every number; I'd like a human read now. One check is still running (re-training two models with different random seeds), so one limitation line may change.
 >
 > **To comment, no account needed:** reply to my message and quote the sentence you mean. If you already use [Hypothesis](https://web.hypothes.is/), you can also select text and click **Annotate**.
 >
@@ -66,8 +66,10 @@ Kev-4B is the most dramatic: from 59 times in 100 to 79, from last place to the 
 
 How close is close? I compared every pair on the same customers with a resampling test, corrected for comparing eight models at once.
 
-- **Against gradient boosting, none of the six can be told apart.** The test rules out a gap of more than about 0.02 either way.
+- **Against gradient boosting, none of the six can be told apart.** Even allowing for comparing eight models, the test rules out a gap of more than about 0.02 either way, a little under 0.03 for Qwen and Laya.
 - **Against the scorecard, three rank slightly better,** by 0.015 to 0.017: Kev-4B, Kumo-Tabular and TabICLv2. After the correction, Kev-4B's edge holds and the two tabular models' is borderline.
+
+![Each model's ranking minus gradient boosting's, and minus the scorecard's, with ranges widened for comparing eight models. Against gradient boosting, the ranges for Kumo-Tabular, TabICLv2, Kev-4B, Kev-0.8B, Qwen and Laya all cross zero; GPT-6.2 Sol (0.026 lower) and Jev (0.046 lower) fall below it. Against the scorecard, Kev-4B's range (0.015 higher) just clears zero, the two tabular models (0.017 higher) only just miss, Qwen, Laya, Kev-0.8B and Sol cross it, and Jev falls below.](/public/images/fair-fight/m6_how_close.png){: data-dark-src="/public/images/fair-fight/m6_how_close-dark.png"}
 
 So the AI models caught up with gradient boosting, and the best of them edged past the scorecard. With 2,000 test customers, gaps smaller than about 0.02 are hard to see, and at a bank's scale a gap of 0.01 can still matter.
 
@@ -81,13 +83,17 @@ Raw output first: Laya is 1.7 points off on average, Kumo-Tabular 2.0 and Qwen 2
 
 After the same correction, every model is within chance of perfectly honest except one: Laya is 0.9 points off, Sol 1.2, Kev-0.8B 1.4, TabICLv2 1.6, Qwen 1.7, Jev 1.9 and Kumo-Tabular 2.0, against the scorecard's 1.4 and gradient boosting's 2.0. The exception is Kev-4B, still 3.3 points off.
 
-The Kev models show why the check matters after training too. Straight out of training they understate risk: about 18 to 19% against the 22% who defaulted. That's the worse direction for a lender, because provisions and prices come out too low. Their percentages are too spread out, which is exactly what their skipped maker step corrects. A single adjustment of that kind, learned from the 2,000 calibration customers, brings Kev-0.8B's average back to 21% and its error from 4.5 points to 1.7. Kev-4B's average recovers too, but its error barely moves (3.6 to 3.3). Training is not calibration.
+The Kev models show why the check matters after training too. Straight out of training they understate risk: about 18 to 19% against the 22% who defaulted, and worst in the middle, where Kev-0.8B promised 11% to a group in which 21% defaulted. That's the worse direction for a lender, because provisions and prices come out too low. Their percentages are too spread out, which is exactly what their skipped maker step corrects. A single adjustment of that kind, learned from the 2,000 calibration customers, brings Kev-0.8B's average back to 21% and its error from 4.5 points to 1.7. Kev-4B's average recovers too, but its error barely moves (3.6 to 3.3). Training is not calibration.
+
+![Promised against actual default rate in ten risk groups for Kev-0.8B and Kev-4B, straight out of training and after the same correction. Straight out of training, both sit above the diagonal in the middle groups, promising too little: Kev-0.8B promised 11% to a group in which 21% defaulted. After the correction, Kev-0.8B follows the diagonal (1.4 points off), while Kev-4B still overstates risk for its safest groups and understates it in the middle (3.3 points off).](/public/images/fair-fight/m6_kev_calibration.png){: data-dark-src="/public/images/fair-fight/m6_kev_calibration-dark.png"}
 
 ## The AI built for tables gets there with no training
 
 The two tabular models match the best of the field without a training run: they read the 20,000 customers once and predict. Their percentages are close to honest straight out of the box (2.0 and 2.5 points off), and they're cheap. On a rented GPU, TabICLv2's predictions cost about 0.03 cents per 1,000 decisions, and Kumo-Tabular's about a third of a cent.
 
 Fine-tuning the language models wasn't expensive either, a dollar of GPU time at most each. But each run took between 40 minutes and almost two and a half hours, plus setting up and checking. The tabular models took seconds to a minute.
+
+![Ranking (AUC) against running cost per 1,000 decisions, on a log scale. The tabular models, the fine-tuned models and the baselines all cost under 2 cents per 1,000 and rank between 0.777 and 0.794; TabICLv2 is the cheapest AI model at about 0.03 cents and ranks 0.794. Jev, shown 20 examples, costs about 21 cents and ranks 0.743. GPT-6.2 Sol, shown 20 examples, costs about 10 dollars and ranks 0.762, just below simply averaging the 20 neighbours (0.764), which costs next to nothing.](/public/images/fair-fight/m6_cost.png){: data-dark-src="/public/images/fair-fight/m6_cost-dark.png"}
 
 One caution: no training run doesn't mean nothing to validate. These models read your 20,000 labelled customers every time they score, so the training data is part of the model, and it needs checking like any other.
 
@@ -100,7 +106,9 @@ GPT-6.2 Sol and Jev can't learn from your data except through the prompt. Each s
 
 Neither beat simply averaging the outcomes of those same 20 customers, which ranks at 0.764 and is 2.3 points off. Sol matched it, and Jev ranked worse. Sol's answers track that average closely: whatever extra it reads from the account summaries is small, and not clearly beyond chance. (The usual caveat applies to Sol: it recognizes this dataset and knows its default rate.)
 
-It was also by far the most expensive option. The 20 examples made each of Sol's prompts much longer, so it cost about 10 dollars per 1,000 decisions, 14 times its cost when answering cold. The fine-tuned models cost under 2 cents per 1,000. And every decision sent 21 customers' account records to an outside vendor: a privacy and vendor-risk question before it's a modelling one.
+![Each test customer's answer from GPT-6.2 Sol and from Jev, against how many of the 20 look-alike customers in its prompt defaulted. Sol's answers follow the share who defaulted closely (correlation 0.94): its middle answer is 10% when 2 of the 20 defaulted, 23% when 5 did and 57% when 10 did. Jev's answers start higher: its middle answer is 20% when only 1 of the 20 defaulted, where counting gives 5%.](/public/images/fair-fight/m6_sol_neighbours.png){: data-dark-src="/public/images/fair-fight/m6_sol_neighbours-dark.png"}
+
+It was also by far the most expensive option. The 20 examples made each of Sol's prompts much longer, so it cost about 10 dollars per 1,000 decisions (the far right of the cost chart above), 14 times its cost when answering cold. The fine-tuned models cost under 2 cents per 1,000. And every decision sent 21 customers' account records to an outside vendor: a privacy and vendor-risk question before it's a modelling one.
 
 ## A ceiling, not a winner
 
