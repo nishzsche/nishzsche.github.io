@@ -44,7 +44,7 @@ bundle exec jekyll serve --drafts
 
 ### Drawings
 
-My sketchbook shows up in three places: the homepage background (`home.jpg`, the park sketch held up in the park), faded behind each post's title (one drawing per post, picked at random once), and the slideshow at the end of the About page (every drawing). New drawings (phone photos) go in `_drawings/`, which is git-ignored because the originals are large and carry location data. Then run:
+My sketchbook (Inktober 2026, plus `home.jpg`, the park sketch held up in the park) shows up in two places: faded behind each post's title (one Inktober drawing per post, picked at random once), and the slideshow at the end of the About page (every drawing, the park sketch last). New drawings (phone photos) go in `_drawings/`, which is git-ignored because the originals are large and carry location data. Then run:
 
 ```bash
 uv run scripts/drawings.py

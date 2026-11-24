@@ -2,25 +2,26 @@
 # requires-python = ">=3.10"
 # dependencies = ["pillow"]
 # ///
-"""My drawings on the blog: one per post, picked at random once; the About gallery; the home photo.
+"""My drawings on the blog: one per post, picked at random once, and the About sketchbook.
 
     uv run scripts/drawings.py              # process new drawings, then give drawing-less posts one
     uv run scripts/drawings.py --redo ID    # re-crop one drawing (after changing CROPS below)
     uv run scripts/drawings.py --redo all   # re-make everything (after changing the sizes)
 
 1. Originals go in _drawings/ (git-ignored: phone photos are large and carry location data).
-   home.jpg there is the homepage background; every other image is a drawing.
+   They're my Inktober 2026 pages, plus home.jpg: the park sketch held up in the park it shows.
 2. Each new drawing is cropped to the sketchbook page and squared, then saved as
-   public/drawings/<id>.jpg (1024 px: behind the post title, and the gallery's enlarged view) and
-   public/drawings/thumbs/<id>.jpg (400 px: the About gallery), with all metadata (including
-   location) stripped. The page is found as the bright, low-saturation area against the dark
-   cutting mat; CROPS overrides that where it goes wrong. home.jpg becomes public/images/home.jpg,
-   1600 px wide, also stripped.
+   public/drawings/<id>.jpg (1024 px: behind the post title, and the sketchbook's large view) and
+   public/drawings/thumbs/<id>.jpg (400 px: the sketchbook's thumbnail strip), with all metadata
+   (including location) stripped. The page is found as the bright, low-saturation area against
+   the dark cutting mat; CROPS overrides that where it goes wrong. home.jpg is kept whole (the
+   point is the sketch beside the real scene): 1024 px tall, with a square thumbnail of its lower
+   part, where the sketch is.
 3. Every post in _posts/ without `icon:` in its front matter gets a random drawing that no other
    post uses (once all are used, one of the least used), written into the front matter. It stays
-   from then on; delete the line to draw again.
+   from then on; delete the line to draw again. home.jpg is never picked.
 
-The gallery shows every thumbnail; its alt text comes from _data/drawings.yml (id: description).
+The sketchbook shows every thumbnail, home last; captions come from _data/drawings.yml.
 """
 
 from __future__ import annotations
@@ -36,12 +37,11 @@ from PIL import Image, ImageChops, ImageFilter, ImageOps
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "_drawings"
 OUT = ROOT / "public" / "drawings"
-HOME_OUT = ROOT / "public" / "images" / "home.jpg"
 POSTS = ROOT / "_posts"
 THUMBS = OUT / "thumbs"
 DRAWING_PX = 1024
 THUMB_PX = 400
-HOME_PX = 1600  # width: it fills the screen behind the homepage
+HOME = "home"  # the park photo: in the sketchbook, never a post's drawing
 IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png"}
 
 # Manual crops for photos the page finder gets wrong: id -> (left, top, right, bottom) as fractions
@@ -108,25 +108,28 @@ def save(im: Image.Image, path: Path, quality: int = 80) -> None:
 
 
 def process(redo: set[str]) -> list[str]:
-    """Make the sizes for drawings that don't have them yet (or are in `redo`), and the home photo."""
+    """Make the sizes for drawings that don't have them yet (or are in `redo`)."""
     THUMBS.mkdir(parents=True, exist_ok=True)
     every = "all" in redo
     made = []
     for path in sorted(p for p in SRC.glob("*") if p.suffix.lower() in IMAGE_SUFFIXES):
-        if path.stem.lower() == "home":
-            if not HOME_OUT.exists() or "home" in redo or every:
-                im = load(path)
-                im.thumbnail((HOME_PX, HOME_PX * 2))
-                save(im, HOME_OUT, quality=78)
-                made.append("home")
-            continue
-        did = drawing_id(path)
+        did = HOME if path.stem.lower() == HOME else drawing_id(path)
         out, thumb = OUT / f"{did}.jpg", THUMBS / f"{did}.jpg"
         if out.exists() and thumb.exists() and did not in redo and not every:
             continue
-        crop = square_crop(load(path), did)
-        save(crop.resize((DRAWING_PX, DRAWING_PX), Image.LANCZOS), out)
-        save(crop.resize((THUMB_PX, THUMB_PX), Image.LANCZOS), thumb)
+        im = load(path)
+        if did == HOME:
+            whole = im.copy()
+            whole.thumbnail((DRAWING_PX, DRAWING_PX))
+            save(whole, out)
+            side = min(im.size)  # the square at the bottom of the photo, where the sketch is
+            crop = im.crop(((im.width - side) // 2, im.height - side,
+                            (im.width + side) // 2, im.height))  # fmt: skip
+            save(crop.resize((THUMB_PX, THUMB_PX), Image.LANCZOS), thumb)
+        else:
+            crop = square_crop(im, did)
+            save(crop.resize((DRAWING_PX, DRAWING_PX), Image.LANCZOS), out)
+            save(crop.resize((THUMB_PX, THUMB_PX), Image.LANCZOS), thumb)
         made.append(did)
     return made
 
@@ -136,7 +139,7 @@ FRONT = re.compile(r"\A---\r?\n(.*?)\r?\n---\r?\n", re.S)
 
 def assign() -> list[tuple[str, str]]:
     """Give each post without an icon a random drawing, least used first."""
-    icons = sorted(f"/public/drawings/{p.name}" for p in OUT.glob("*.jpg"))
+    icons = sorted(f"/public/drawings/{p.name}" for p in OUT.glob("*.jpg") if p.stem != HOME)
     if not icons:
         return []
     posts = sorted(POSTS.glob("*.md"))
@@ -168,7 +171,7 @@ def assign() -> list[tuple[str, str]]:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--redo", nargs="*", default=[], help="drawing ids, 'home' or 'all' to process again")
+    ap.add_argument("--redo", nargs="*", default=[], help="drawing ids (including 'home') or 'all' to process again")
     args = ap.parse_args()
     for did in process(set(args.redo)):
         print(f"processed  {did}")

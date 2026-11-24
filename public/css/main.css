@@ -26,7 +26,7 @@
   --accent-ink:   #3b0764;   /* text on accent-soft (blockquotes, table headers) */
   --row-alt:      #fafafb;   /* striped table rows */
   --on-accent:    #fff;      /* text on a solid accent background */
-  --veil:         rgba(250, 250, 249, 0.80);  /* page colour over the homepage photo */
+  --veil:         rgba(250, 250, 249, 0.80);  /* translucent page colour (sketchbook arrows on phones) */
   --drawing-opacity: 0.24;   /* a post's drawing behind its title */
   color-scheme: light;
 }
@@ -314,6 +314,8 @@ th, td {
 .sketchbook-main {
   width: min(100%, 440px);
   height: auto;
+  aspect-ratio: 1;           /* a fixed square, so a portrait photo doesn't make the page jump */
+  object-fit: contain;
   margin: 0;
   border-radius: 4px;
 }
@@ -400,18 +402,6 @@ tbody tr:nth-child(even) td { background: var(--row-alt); }
 /* -------------------------
    Home tagline
    ------------------------- */
-
-/* Homepage: my park sketch photo fills the screen behind everything, under a veil of the page
-   colour so the text stays readable. A fixed layer rather than background-attachment: fixed,
-   which phones ignore. */
-body.home::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background: linear-gradient(var(--veil), var(--veil)),
-              url('/public/images/home.jpg') center 70% / cover no-repeat;
-}
 
 /* Homepage intro: the tagline and who writes this */
 .home-intro {
