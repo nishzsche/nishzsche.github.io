@@ -33,10 +33,12 @@ Here is how the eight did, counting a predicted risk of 50% or more as "will def
 | GPT-6.2 Sol | 81.7% | 46% |
 | Kev-0.8B | 80.8% | 40% |
 | Laya | 76.5% | 13% |
-| Jev | 60.9% | 72% |
-| Kev-4B | 55.2% | 65% |
+| Jev | 60.9% | 71% |
+| Kev-4B | 55.2% | 64% |
 
 \*Trained on 20,000 customers whose outcomes were known. The AI models answered cold, with no examples.
+
+![Each model's accuracy at the usual 50% cut-off, beside the share of the 442 defaulters it caught. Doing nothing, saying "won't default" to everyone, is 77.9% accurate and catches none. Gradient boosting is the most accurate at 82.5%, 4.6 points above doing nothing. Laya (76.5%), Jev (60.9%) and Kev-4B (55.2%) are less accurate than doing nothing, yet Jev and Kev-4B catch the most defaulters, 71% and 64%.](/public/images/why-99-percent-accuracy/post2_accuracy.png){: data-dark-src="/public/images/why-99-percent-accuracy/post2_accuracy-dark.png"}
 
 Three things stand out:
 
@@ -56,7 +58,9 @@ So which model is best? Accuracy can't say, because it's answering the wrong que
 | Scorecard* | 151 | 291 | 74 | 1,484 |
 | Jev | 316 | 126 | 656 | 902 |
 
-This four-way count is called a [confusion matrix](https://en.wikipedia.org/wiki/Confusion_matrix), and accuracy only adds up two of its columns: defaulters caught plus payers approved. The other two are where the money goes. The scorecard misses two defaulters in three but turns away few good customers. Jev catches 72% of the defaulters, but only by turning away 656 people who would have paid.
+This four-way count is called a [confusion matrix](https://en.wikipedia.org/wiki/Confusion_matrix), and accuracy only adds up two of its columns: defaulters caught plus payers approved. The other two are where the money goes. The scorecard misses two defaulters in three but turns away few good customers. Jev catches 71% of the defaulters, but only by turning away 656 people who would have paid.
+
+![Where the 2,000 test customers landed at the 50% cut-off, for doing nothing, the scorecard and Jev. Of the 442 who defaulted, doing nothing misses all 442, the scorecard misses 291 and Jev 126. Of the 1,558 who paid, doing nothing turns away none, the scorecard 74 and Jev 656. Accuracy adds up only the right calls.](/public/images/why-99-percent-accuracy/post2_confusion.png){: data-dark-src="/public/images/why-99-percent-accuracy/post2_confusion-dark.png"}
 
 **Whether it can rank.** Pick one customer who defaulted and one who paid, at random. How often does the model rate the defaulter as riskier? That's a model's ranking power, known as [AUC](https://en.wikipedia.org/wiki/Receiver_operating_characteristic#Area_under_the_curve), and 50% is a coin toss. The scorecard gets it right 78 times in 100, gradient boosting 79, Kev-0.8B 75 and Qwen 74. No cut-off is involved.
 
@@ -103,6 +107,8 @@ The comparison isn't even. The scorecard and gradient boosting learned from 20,0
 ## When mistakes cost more
 
 Raise the cost of a default to 6 units and approving everyone loses 547 per 1,000. The trained models, taken at their word, still earn about 190. The best AI model at its word, Sol, earns 110, and Kev-0.8B approves nobody. At 10 to 1, only the trained models make real money: every AI model taken at its word either loses money or approves almost nobody.
+
+![Profit per 1,000 customers when a lender takes each model at its word, as the cost of one default rises from 1 to 10 times what a paying customer earns. Approving everyone drops below zero at about 3.5 and loses 547 at 6. Gradient boosting and the scorecard stay profitable throughout: about 190 at 6, and 92 and 62 at 10. GPT-6.2 Sol earns 110 at 6 but loses money by 10, as does Laya. Jev, Qwen and both Kev models approve only a few customers in 100, or none, once a default costs 5 or more.](/public/images/why-99-percent-accuracy/post2_cost_ratio.png){: data-dark-src="/public/images/why-99-percent-accuracy/post2_cost_ratio-dark.png"}
 
 The costlier a bad approval, the more every decision rests on the low-risk end of the list, and on the percentages there being honest.
 
