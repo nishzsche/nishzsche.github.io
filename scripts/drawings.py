@@ -2,7 +2,7 @@
 # requires-python = ">=3.10"
 # dependencies = ["pillow"]
 # ///
-"""My drawings on the blog: one per post, picked at random once, and the About sketchbook.
+"""My drawings on the blog: one per post, picked at random once; the About sketchbook; the park sketch.
 
     uv run scripts/drawings.py              # process new drawings, then give drawing-less posts one
     uv run scripts/drawings.py --redo ID    # re-crop one drawing (after changing CROPS below)
@@ -15,13 +15,13 @@
    public/drawings/thumbs/<id>.jpg (400 px: the sketchbook's thumbnail strip), with all metadata
    (including location) stripped. The page is found as the bright, low-saturation area against
    the dark cutting mat; CROPS overrides that where it goes wrong. home.jpg is kept whole (the
-   point is the sketch beside the real scene): 1024 px tall, with a square thumbnail of its lower
-   part, where the sketch is.
+   point is the sketch beside the real scene), 1024 px tall, with no thumbnail: it fades in behind
+   the About page's title (`drawing:` in about.md), not in the slideshow.
 3. Every post in _posts/ without `icon:` in its front matter gets a random drawing that no other
    post uses (once all are used, one of the least used), written into the front matter. It stays
    from then on; delete the line to draw again. home.jpg is never picked.
 
-The sketchbook shows every thumbnail, home last; captions come from _data/drawings.yml.
+The sketchbook slideshow shows every thumbnail; captions come from _data/drawings.yml.
 """
 
 from __future__ import annotations
@@ -115,17 +115,13 @@ def process(redo: set[str]) -> list[str]:
     for path in sorted(p for p in SRC.glob("*") if p.suffix.lower() in IMAGE_SUFFIXES):
         did = HOME if path.stem.lower() == HOME else drawing_id(path)
         out, thumb = OUT / f"{did}.jpg", THUMBS / f"{did}.jpg"
-        if out.exists() and thumb.exists() and did not in redo and not every:
+        done = out.exists() and (did == HOME or thumb.exists())
+        if done and did not in redo and not every:
             continue
         im = load(path)
-        if did == HOME:
-            whole = im.copy()
-            whole.thumbnail((DRAWING_PX, DRAWING_PX))
-            save(whole, out)
-            side = min(im.size)  # the square at the bottom of the photo, where the sketch is
-            crop = im.crop(((im.width - side) // 2, im.height - side,
-                            (im.width + side) // 2, im.height))  # fmt: skip
-            save(crop.resize((THUMB_PX, THUMB_PX), Image.LANCZOS), thumb)
+        if did == HOME:  # whole, and no thumbnail: it isn't in the sketchbook slideshow
+            im.thumbnail((DRAWING_PX, DRAWING_PX))
+            save(im, out)
         else:
             crop = square_crop(im, did)
             save(crop.resize((DRAWING_PX, DRAWING_PX), Image.LANCZOS), out)
