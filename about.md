@@ -6,7 +6,7 @@ drawing: /public/drawings/home.jpg
 
 > <span lang="ta">ஊழையும் உப்பக்கம் காண்பர் உலைவின்றித்<br>தாழாது உஞற்று பவர்.</span>
 >
-> Those who strive tirelessly without fainting will eventually see even fate turn its back and yield to them.
+> Those who labour hard, undaunted by obstacles will overcome destiny.
 >
 > *Thirukkural 620*
 
