@@ -1,23 +1,14 @@
 ---
 layout: post
 title: "I gave AI the same data as a bank's model. It caught up."
-date: 2026-11-24
+date: 2026-11-25 13:02:00 +0530
 tags: [probability]
-permalink: /review/fair-fight/
-description: "Post 1's biggest objection, answered: every AI model gets the 20,000 labelled customers the traditional models learned from."
-# Review copy: not listed on the home page or in the feed, hidden from search engines and the
-# sitemap, with Hypothesis for comments. To launch, move it to _posts/ and drop these four.
-noindex: true
-sitemap: false
-hypothesis: true
-comments: false
+description: "The biggest objection to my first experiment was that it wasn't a fair fight. So every AI model got the same 20,000 customers the bank's models learned from."
+image: /public/images/fair-fight/social-card.png
+image_alt: "I gave AI the same data as a bank's model. It caught up. Ranking (AUC) answering cold, then after training on 20,000 customers: Kev-4B 0.594 to 0.792, Laya 0.666 to 0.778, Kev-0.8B 0.750 to 0.790, Qwen3.5-4B 0.744 to 0.780, against gradient boosting's 0.789 and the scorecard's 0.777."
+toc: true
+icon: /public/drawings/20261004-153005.jpg
 ---
-
-> **Draft for review, version 2 (24 November), not yet published.** New in version 2: the re-run check is in (two models retrained with different random seeds; see the honesty section and the limits), the headline chart now sits at the top, and a ceiling chart closes the results. Version 1.1 added four charts. Thank you for reading. This is the third post in the series, after [Can AI know when it's wrong?](/2026/11/23/can-ai-know-when-its-wrong/) and [Why 99% accuracy can still be a disaster](/2026/11/24/why-99-percent-accuracy/). It answers the biggest objection to the first: every AI model now learns from the same 20,000 customers the traditional models did. A panel of AI reviewers has already checked the statistics and every number; I'd like a human read now.
->
-> **To comment, no account needed:** reply to my message and quote the sentence you mean. If you already use [Hypothesis](https://web.hypothes.is/), you can also select text and click **Annotate**.
->
-> I'd most like to know: does the headline ("it caught up") feel fair given the details, does comparing honesty "after the same correction" make sense or feel like moving the goalposts, would you act on the bank advice, and where did you get lost or bored?
 
 *The biggest objection to my first experiment was that it wasn't a fair fight. So I made it one.*
 
