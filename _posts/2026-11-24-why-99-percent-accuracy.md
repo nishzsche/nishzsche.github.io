@@ -129,6 +129,6 @@ A model that ranks well but states the wrong percentages is still usable, if you
 
 ## What's next
 
-Most of the gap in that table comes from AI models answering cold against models that learned from 20,000 customers. So I'm running the fair fight: every AI model gets those same 20,000 customers, by training where it can be trained and by seeing examples where it can't. Two newcomers join them: AI models built specifically for tables, NVIDIA's [Kumo-Tabular](https://huggingface.co/nvidia/Kumo-Tabular) and [TabICLv2](https://github.com/soda-inria/tabicl). They read all 20,000 customers at once and predict the rest, with no training at all. That's the next post.
+Most of the gap in that table comes from AI models answering cold against models that learned from 20,000 customers. So I'm running the fair fight: every AI model gets those same 20,000 customers, by training where it can be trained and by seeing examples where it can't. Two newcomers join them: AI models built specifically for tables, NVIDIA's [Kumo-Tabular](https://huggingface.co/nvidia/Kumo-Tabular) and [TabICLv2](https://github.com/soda-inria/tabicl). They read all 20,000 customers at once and predict the rest, with no training at all. That's [the next post](/2026/11/25/fair-fight/).
 
 The numbers here come from `analysis/accuracy.py` in the [project repo](https://github.com/nishzsche/can-ai-know-when-its-wrong), using the same predictions as the last post.
