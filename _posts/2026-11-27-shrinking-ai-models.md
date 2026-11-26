@@ -7,7 +7,7 @@ description: "I squeezed three trained AI models down to 8, 4, 3 and 2 bits. The
 image: /public/images/shrinking-ai-models/social-card.png
 image_alt: "I shrank AI models. It saved memory, not time. Memory at peak and time per answer, full size against 4 bits (HQQ on GemLite) on a tuned GPU: Kev-4B 8.9 to 3.8 GB and 93 to 83 ms, Kev-0.8B 1.7 to 1.0 GB and 20 to 24 ms, Qwen3.5-4B 8.7 to 3.6 GB and 78 to 85 ms."
 toc: true
-icon: /public/drawings/20261008-171552.jpg
+icon: /public/drawings/20261009-163715.jpg
 ---
 
 *Three trained models, squeezed to 8, 4, 3 and 2 bits. Their percentages held up to 4 bits, but the summary scores hid how far each customer's number moved. And even on a tuned GPU, the smaller models were rarely faster.*
