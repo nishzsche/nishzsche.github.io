@@ -65,14 +65,40 @@
   <script src="https://hypothes.is/embed.js" async></script>
   {% endif %}
 
+  {% if page.layout == 'post' %}
+  <!-- Structured data for search engines. Front matter `last_modified_at` marks an update. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": {{ page.title | jsonify }},
+    "description": {{ page_description | jsonify }},
+    "datePublished": "{{ page.date | date_to_xmlschema }}",
+    "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
+    {% if page_image %}"image": "{{ page_image | absolute_url }}",{% endif %}
+    "url": "{{ page.url | absolute_url }}",
+    "mainEntityOfPage": "{{ page.url | absolute_url }}",
+    "inLanguage": "en",
+    "author": {
+      "@type": "Person",
+      "name": {{ site.author.name | jsonify }},
+      "url": "{{ '/about/' | absolute_url }}"
+    }
+  }
+  </script>
+  {% endif %}
+
   <!-- Theme: the reader's saved choice (the toggle in the nav), else their system setting.
-       Runs before the CSS so the page never flashes the wrong theme. -->
+       Runs before the CSS so the page never flashes the wrong theme. The theme-color meta tints
+       the browser's toolbar on phones; the script in default.html keeps it in step. -->
+  <meta name="theme-color" content="#faf8f3">
   <script>
     (function () {
       var saved = null;
       try { saved = localStorage.getItem('theme'); } catch (e) {}
       var dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
       document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+      if (dark) document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18181b');
     })();
   </script>
 
@@ -84,11 +110,11 @@
   <link rel="stylesheet" href="{{ '/public/css/syntax.css' | absolute_url }}?v={{ build }}">
 
   <!-- Icons -->
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ '/public/apple-touch-icon-precomposed.png' | absolute_url }}">
-  <link rel="shortcut icon" href="{{ '/public/favicon.ico' | absolute_url }}">
+  <link rel="apple-touch-icon" href="{{ '/public/apple-touch-icon-precomposed.png' | absolute_url }}">
+  <link rel="icon" href="{{ '/public/favicon.ico' | absolute_url }}">
 
-  <!-- RSS -->
-  <link rel="alternate" type="application/rss+xml" title="RSS" href="{{ '/atom.xml' | absolute_url }}">
+  <!-- Feed (Atom), so feed readers can find it from any page -->
+  <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="{{ '/atom.xml' | absolute_url }}">
 
   <!-- Analytics: switched on by goatcounter_code or google_analytics_id in _config.yml -->
   {% if site.goatcounter_code %}

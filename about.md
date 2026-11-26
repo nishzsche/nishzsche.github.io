@@ -17,10 +17,11 @@ I'm Nishanth Rajamani. I've spent a decade building machine learning systems in 
 - **Education:** M.S. in Computer Science at Georgia Tech (OMSCS) · B.E. in Electrical and Electronics Engineering.
 
 [LinkedIn](https://www.linkedin.com/in/nishanthrajamani) &middot; [GitHub](https://github.com/nishzsche) &middot; [X](https://x.com/nishzsche)
+{: .page-links}
 
 ---
 
-### What I write here
+## What I write here
 
 There's a specific feeling I'm chasing with this blog: the moment a confusing thing suddenly makes sense. Not the textbook version of the concept. The messy, actual process of being wrong, then less wrong, then occasionally right.
 
@@ -34,14 +35,14 @@ I try to write at the level of someone who knows the domain but hasn't encounter
 
 ---
 
-### Outside work
+## Outside work
 
 Functional fitness, cycling, backpacking, and a lot of reading.
 Working through physical rehabilitation after traumatic injuries - swimming is part of the comeback.
 
 ---
 
-### From my sketchbook
+## From my sketchbook
 
 Pages from my Inktober 2026, each drawn to that day's one-word prompt.
 

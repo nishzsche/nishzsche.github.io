@@ -15,14 +15,14 @@
   <audio controls preload="none" src="{{ page.audio | relative_url }}"></audio>
 </div>
 {% else %}
-{% assign listen_minutes = page.content | number_of_words | divided_by: 160 | plus: 1 %}
 <div class="listen" hidden>
   <button class="listen-play" type="button" aria-label="Listen to this post">
     <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l11-6.5a1 1 0 0 0 0-1.72l-11-6.5A1 1 0 0 0 8 5.5z"/></svg>
     <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
     <span class="listen-play-text">Listen</span>
   </button>
-  <span class="listen-status" aria-live="polite">about {{ listen_minutes }} min, read by your device's voice</span>
+  {% comment %} No minutes here: the reading time beside the date is the one duration on the page {% endcomment %}
+  <span class="listen-status" aria-live="polite">Read aloud by your device's voice</span>
   <span class="listen-controls" hidden>
     <button class="listen-stop" type="button" aria-label="Stop and go back to the start">Stop</button>
     <button class="listen-rate" type="button" aria-label="Reading speed">1&times;</button>

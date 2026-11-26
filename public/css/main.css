@@ -1,7 +1,8 @@
 /*
  * Learning Curve - main.css
- * Option B: sidebar-free, centered column.
- * Palette: warm stone background · violet accent · dark code blocks.
+ * Sidebar-free, centred column.
+ * Palette: warm paper, ink, and one apple red (from the Newton sketch) kept for links, the active
+ * contents item and focus rings, never for fills. The frame stays quiet so the drawings can speak.
  */
 
 
@@ -10,51 +11,52 @@
    ------------------------- */
 
 :root {
-  --bg:           #fafaf9;   /* stone-50 - barely off-white, warm */
-  --surface:      #f4f4f5;   /* inline code bg */
-  --border:       #e4e4e7;   /* zinc-200 */
-  --border-soft:  #f0f0f2;   /* post list divider, very subtle */
-  --text:         #18181b;   /* zinc-900 */
-  --text-muted:   #71717a;   /* zinc-500 */
-  --text-subtle:  #a1a1aa;   /* zinc-400 */
-  --accent:       #7c3aed;   /* violet-600 */
-  --accent-soft:  #ede9fe;   /* violet-100 */
-  --accent-dark:  #5b21b6;   /* violet-800, for hover states */
-  --code-dark:    #1e1e2e;   /* Catppuccin mocha */
-  --code-text:    #cdd6f4;
-  --code-inline:  #be185d;   /* pink-700, inline code */
-  --accent-ink:   #3b0764;   /* text on accent-soft (blockquotes, table headers) */
-  --row-alt:      #fafafb;   /* striped table rows */
-  --on-accent:    #fff;      /* text on a solid accent background */
-  --veil:         rgba(250, 250, 249, 0.80);  /* translucent page colour (sketchbook arrows on phones) */
+  --bg:           #faf8f3;   /* paper */
+  --surface:      #f2eee6;   /* inline code, the contents box */
+  --border:       #e5e0d6;   /* the one hairline rule */
+  --border-soft:  #eeeae1;   /* post list divider */
+  --text:         #1c1917;   /* ink, 16.5:1 on paper */
+  --text-muted:   #6b645c;   /* 5.5:1 on paper */
+  --text-subtle:  #776f66;   /* dates, meta, footer: 4.7:1 on paper */
+  --accent:       #c8334a;   /* apple red, 4.9:1 on paper */
+  --accent-soft:  #f7e9e6;   /* the paragraph being read aloud */
+  --accent-dark:  #a12539;   /* link hover */
+  --code-dark:    #24211d;   /* code blocks stay dark in both themes */
+  --code-text:    #e8e4dc;
+  --veil:         rgba(250, 248, 243, 0.80);  /* translucent paper (sketchbook arrows on phones) */
   --drawing-opacity: 0.24;   /* a post's drawing behind its title */
   --page-drawing-opacity: 0.45;  /* a page's drawing (the park sketch on About) */
+
+  /* Type scale: body is 1rem (18px, 16px on phones); headings 1.05, 1.25 and 1.75rem */
+  --fs-small:     0.85rem;   /* meta, nav, captions, tables, contents box, footer */
+  --fs-xsmall:    0.75rem;   /* the side contents list */
+
   color-scheme: light;
 }
 
 /* Dark theme. head.html sets data-theme on <html> from the reader's saved choice
-   (the toggle in the nav), else from their system setting. */
-:root[data-theme="dark"] {
-  --bg:           #18181b;   /* zinc-900 */
-  --surface:      #27272a;   /* zinc-800 */
-  --border:       #3f3f46;   /* zinc-700 */
-  --border-soft:  #2a2a2e;
-  --text:         #e4e4e7;   /* zinc-200 */
-  --text-muted:   #a1a1aa;   /* zinc-400 */
-  --text-subtle:  #8b8b94;
-  --accent:       #a78bfa;   /* violet-400 */
-  --accent-soft:  #2a2342;   /* violet tint on the dark background */
-  --accent-dark:  #c4b5fd;   /* violet-300: hover goes lighter on dark */
-  --code-dark:    #11111b;   /* Catppuccin crust: code stays darker than the page */
-  --code-text:    #cdd6f4;
-  --code-inline:  #f9a8d4;   /* pink-300 */
-  --accent-ink:   #ddd6fe;   /* violet-200 */
-  --row-alt:      #1f1f23;
-  --on-accent:    #18181b;
-  --veil:         rgba(24, 24, 27, 0.80);
-  --drawing-opacity: 0.16;
-  --page-drawing-opacity: 0.32;
-  color-scheme: dark;
+   (the toggle in the nav), else from their system setting. Screen only: print always uses paper. */
+@media screen {
+  :root[data-theme="dark"] {
+    /* The charts' dark background, so they sit on the page without a box. Warm #171614 once the
+       charts are re-exported with transparent backgrounds. */
+    --bg:           #18181b;
+    --surface:      #211f1c;
+    --border:       #33302b;
+    --border-soft:  #26241f;
+    --text:         #e8e4dc;   /* 14.3:1 */
+    --text-muted:   #a39d94;   /* 6.7:1 */
+    --text-subtle:  #938c82;   /* 5.4:1 */
+    --accent:       #f07a8a;   /* 6.8:1 */
+    --accent-soft:  #3a2327;
+    --accent-dark:  #f6a5b0;   /* hover goes lighter on dark */
+    --code-dark:    #0f0e0c;   /* code stays darker than the page */
+    --code-text:    #e8e4dc;
+    --veil:         rgba(24, 24, 27, 0.80);
+    --drawing-opacity: 0.16;
+    --page-drawing-opacity: 0.32;
+    color-scheme: dark;
+  }
 }
 
 
@@ -80,6 +82,24 @@ body { margin: 0; padding: 0; }
   html { font-size: 16px; }
 }
 
+/* One focus ring everywhere, for keyboard users */
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Skip to content: hidden until a keyboard user tabs to it */
+.skip-link {
+  position: absolute;
+  top: -4rem;
+  left: 1rem;
+  z-index: 10;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: var(--fs-small);
+}
+
+.skip-link:focus { top: 1rem; }
+
 
 /* -------------------------
    Container
@@ -100,37 +120,26 @@ body { margin: 0; padding: 0; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.5rem 0 1.25rem;
+  padding: 1rem 0 0.75rem;
   margin-bottom: 3.5rem;
-  border-bottom: 2px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Nav items are at least 44px tall, so they are easy to tap */
+.site-title,
+.nav-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  text-decoration: none;
+  transition: color 0.15s ease;
 }
 
 .site-title {
   font-size: 1rem;
   font-weight: 700;
   color: var(--text);
-  text-decoration: none;
   letter-spacing: -0.02em;
-  transition: color 0.15s ease;
-}
-
-.site-title:hover {
-  color: var(--accent);
-  text-decoration: none;
-}
-
-.nav-links a {
-  margin-left: 1.5rem;
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  text-decoration: none;
-  transition: color 0.15s ease;
-}
-
-.nav-links a:hover {
-  color: var(--accent);
-  text-decoration: none;
 }
 
 .nav-links {
@@ -138,11 +147,28 @@ body { margin: 0; padding: 0; }
   align-items: center;
 }
 
+.nav-links a {
+  margin-left: 1.25rem;
+  font-size: var(--fs-small);
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.site-title:hover,
+.nav-links a:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
 /* Light/dark toggle: shows a moon in light mode, a sun in dark mode */
 .theme-toggle {
   display: inline-flex;
-  margin-left: 1.25rem;
-  padding: 0.25rem;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  margin: 0 -0.6rem 0 0.4rem;   /* the icon lines up with the column's right edge */
+  padding: 0;
   border: 0;
   border-radius: 4px;
   background: none;
@@ -152,7 +178,6 @@ body { margin: 0; padding: 0; }
 }
 
 .theme-toggle:hover { color: var(--accent); }
-.theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .theme-toggle svg { width: 1.05rem; height: 1.05rem; }
 .theme-toggle .icon-sun,
 :root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
@@ -186,11 +211,25 @@ a {
 
 a:hover { color: var(--accent-dark); text-decoration: underline; }
 
+/* Links in running text are underlined, so they don't rely on colour alone (WCAG 1.4.1) */
+.post-content a,
+.page a,
+.site-intro a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+}
+
+.post-content a:hover,
+.page a:hover,
+.site-intro a:hover { text-decoration-color: currentColor; }
+
 strong { color: var(--text); font-weight: 600; }
 
 hr {
   border: none;
-  border-top: 1px dashed var(--border);
+  border-top: 1px solid var(--border);
   margin: 2.5rem 0;
 }
 
@@ -219,11 +258,8 @@ li { margin-bottom: 0.3rem; }
 
 blockquote {
   margin: 1.75rem 0;
-  padding: 1rem 1.25rem;
-  border-left: 3px solid var(--accent);
-  background: var(--accent-soft);
-  border-radius: 0 6px 6px 0;
-  color: var(--accent-ink);
+  padding: 0.1rem 0 0.1rem 1.25rem;
+  border-left: 2px solid var(--border);
   font-style: italic;
 }
 
@@ -242,7 +278,7 @@ code {
                "Courier New", monospace;
   font-size: 0.83em;
   background: var(--surface);
-  color: var(--code-inline);
+  color: var(--text);
   padding: 0.15em 0.4em;
   border-radius: 4px;
 }
@@ -288,21 +324,57 @@ img {
   border-radius: 6px;
 }
 
+/* Tables: horizontal hairlines only, numbers in even-width figures */
 table {
   width: 100%;
   border-collapse: collapse;
   margin: 1.5rem 0;
-  font-size: 0.9rem;
+  font-size: var(--fs-small);
+  font-variant-numeric: tabular-nums;
 }
 
 th, td {
   padding: 0.5rem 0.75rem;
-  border: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
   text-align: left;
 }
 
+th {
+  font-weight: 600;
+  border-bottom-color: var(--text-subtle);
+}
+
+th:first-child, td:first-child { padding-left: 0; }
+th:last-child, td:last-child { padding-right: 0; }
+
+/* A second, smaller line in a cell (e.g. "22% of customers") stays on one line */
+td small { white-space: nowrap; }
+
+/* Every table sits in a box that scrolls sideways when the table is wider than the column
+   (the script in default.html adds the box), so the page itself never scrolls sideways */
+.table-scroll {
+  margin: 1.5rem 0;
+  overflow-x: auto;
+}
+
+.table-scroll > table { margin: 0; }
+
+/* Without the script: wide tables scroll inside themselves on phones */
+@media (max-width: 640px) {
+  .post-content > table { display: block; overflow-x: auto; }
+}
+
+/* Charts with a dark version (data-dark-src, set in the post): hidden in dark mode until the
+   script in default.html swaps the source, so the light chart never flashes */
+:root[data-theme="dark"] img[data-dark-src]:not([data-theme-ready]) { visibility: hidden; }
+
+/* Light charts are exported on near-white: multiply drops that into the paper, so no white box */
+:root:not([data-theme="dark"]) img[data-dark-src] { mix-blend-mode: multiply; }
+
 /* About page: my sketchbook as a slideshow (one large drawing, arrows, a strip of thumbnails) */
-.sketchbook { margin: 1.5rem 0 0; outline: none; }
+.sketchbook { margin: 1.5rem 0 0; }
+
+.sketchbook a { text-decoration: none; }
 
 .sketchbook-stage { margin: 0; }
 
@@ -352,7 +424,7 @@ th, td {
   min-height: 1.5em;
   margin: 0.75rem 0 1.25rem;
   text-align: center;
-  font-size: 0.85rem;
+  font-size: var(--fs-small);
   color: var(--text-muted);
 }
 
@@ -385,41 +457,28 @@ th, td {
   .sketchbook-arrow { background: var(--veil); border-radius: 50%; }
 }
 
-/* A second, smaller line in a cell (e.g. "22% of customers") stays on one line */
-td small { white-space: nowrap; }
-
-/* Wide tables scroll inside themselves on phones instead of widening the page */
-@media (max-width: 640px) {
-  .post-content table { display: block; overflow-x: auto; }
-}
-
-/* Charts with a dark version (data-dark-src, set in the post): hidden in dark mode until the
-   script in default.html swaps the source, so the light chart never flashes */
-:root[data-theme="dark"] img[data-dark-src]:not([data-theme-ready]) { visibility: hidden; }
-
-th { background: var(--accent-soft); font-weight: 600; color: var(--accent-ink); }
-tbody tr:nth-child(even) td { background: var(--row-alt); }
-
 
 /* -------------------------
    Home tagline
    ------------------------- */
 
-/* Homepage intro: the tagline and who writes this */
+/* Homepage intro: the tagline (the page's h1) and who writes this */
 .home-intro {
-  margin: -1.75rem 0 2.5rem;   /* pulls up close under the nav border */
+  margin: -1.75rem 0 2.5rem;   /* pulls up close under the nav rule */
 }
 
 .site-tagline {
-  font-size: 0.9rem;
-  color: var(--text-muted);
+  font-size: var(--fs-small);
+  font-weight: 400;
   font-style: italic;
+  line-height: 1.75;
+  color: var(--text-muted);
   margin: 0 0 0.75rem;
   letter-spacing: 0.01em;
 }
 
 .site-intro {
-  font-size: 0.95rem;
+  font-size: 1rem;
   line-height: 1.6;
   margin: 0;
 }
@@ -436,47 +495,24 @@ tbody tr:nth-child(even) td { background: var(--row-alt); }
 }
 
 .post-list li {
+  position: relative;
   display: flex;
   align-items: baseline;
   gap: 1.25rem;
-  padding: 0.85rem 0.6rem;
-  margin: 0 -0.6rem;           /* bleed into padding for hover bg */
+  margin: 0;
+  padding: 0.85rem 0;
   border-bottom: 1px solid var(--border-soft);
-  border-radius: 6px;
-  transition: background 0.15s ease;
-  position: relative;
 }
 
 .post-list li:first-child { border-top: 1px solid var(--border-soft); }
 
-.post-list li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background: var(--accent);
-  border-radius: 3px 0 0 3px;
-  opacity: 0;
-  transition: opacity 0.15s ease;
-}
-
-.post-list li:hover {
-  background: var(--accent-soft);
-}
-
-.post-list li:hover::before {
-  opacity: 1;
-}
-
 .post-date {
-  font-size: 0.78rem;
+  font-size: var(--fs-small);
   color: var(--text-subtle);
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
   flex-shrink: 0;
-  min-width: 85px;
+  min-width: 95px;
 }
 
 .post-link {
@@ -487,7 +523,8 @@ tbody tr:nth-child(even) td { background: var(--row-alt); }
   transition: color 0.15s ease;
 }
 
-.post-link:hover {
+/* One hover effect: the title turns red */
+.post-list li:hover .post-link {
   color: var(--accent);
   text-decoration: none;
 }
@@ -553,10 +590,9 @@ tbody tr:nth-child(even) td { background: var(--row-alt); }
           mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
 }
 
-/* A quote over the drawing has no shading, so the drawing shows behind it; a soft glow in the
-   page colour keeps its text legible over the busy parts */
+/* A quote over the drawing: a soft glow in the page colour keeps its text legible over the
+   busy parts */
 .page.has-drawing blockquote {
-  background: none;
   text-shadow: 0 0 2px var(--bg), 0 0 8px var(--bg), 0 0 14px var(--bg);
 }
 
@@ -573,7 +609,7 @@ tbody tr:nth-child(even) td { background: var(--row-alt); }
 }
 
 .post-meta {
-  font-size: 0.82rem;
+  font-size: var(--fs-small);
   color: var(--text-subtle);
   display: flex;
   align-items: center;
@@ -601,7 +637,7 @@ tbody tr:nth-child(even) td { background: var(--row-alt); }
   align-items: center;
   gap: 0.5rem 0.75rem;
   margin-top: 1rem;
-  font-size: 0.82rem;
+  font-size: var(--fs-small);
   color: var(--text-muted);
 }
 
@@ -617,16 +653,16 @@ tbody tr:nth-child(even) td { background: var(--row-alt); }
   align-items: center;
   gap: 0.4rem;
   padding: 0.3rem 0.9rem 0.3rem 0.7rem;
-  border: 1px solid var(--accent-soft);
+  border: 1px solid var(--border);
   border-radius: 999px;
-  background: var(--accent-soft);
-  color: var(--accent-dark);
+  background: none;
+  color: var(--text);
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition: border-color 0.15s, color 0.15s;
 }
 
-.listen .listen-play:hover { background: var(--accent); color: var(--on-accent); }
+.listen .listen-play:hover { color: var(--accent); border-color: var(--accent); }
 .listen-play svg { width: 0.85rem; height: 0.85rem; }
 .listen .icon-pause,
 .listen.is-playing .icon-play { display: none; }
@@ -653,9 +689,6 @@ tbody tr:nth-child(even) td { background: var(--row-alt); }
 .listen-stop:hover,
 .listen-rate:hover { color: var(--accent); border-color: var(--accent); }
 
-.listen button:focus-visible,
-.listen select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
 .listen-audio audio { width: 100%; max-width: 30rem; height: 2.25rem; }
 
 /* The paragraph being read */
@@ -665,21 +698,6 @@ tbody tr:nth-child(even) td { background: var(--row-alt); }
   border-radius: 2px;
 }
 
-@media print {
-  .listen { display: none !important; }
-}
-
-.tag {
-  display: inline-block;
-  font-size: 0.72rem;
-  font-weight: 500;
-  color: var(--accent-dark);
-  background: var(--accent-soft);
-  padding: 0.1em 0.55em;
-  border-radius: 4px;
-  letter-spacing: 0.01em;
-}
-
 /* Section headings inside posts */
 .post-content h2 {
   margin-top: 2.75rem;
@@ -687,10 +705,7 @@ tbody tr:nth-child(even) td { background: var(--row-alt); }
   border-bottom: 1px solid var(--border);
 }
 
-.post-content h3 {
-  margin-top: 2rem;
-  color: var(--accent-dark);
-}
+.post-content h3 { margin-top: 2rem; }
 
 
 /* -------------------------
@@ -701,11 +716,11 @@ tbody tr:nth-child(even) td { background: var(--row-alt); }
   font-size: 1.75rem;
   margin: 0 0 2rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
-/* About page contact links */
-.page p:last-of-type { color: var(--text-muted); }
+/* About page contact links (kramdown class `{: .page-links}`) */
+.page-links { color: var(--text-muted); }
 
 
 /* -------------------------
@@ -717,28 +732,14 @@ tbody tr:nth-child(even) td { background: var(--row-alt); }
   justify-content: space-between;
   align-items: center;
   margin: 3.5rem 0;
-  font-size: 0.9rem;
+  font-size: var(--fs-small);
   font-weight: 500;
 }
 
-.pagination a {
-  color: var(--accent);
-  padding: 0.4rem 0.9rem;
-  border: 1px solid var(--accent-soft);
-  border-radius: 6px;
-  background: var(--accent-soft);
-  transition: background 0.15s, color 0.15s;
-}
+.pagination a { padding: 0.4rem 0; }
 
-.pagination a:hover {
-  background: var(--accent);
-  color: var(--on-accent);
-  text-decoration: none;
-}
-
-.pagination-disabled {
-  color: var(--border);
-}
+/* No older or newer page: keep the space, show nothing */
+.pagination-disabled { visibility: hidden; }
 
 
 /* -------------------------
@@ -748,7 +749,7 @@ tbody tr:nth-child(even) td { background: var(--row-alt); }
 .comments {
   margin-top: 4rem;
   padding-top: 2rem;
-  border-top: 1px dashed var(--border);
+  border-top: 1px solid var(--border);
 }
 
 
@@ -770,8 +771,8 @@ tbody tr:nth-child(even) td { background: var(--row-alt); }
 }
 
 .toc-list ol { margin: 0.15rem 0 0.4rem; padding-left: 0.9rem; }
-.toc-list li { margin: 0.25rem 0; line-height: 1.35; }
-.toc-list a { color: var(--text-muted); text-decoration: none; border: 0; }
+.toc-list li { margin: 0.1rem 0; line-height: 1.35; }
+.toc-list a { display: inline-block; padding: 0.2rem 0; color: var(--text-muted); text-decoration: none; border: 0; }
 .toc-list a:hover { color: var(--accent); }
 .toc-list a.active { color: var(--accent); font-weight: 600; }
 
@@ -783,7 +784,7 @@ tbody tr:nth-child(even) td { background: var(--row-alt); }
   border: 1px solid var(--border);
   border-radius: 6px;
   background: var(--surface);
-  font-size: 0.85rem;
+  font-size: var(--fs-small);
 }
 
 .toc-inline summary { cursor: pointer; font-weight: 600; color: var(--text); }
@@ -803,22 +804,19 @@ tbody tr:nth-child(even) td { background: var(--row-alt); }
     overflow-y: auto;
     padding-left: 0.9rem;
     border-left: 1px solid var(--border);
-    font-size: 0.72rem;
+    font-size: var(--fs-xsmall);
   }
+
+  .toc-list a { padding: 0.1rem 0; }
 
   .toc-title {
     margin: 0 0 0.6rem;
-    font-size: 0.68rem;
+    font-size: var(--fs-xsmall);
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--text-subtle);
   }
-}
-
-@media print {
-  .toc,
-  .toc-inline { display: none !important; }
 }
 
 
@@ -829,16 +827,34 @@ tbody tr:nth-child(even) td { background: var(--row-alt); }
 .site-footer {
   margin-top: 5rem;
   padding: 2rem 0 3rem;
-  border-top: 1px dashed var(--border);
+  border-top: 1px solid var(--border);
   text-align: center;
-  font-size: 0.78rem;
+  font-size: var(--fs-small);
   color: var(--text-subtle);
 }
 
 .site-footer a {
+  display: inline-block;   /* a full line tall, so it is easy to tap */
   color: var(--text-muted);
   text-decoration: none;
   transition: color 0.15s;
 }
 
 .site-footer a:hover { color: var(--accent); }
+
+
+/* -------------------------
+   Print: paper colours (the dark theme is screen only), no site chrome
+   ------------------------- */
+
+@media print {
+  .site-nav,
+  .skip-link,
+  .listen,
+  .toc,
+  .toc-inline,
+  .comments { display: none !important; }
+
+  .table-scroll { overflow: visible; }
+  a { color: inherit; }
+}

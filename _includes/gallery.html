@@ -9,7 +9,7 @@
 {% assign thumbs = site.static_files | where_exp: "f", "f.path contains '/public/drawings/thumbs/'" | sort: "name" %}
 {% assign first = thumbs | first %}
 {% assign first_alt = site.data.drawings[first.basename] | default: "A page from my sketchbook" %}
-<div class="sketchbook" tabindex="0" aria-label="Sketchbook slideshow">
+<div class="sketchbook" tabindex="0" role="region" aria-roledescription="slideshow" aria-label="Sketchbook, use the arrow keys to turn the pages">
   <figure class="sketchbook-stage">
     <div class="sketchbook-frame">
       <button class="sketchbook-arrow sketchbook-prev" type="button" aria-label="Previous drawing">
@@ -20,7 +20,7 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 4 8 8-8 8"/></svg>
       </button>
     </div>
-    <figcaption class="sketchbook-caption">{{ first_alt }}</figcaption>
+    <figcaption class="sketchbook-caption" aria-live="polite">{{ first_alt }}</figcaption>
   </figure>
 
   <div class="sketchbook-thumbs">

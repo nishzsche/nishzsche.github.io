@@ -292,6 +292,24 @@ An issue can sit open for weeks. The goal is to **never lose a curiosity or conf
 
 ---
 
+## Annotating Published Posts
+
+Questions about a post after it's live go to the private repo `nishzsche/blog-notes`, not here.
+
+1. **Turn it on once per browser:** open any post with `?annotate` on the end of the URL.
+   `?annotate=off` turns it off. Readers never see it.
+2. **Capture:** select text in a post, tap **Ask**. A prefilled issue opens with the quote, a link
+   back to the exact passage, the section and the source file. Type the question, submit.
+3. **Work through them:** run `/annotations` in Claude Code (optionally `/annotations fair-fight`).
+   It sorts each note into answer, edit or seed, and acts only on the ones you approve.
+
+| Label | Meaning |
+|---|---|
+| `annotation` | Open question or note on a published post |
+| `seed` | Big enough for its own post |
+
+---
+
 ## Tag Taxonomy
 
 Use at most 2-3 tags per post. Be consistent - these are how future-you finds things.

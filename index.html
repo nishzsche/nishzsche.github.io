@@ -5,7 +5,7 @@ title: Home
 
 {% if paginator.page == 1 %}
 <div class="home-intro">
-  <p class="site-tagline">{{ site.tagline }}</p>
+  <h1 class="site-tagline">{{ site.tagline }}</h1>
   <p class="site-intro">
     I'm <a href="{{ site.baseurl }}/about">{{ site.author.name }}</a>, a Lead Machine Learning Engineer.
     I've spent a decade building ML systems, from credit-risk models in fintech to insurance triage today.
@@ -16,7 +16,7 @@ title: Home
 <ul class="post-list">
   {% for post in paginator.posts %}
   <li>
-    <span class="post-date">{{ post.date | date: "%b %d, %Y" }}</span>
+    <time class="post-date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %d, %Y" }}</time>
     <a class="post-link" href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
   </li>
   {% endfor %}
