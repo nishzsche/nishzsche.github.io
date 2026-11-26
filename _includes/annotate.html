@@ -51,12 +51,22 @@
 
   function hide() { btn.style.display = 'none'; }
 
-  // Text fragment link (#:~:text=) that scrolls to and highlights the passage
-  function fragment(text) {
+  // Text fragment link (#:~:text=) that scrolls to and highlights the passage. Browsers match
+  // whole words only and never across blocks, so the start words come from the first block
+  // (paragraph, heading, list item) and the end words from the last.
+  function fragment(blocks) {
     function enc(s) { return encodeURIComponent(s).replace(/-/g, '%2D'); }
-    var words = text.split(' ');
-    if (words.length <= 8) return post.url + '#:~:text=' + enc(text);
-    return post.url + '#:~:text=' + enc(words.slice(0, 4).join(' ')) + ',' + enc(words.slice(-4).join(' '));
+    var first = blocks[0].split(' '), last = blocks[blocks.length - 1].split(' ');
+    if (blocks.length === 1 && first.length <= 8) return post.url + '#:~:text=' + enc(blocks[0]);
+    return post.url + '#:~:text=' + enc(first.slice(0, 4).join(' ')) + ',' + enc(last.slice(-4).join(' '));
+  }
+
+  // Stretch a selection that starts or ends mid-word out to whole words
+  function wholeWords(str, range) {
+    var s = range.startContainer, e = range.endContainer;
+    if (s.nodeType === 3 && /^\S/.test(str)) str = s.data.slice(0, range.startOffset).match(/\S*$/)[0] + str;
+    if (e.nodeType === 3 && /\S$/.test(str)) str += e.data.slice(range.endOffset).match(/^\S*/)[0];
+    return str;
   }
 
   // The h2/h3 the selection sits under
@@ -71,7 +81,8 @@
   }
 
   function issueUrl(raw, range) {
-    var flat = raw.replace(/\s+/g, ' ').trim();
+    var blocks = raw.split(/\n+/).map(function (l) { return l.replace(/\s+/g, ' ').trim(); }).filter(Boolean);
+    var flat = blocks.join(' ');
     var quote = raw.length > 1500 ? raw.slice(0, 1500) + '...' : raw;
     var lines = quote.split(/\n+/).map(function (l) { return l.trim(); }).filter(Boolean);
     var head = flat.split(' ').slice(0, 8).join(' ');
@@ -80,7 +91,7 @@
     var title = slug + ': "' + head + (flat.split(' ').length > 8 ? '..."' : '"');
     var body =
       '**Post:** [' + post.title + '](' + post.url + ')\n' +
-      '**Passage:** ' + fragment(flat) + '\n' +
+      '**Passage:** ' + fragment(blocks) + '\n' +
       (sec ? '**Section:** ' + sec + '\n' : '') +
       '**Source:** `' + post.source + '`\n\n' +
       '> ' + lines.join('\n>\n> ') + '\n\n' +
@@ -94,7 +105,7 @@
     var sel = window.getSelection();
     if (!sel || sel.isCollapsed || !sel.rangeCount) return hide();
     var range = sel.getRangeAt(0);
-    var raw = sel.toString().trim();
+    var raw = wholeWords(sel.toString(), range).trim();
     if (raw.length < 3 || !content.contains(range.commonAncestorContainer)) return hide();
 
     btn.href = issueUrl(raw, range);
