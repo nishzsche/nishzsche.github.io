@@ -2,6 +2,8 @@
 layout: page
 title: About
 drawing: /public/drawings/home.jpg
+drawing_width: 769
+drawing_height: 1024
 ---
 
 > <span lang="ta">ஊழையும் உப்பக்கம் காண்பர் உலைவின்றித்<br>தாழாது உஞற்று பவர்.</span>
@@ -25,9 +27,9 @@ I'm Nishanth Rajamani. I've spent a decade building machine learning systems in 
 
 There's a specific feeling I'm chasing with this blog: the moment a confusing thing suddenly makes sense. Not the textbook version of the concept. The messy, actual process of being wrong, then less wrong, then occasionally right.
 
-Short posts about things that confused me and how I eventually resolved them, or about things I'm intrigued by. Occasionally longer experiments, with the code and data on GitHub, like [Can AI know when it's wrong?](/2026/11/23/can-ai-know-when-its-wrong/).
+Right now that means experiments. I give AI models a real task, like judging 2,000 credit-card customers, write down what I expect before I run anything, then check. The code and data are on GitHub, starting with [Can AI know when it's wrong?](/2026/11/23/can-ai-know-when-its-wrong/).
 
-ML, OMSCS coursework, hardware tinkering, and whatever else currently has my attention - watercolors, cycle mechanics, guitar. The domain doesn't matter much. The learning posture does.
+Shorter posts about things that confused me will sit alongside them: ML, OMSCS coursework, and whatever else has my attention. The domain doesn't matter much. The learning posture does.
 
 The approach is Feynman-ish: if I can't explain it clearly, I probably don't understand it yet.
 

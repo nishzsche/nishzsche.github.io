@@ -1,0 +1,24 @@
+{%- comment -%}
+  One of my drawings as a card: a sketchbook page pasted onto the site, linking to the full-size
+  drawing. Beside a post's title, at the top of About, and on the 404 page.
+
+    {% include drawing.html src=page.icon caption=page.icon_caption %}
+
+  src      the drawing, /public/drawings/<id>.jpg. The card shows its 400 px thumbnail
+           (thumbs/<id>.jpg); home.jpg has none, so give it full=true and its width and height.
+  caption  optional: a line under the card.
+  class    optional: another class for the figure, e.g. "drawing-card-page".
+  Alt text is the drawing's entry in _data/drawings.yml.
+{%- endcomment -%}
+{%- assign id = include.src | split: '/' | last | remove: '.jpg' -%}
+{%- if include.full -%}
+{%- assign img = include.src -%}
+{%- else -%}
+{%- assign img = include.src | replace: '/drawings/', '/drawings/thumbs/' -%}
+{%- endif -%}
+<figure class="drawing-card{% if include.class %} {{ include.class }}{% endif %}">
+<a href="{{ include.src | relative_url }}"><img src="{{ img | relative_url }}" alt="{{ site.data.drawings[id] | default: 'A page from my sketchbook' | escape }}" width="{{ include.width | default: 400 }}" height="{{ include.height | default: 400 }}" decoding="async"></a>
+{%- if include.caption %}
+<figcaption>{{ include.caption | escape }}</figcaption>
+{%- endif %}
+</figure>

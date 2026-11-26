@@ -8,7 +8,8 @@ description: "The biggest objection to my first experiment was that it wasn't a 
 image: /public/images/fair-fight/social-card.png
 image_alt: "I gave AI the same data as a bank's model. It caught up. Ranking (AUC) answering cold, then after training on 20,000 customers: Kev-4B 0.594 to 0.792, Laya 0.666 to 0.778, Kev-0.8B 0.750 to 0.790, Qwen3.5-4B 0.744 to 0.780, against gradient boosting's 0.789 and the scorecard's 0.777."
 toc: true
-icon: /public/drawings/20261004-153005.jpg
+icon: /public/drawings/20261001-125135.jpg
+icon_caption: "Inktober #1, Apple: one law for every apple, one ceiling for every model."
 ---
 
 *The biggest objection to my first experiment was that it wasn't a fair fight. So I made it one.*

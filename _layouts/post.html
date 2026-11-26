@@ -3,9 +3,10 @@ layout: default
 ---
 
 <article class="post">
-  {% comment %} The post's drawing (front matter `icon:`, picked once by scripts/drawings.py) fades in behind the title {% endcomment %}
-  <header class="post-header{% if page.icon %} has-drawing{% endif %}"{% if page.icon %} style="--drawing: url('{{ page.icon | relative_url }}')"{% endif %}>
+  {% comment %} The post's drawing, chosen for it (front matter `icon:` and `icon_caption:`): a card beside the title, under it on phones {% endcomment %}
+  <header class="post-header{% if page.icon %} has-drawing{% endif %}">
     <h1 class="post-title">{{ page.title }}</h1>
+    {% if page.icon %}{% include drawing.html src=page.icon caption=page.icon_caption %}{% endif %}
     <div class="post-meta">
       <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%b %d, %Y" }}</time>
       {% comment %} Counted from the visible text: chart alt text and markup don't add minutes {% endcomment %}

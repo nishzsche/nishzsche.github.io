@@ -8,7 +8,8 @@ description: "I asked Jev and 7 other models how likely 2,000 real credit-card c
 image: /public/images/can-ai-know-when-its-wrong/social-card.png
 image_alt: "Chart: Jev said 48% of these customers would default, and 22% did. A trained scorecard stays close to the honest diagonal."
 toc: true
-icon: /public/drawings/20261009-163715.jpg
+icon: /public/drawings/20261030-163259.jpg
+icon_caption: "Inktober #19, Confused: the face I'd like a model to make when it isn't sure."
 ---
 
 *I checked whether their percentages come true, the way banks are expected to check their own.*
