@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Can AI know when it's wrong? I tested Jev and 7 other models on 2,000 real credit-card customers"
+title: "I asked AI how risky customers were. Most guessed too high."
 date: 2026-11-23 15:00:00 +0530
 tags: [probability, deep-learning, experiment]
 series: can-ai-know-when-its-wrong
