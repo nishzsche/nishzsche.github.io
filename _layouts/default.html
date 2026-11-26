@@ -4,9 +4,10 @@
   {% include head.html %}
 
   <body>
+    <a class="skip-link" href="#main">Skip to content</a>
     <div class="container">
 
-      <nav class="site-nav">
+      <nav class="site-nav" aria-label="Site">
         <a class="site-title" href="{{ site.baseurl }}/">{{ site.title }}</a>
         <div class="nav-links">
           <a href="{{ site.baseurl }}/about">About</a>
@@ -18,15 +19,52 @@
         </div>
       </nav>
 
-      {{ content }}
+      <main id="main">
+        {{ content }}
+      </main>
 
       <footer class="site-footer">
         &copy; {{ site.time | date: '%Y' }} {{ site.author.name }}
         &middot; <a href="{{ site.author.url }}">@nishzsche</a>
-        &middot; <a href="{{ site.baseurl }}/atom.xml">RSS</a>
+        &middot; <a href="{{ site.baseurl }}/atom.xml">Feed</a>
       </footer>
 
     </div>
+
+    <script>
+    // Wide tables scroll sideways in their own box instead of widening the page. A box that
+    // actually scrolls gets a tab stop and a label, so keyboard and screen reader users can use it.
+    (function () {
+      var boxes = [];
+      var tables = document.querySelectorAll('.post-content table, .page table');
+      Array.prototype.forEach.call(tables, function (table) {
+        var box = document.createElement('div');
+        box.className = 'table-scroll';
+        table.parentNode.insertBefore(box, table);
+        box.appendChild(table);
+        boxes.push(box);
+      });
+
+      function label() {
+        boxes.forEach(function (box) {
+          if (box.scrollWidth > box.clientWidth + 1) {
+            box.setAttribute('tabindex', '0');
+            box.setAttribute('role', 'region');
+            box.setAttribute('aria-label', 'Table, scrolls sideways');
+          } else {
+            box.removeAttribute('tabindex');
+            box.removeAttribute('role');
+            box.removeAttribute('aria-label');
+          }
+        });
+      }
+
+      if (boxes.length) {
+        label();
+        window.addEventListener('resize', label);
+      }
+    })();
+    </script>
 
     <script>
     // Light/dark toggle. The starting theme is set in head.html; a click saves the choice.
@@ -60,14 +98,24 @@
         });
       }
 
+      // The browser's toolbar colour (phones) follows the page
+      var themeColor = document.querySelector('meta[name="theme-color"]');
+
       function apply(theme) {
         swapCharts(theme);
         root.setAttribute('data-theme', theme);
         var label = 'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' mode';
         button.setAttribute('aria-label', label);
         button.title = label;
+        if (themeColor) themeColor.setAttribute('content', theme === 'dark' ? '#18181b' : '#faf8f3');
         syncGiscus();
       }
+
+      // Print is always on paper colours (see main.css), so print the light charts
+      window.addEventListener('beforeprint', function () { swapCharts('light'); });
+      window.addEventListener('afterprint', function () {
+        swapCharts(root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+      });
 
       apply(root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
 
