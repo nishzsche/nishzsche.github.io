@@ -11,6 +11,11 @@ title: Home
     I'm <a href="{{ site.baseurl }}/about">{{ site.author.name }}</a>, a Lead Machine Learning Engineer.
     I've spent a decade building ML systems, from credit-risk models in fintech to insurance triage today.
   </p>
+  {% comment %} New readers start at part 1 of the series (the oldest post with that series key) {% endcomment %}
+  {% assign start = site.posts | where: "series", "can-ai-know-when-its-wrong" | last %}
+  {% if start %}
+  <p class="start-here">New here? Start with part 1: <a href="{{ site.baseurl }}{{ start.url }}">{{ start.title }}</a></p>
+  {% endif %}
 </div>
 {% endif %}
 

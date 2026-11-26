@@ -1,19 +1,19 @@
 # Writing Guide - Learning Curve
 
 A reference for whenever you're unsure whether to write, what to write, or how to write it.
-Return here when you feel stuck. There are two post formats: Resolution and Exploration.
+Return here when you feel stuck. There are three post formats: Resolution, Exploration and Experiment.
 
 ---
 
-## Two Post Formats
+## Three Post Formats
 
-| | Resolution | Exploration |
-|---|---|---|
-| **For** | A confusion you've worked through | A curiosity you're still inside |
-| **Ends with** | A takeaway - one clear sentence | Open questions - genuinely unresolved |
-| **Trigger** | Something clicked | Something has your attention |
-| **Template** | `_drafts/_template.md` | `_drafts/_exploration_template.md` |
-| **Issue label** | `confusion` → `drafting` → `ready` | `exploration` |
+| | Resolution | Exploration | Experiment |
+|---|---|---|---|
+| **For** | A confusion you've worked through | A curiosity you're still inside | A question you tested, with code and data |
+| **Ends with** | A takeaway - one clear sentence | Open questions - genuinely unresolved | One bold sentence: the post's point |
+| **Trigger** | Something clicked | Something has your attention | The results are in and checked |
+| **Template** | `_drafts/_template.md` | `_drafts/_exploration_template.md` | The structure below; drafted in the project repo |
+| **Issue label** | `confusion` → `drafting` → `ready` | `exploration` | None: the project repo tracks it |
 
 ---
 
@@ -141,6 +141,47 @@ Leave these genuinely open - don't fake uncertainty you've already resolved.
 
 ---
 
+## Post Format 3: The Experiment
+
+For a question you tested: models, real data, numbers you can check. Written in the project
+repo next to the code, then copied to `_posts/` (see README.md). The posts in
+[Can AI know when it's wrong?](/archive/#can-ai-know-when-its-wrong) follow this shape.
+
+1. **The question, made concrete.** Open on one sharp example ("If one student studies last
+   year's exam papers..."), then the question in a sentence, then why it matters and to whom.
+   The headline chart goes near the top, before the setup.
+2. **The setup, briefly.** The data, the models (a table works), and what's fair and what
+   isn't. Say where a comparison is uneven, every time you make it. The measures and caveats
+   every part of a series shares live on its methods page ([/methods/](/methods/)): link it
+   rather than explaining AUC again.
+3. **Guesses first.** Write down what you expect before you run anything, commit it
+   (`PREDICTIONS.md` in the project repo), and report how the guesses did. Being wrong in
+   public is the point of the blog.
+4. **The findings.** One `###` per finding, its heading a claim ("The trained models still rank
+   customers best"). At most one chart each, put in with `chart.html`: a one-sentence alt, and
+   the numbers in `words` (README.md has the details).
+5. **What this doesn't show.** Only this post's own caveats; the shared ones are on the
+   methods page.
+6. **What's next.** Where the code, data and predictions are, and links to the earlier parts.
+   Link the next part only once it's published: no promises of posts that don't exist yet.
+7. **One bold last line.** The post's point in a sentence, in bold. The layout adds the follow
+   line (feed and LinkedIn) under it.
+
+**Front matter for an experiment post:** `series:` (a key in `_data/series.yml`), `icon:` and
+`icon_caption:` (the drawing chosen for it), `description:`, `image:` and `image_alt:` (the
+social card), and `toc: true` for anything long.
+
+**After publishing:** a correction or an added caveat gets a note, not a silent edit. Add it
+to the post's front matter and the layout lists it at the end of the post:
+
+```yaml
+updates:
+  - date: 2026-11-24 19:19:00 +0530
+    note: "Corrected the share of defaulters Jev caught from 72% to 71%."
+```
+
+---
+
 ## The Level Test
 
 **Write to yourself from 6 months ago.**
@@ -194,10 +235,10 @@ You're a practitioner doing grad school. That's rare. Honour both sides.
 
 | | Resolution | Exploration | Experiment |
 |---|---|---|---|
-| **Length** | 200-400 words | 200-400 words | Long - code + explanation |
+| **Length** | 200-400 words | 200-400 words | 2,000-4,000 words, charts, code on GitHub |
 | **Source** | GitHub Issues → `_posts/` | GitHub Issues → `_posts/` | Project repo → `_posts/` |
-| **Ends with** | A takeaway | Open questions | Observations + code |
-| **Trigger** | Something resolved | Something has attention | Experiment completed |
+| **Ends with** | A takeaway | Open questions | One bold sentence |
+| **Trigger** | Something resolved | Something has attention | Results in and checked |
 
 ---
 
@@ -205,12 +246,14 @@ You're a practitioner doing grad school. That's rare. Honour both sides.
 
 **Don't set a cadence. Set a trigger.**
 
-Two triggers, not one:
+Three triggers, not one:
 
 - **Resolution trigger:** Something clicked. Write within 48 hours - after that, the confusion
   feels obvious in hindsight and you lose the ability to explain it to someone still confused.
 - **Exploration trigger:** Something has your sustained attention. Publish when the snapshot
   of where you currently are is interesting on its own.
+- **Experiment trigger:** The results are in and you've checked whether they could be fooling
+  you. Publish then, not when the next experiment is planned.
 
 A "post every week" commitment produces mediocre posts written just to hit the number.
 The constraint for Resolutions isn't time - it's having the resolution.

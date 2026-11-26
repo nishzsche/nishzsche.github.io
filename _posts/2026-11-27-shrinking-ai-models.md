@@ -167,4 +167,4 @@ The speed re-runs used the same shrunk numbers, on a fresh GPU. Before any timin
 
 Every number, the code and every prediction are on [GitHub](https://github.com/nishzsche/can-ai-know-when-its-wrong). This series started with [whether AI can know when it's wrong](/2026/11/23/can-ai-know-when-its-wrong/), [why 99% accuracy can still be a disaster](/2026/11/24/why-99-percent-accuracy/) and [giving AI the same data as a bank's model](/2026/11/25/fair-fight/).
 
-Next: why AI can write code but struggle to read a table. I gave six AI models the same customers as a table, as sentences, as CSV and as JSON. For one of them, a different layout moved its answers by 26 points per customer on average, about four times what shrinking to 3 bits did to any model here. And the sequel I promised in the first post, teaching a small model to say "I don't know", is still coming.
+**Shrink a model to save memory. Don't count on it saving time.**

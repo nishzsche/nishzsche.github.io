@@ -40,6 +40,9 @@
     {%- endif -%}
     {% endfor %}
   </ol>
+  {%- if s_info.methods %}
+  <p class="series-box-methods">How every part is measured, and the caveats they share: <a href="{{ s_info.methods | relative_url }}">methods</a></p>
+  {%- endif %}
 </nav>
 
     {%- endcase -%}

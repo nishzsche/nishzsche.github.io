@@ -1,8 +1,10 @@
 # Series: posts that belong together. The key is the value of a post's `series:` front matter.
 # Parts number themselves by date among published posts (_posts/), so nothing here needs updating
 # when a part is published. Shown under titles on the home page, in each part's header and end
-# list (_includes/series.html), and at the top of /archive/.
+# list (_includes/series.html), and at the top of /archive/. `methods:` (optional) is a page
+# explaining the measures and shared caveats once; the end list links to it.
 can-ai-know-when-its-wrong:
   title: "Can AI know when it's wrong?"
   description: "Do AI models' percentages come true? Tested on real credit-card customers."
   code: https://github.com/nishzsche/can-ai-know-when-its-wrong
+  methods: /methods/
