@@ -1,25 +1,14 @@
 ---
 layout: post
 title: "I shrank AI models. It saved memory, not time."
-date: 2026-11-26
+date: 2026-11-27 12:00:00 +0530
 tags: [probability]
-permalink: /review/shrinking-ai-models/
 description: "I squeezed three trained AI models down to 8, 4, 3 and 2 bits. Their percentages held up to 4 bits. Shrinking saved memory, but rarely time."
-# Review copy: not listed on the home page or in the feed, hidden from search engines and the
-# sitemap, with Hypothesis for comments. To launch, move it to _posts/ and drop these four.
-noindex: true
-sitemap: false
-hypothesis: true
-comments: false
+image: /public/images/shrinking-ai-models/social-card.png
+image_alt: "I shrank AI models. It saved memory, not time. Memory at peak and time per answer, full size against 4 bits (HQQ on GemLite) on a tuned GPU: Kev-4B 8.9 to 3.8 GB and 93 to 83 ms, Kev-0.8B 1.7 to 1.0 GB and 20 to 24 ms, Qwen3.5-4B 8.7 to 3.6 GB and 78 to 85 ms."
+toc: true
+icon: /public/drawings/20261008-171552.jpg
 ---
-
-> **Draft for review, version 2.1 (27 November), not yet published.** Thank you for reading. This is the fourth post in the series, after [Can AI know when it's wrong?](/2026/11/23/can-ai-know-when-its-wrong/), [Why 99% accuracy can still be a disaster](/2026/11/24/why-99-percent-accuracy/) and [I gave AI the same data as a bank's model](/2026/11/25/fair-fight/). It takes the three models trained in the last post and shrinks them to save memory, then checks whether their percentages still come true.
->
-> **New in version 2:** the speed section is re-run on a properly tuned GPU, with two faster 4-bit routes and FP8, and has a new title and chart. The lending-decision table now compares every version at the full-size model's cut-off, and changes in honesty now come with a test of whether they're bigger than chance. Version 2.1 corrects one row of the lending table: running the same model twice changes 0.2% to 1.5% of decisions, depending on the model.
->
-> **To comment, no account needed:** reply to my message and quote the sentence you mean. If you already use [Hypothesis](https://web.hypothes.is/), you can also select text and click **Annotate**.
->
-> I'd most like to know: does the headline ("it saved memory, not time") feel fair given the details, does the section on customers moving while the scores held make sense and matter to you, would you act on the bank advice, and where did you get lost or bored?
 
 *Three trained models, squeezed to 8, 4, 3 and 2 bits. Their percentages held up to 4 bits, but the summary scores hid how far each customer's number moved. And even on a tuned GPU, the smaller models were rarely faster.*
 
@@ -39,7 +28,7 @@ This series checks something else: whether a model's percentages come true. In [
 
 Each small block of numbers gets its own scale, so even at 2 bits the four values differ from block to block. The scales take space too, and some parts of each model stay full size, mostly the table that turns words into numbers. That's why 4 bits saves less than three-quarters of the memory.
 
-![Each trained model's ranking (AUC) at each size. Kev-4B, Kev-0.8B and Qwen3.5-4B stay between 0.780 and 0.792 from full size down to 4 bits, with either tool, all within 0.005 of their full-size scores and above the scorecard's 0.777. At 3 bits, Kev-0.8B (0.786) and Qwen (0.779) show no drop the test can detect and Kev-4B slips to 0.776. At 2 bits, Kev-4B falls to 0.60, Kev-0.8B to 0.45 and Qwen to 0.43, the last two worse than a coin flip.](/public/images/shrinking-ai-models/post4_ranking.png){: data-dark-src="/public/images/shrinking-ai-models/post4_ranking-dark.png"}
+{% include chart.html src="/public/images/shrinking-ai-models/post4_ranking.png" alt="Each trained model's ranking (AUC) at each size." words="Kev-4B, Kev-0.8B and Qwen3.5-4B stay between 0.780 and 0.792 from full size down to 4 bits, with either tool, all within 0.005 of their full-size scores and above the scorecard's 0.777. At 3 bits, Kev-0.8B (0.786) and Qwen (0.779) show no drop the test can detect and Kev-4B slips to 0.776. At 2 bits, Kev-4B falls to 0.60, Kev-0.8B to 0.45 and Qwen to 0.43, the last two worse than a coin flip." eager=true %}
 
 ## Three models, six versions
 
@@ -66,7 +55,7 @@ The chart above tells it:
 
 Ranking is half the job. The other half is whether a model's percentages come true. I measure that as before: the average gap, in percentage points, between the risk a model promised and what happened ([calibration error](https://scikit-learn.org/stable/modules/calibration.html)). With 2,000 customers, a perfectly honest model stays below about 2.5 points in 95 samples out of 100. To tell whether shrinking changed a model's honesty, I compared each shrunk version with its full size on the same customers, again allowing for the 15 comparisons.
 
-![Calibration error at each size, in points. At full size Kev-0.8B is 4.4 points off, Kev-4B 3.8 and Qwen3.5-4B 2.4. At 8 bits and 4-bit NF4, each stays within half a point of that. At 4-bit HQQ, Kev-0.8B improves to 2.3, the only change above 2 bits bigger than chance; Kev-4B is 3.1 and Qwen 3.2. At 3 bits, Kev-4B is 4.8, Kev-0.8B 3.1 and Qwen 1.5. At 2 bits all three are off the scale: Kev-0.8B 15, Kev-4B 20 and Qwen 46 points off.](/public/images/shrinking-ai-models/post4_honesty.png){: data-dark-src="/public/images/shrinking-ai-models/post4_honesty-dark.png"}
+{% include chart.html src="/public/images/shrinking-ai-models/post4_honesty.png" alt="Calibration error at each size, in points." words="At full size Kev-0.8B is 4.4 points off, Kev-4B 3.8 and Qwen3.5-4B 2.4. At 8 bits and 4-bit NF4, each stays within half a point of that. At 4-bit HQQ, Kev-0.8B improves to 2.3, the only change above 2 bits bigger than chance; Kev-4B is 3.1 and Qwen 3.2. At 3 bits, Kev-4B is 4.8, Kev-0.8B 3.1 and Qwen 1.5. At 2 bits all three are off the scale: Kev-0.8B 15, Kev-4B 20 and Qwen 46 points off." %}
 
 - **8 bits and 4-bit NF4 changed almost nothing.** Every model stayed within half a point of its full-size honesty.
 - **4-bit HQQ made one model more honest, by more than chance.** Kev-0.8B went from 4.4 points off to 2.3. Shrinking nudged its average answer up from 18.1% to 19.9%, toward the 22.1% who actually defaulted (the last post found Kev understates risk). Nobody chose that direction: it's a side effect of rounding. For scale, retraining Kev-0.8B from a different random start in the last post gave an average of 20.0% and 3.0 points off, much the same.
@@ -80,7 +69,7 @@ One twist at 2 bits. Apply the same correction as in the last post, learned from
 
 So far, so reassuring, at least down to 4 bits. But ranking and calibration error are summary scores, and summaries can hide a lot, the way a compressed photo looks fine from across the room. Here is each test customer's answer from Kev-0.8B, full size against shrunk:
 
-![Each dot is one test customer: Kev-0.8B's full-size answer against its shrunk answer, in four panels. At 4-bit NF4 the dots hug the no-change line: the average customer moved 0.9 points and 5 in 1,000 moved 5 points or more. At 4-bit HQQ, 3.0 points, and 8 in 100 moved 5 or more. At 3 bits, 6.6 points, and 62 in 100 moved 5 or more, with low answers pushed up and high answers pulled down, yet ranking 0.786 and 3.1 points off, against 0.790 and 4.4 at full size. At 2 bits the dots form a flat band between about 20% and 55% whatever the full-size answer, 26.6 points on average.](/public/images/shrinking-ai-models/post4_drift.png){: data-dark-src="/public/images/shrinking-ai-models/post4_drift-dark.png"}
+{% include chart.html src="/public/images/shrinking-ai-models/post4_drift.png" alt="Each dot is one test customer: Kev-0.8B's full-size answer against its shrunk answer, in four panels." words="At 4-bit NF4 the dots hug the no-change line: the average customer moved 0.9 points and 5 in 1,000 moved 5 points or more. At 4-bit HQQ, 3.0 points, and 8 in 100 moved 5 or more. At 3 bits, 6.6 points, and 62 in 100 moved 5 or more, with low answers pushed up and high answers pulled down, yet ranking 0.786 and 3.1 points off, against 0.790 and 4.4 at full size. At 2 bits the dots form a flat band between about 20% and 55% whatever the full-size answer, 26.6 points on average." %}
 
 - **At 4-bit NF4, the answers barely moved:** less than a point for the average customer.
 - **At 3 bits, 6 in 10 customers' answers moved by 5 points or more.** Yet Kev-0.8B's ranking (0.786) and calibration error (3.1 points off) looked as good as at full size. Its safest customers were pushed up and its riskiest pulled down: the answers were squeezed toward the middle, mostly in the same order, with the average still roughly right.
@@ -119,7 +108,7 @@ So I rented the GPU again and set it up the way you would before deploying:
 - **The same 4-bit HQQ numbers on two faster routes:** GemLite, a library built for fast low-bit maths, and PyTorch's own 4-bit route.
 - **FP8,** where the GPU does its arithmetic in 8 bits, not just stores the numbers that way. The L4 has hardware for it, and it needs no data either.
 
-![GPU memory at peak and time per answer, one customer at a time, on the tuned setup. Memory: the 4B models need 8.7 to 8.9 GB at full size and 3.5 to 3.9 GB at 4 bits; Kev-0.8B 1.7 GB and about 1 GB; Qwen with FP8 5.1 GB. Time per answer at full size: 20 ms for Kev-0.8B, 93 for Kev-4B and 78 for Qwen, down from 62, 111 and 120 in my first runs. 4-bit NF4: 23, 131 and 109 ms, down from 81, 139 and 152. 4-bit HQQ on GemLite: 24, 83 and 85 ms. On PyTorch's 4-bit route: 39 ms for Kev-0.8B and 242 for Kev-4B; Qwen wouldn't load. FP8: 77 ms for Qwen; both Kev models gave no answers.](/public/images/shrinking-ai-models/post4_cost.png){: data-dark-src="/public/images/shrinking-ai-models/post4_cost-dark.png"}
+{% include chart.html src="/public/images/shrinking-ai-models/post4_cost.png" alt="GPU memory at peak and time per answer, one customer at a time, on the tuned setup." words="Memory: the 4B models need 8.7 to 8.9 GB at full size and 3.5 to 3.9 GB at 4 bits; Kev-0.8B 1.7 GB and about 1 GB; Qwen with FP8 5.1 GB. Time per answer at full size: 20 ms for Kev-0.8B, 93 for Kev-4B and 78 for Qwen, down from 62, 111 and 120 in my first runs. 4-bit NF4: 23, 131 and 109 ms, down from 81, 139 and 152. 4-bit HQQ on GemLite: 24, 83 and 85 ms. On PyTorch's 4-bit route: 39 ms for Kev-0.8B and 242 for Kev-4B; Qwen wouldn't load. FP8: 77 ms for Qwen; both Kev models gave no answers." %}
 
 - **Memory fell as promised.** At 4 bits the two 4B models needed 3.5 to 3.9 GB at peak instead of 8.7 to 8.9, less than half.
 - **Tuning the setup mattered more than shrinking.** At full size, Kev-0.8B went from 62 milliseconds per answer to 20, Qwen from 120 to 78 and Kev-4B from 111 to 93. (The first runs timed answers during scoring, the new ones in a separate timing run, so take those gaps as rough.)
