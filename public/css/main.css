@@ -38,9 +38,9 @@
    (the toggle in the nav), else from their system setting. Screen only: print always uses paper. */
 @media screen {
   :root[data-theme="dark"] {
-    /* The charts' dark background, so they sit on the page without a box. Warm #171614 once the
-       charts are re-exported with transparent backgrounds. */
-    --bg:           #18181b;
+    /* Warm near-black. Charts are exported on this exact colour (and light ones on --bg above),
+       so they sit on the page without a box: change it there too. */
+    --bg:           #171614;
     --surface:      #211f1c;
     --border:       #33302b;
     --border-soft:  #26241f;
@@ -52,7 +52,7 @@
     --accent-dark:  #f6a5b0;   /* hover goes lighter on dark */
     --code-dark:    #0f0e0c;   /* code stays darker than the page */
     --code-text:    #e8e4dc;
-    --veil:         rgba(24, 24, 27, 0.80);
+    --veil:         rgba(23, 22, 20, 0.80);
     --drawing-opacity: 0.16;
     --page-drawing-opacity: 0.32;
     color-scheme: dark;
@@ -364,11 +364,36 @@ td small { white-space: nowrap; }
   .post-content > table { display: block; overflow-x: auto; }
 }
 
-/* Charts with a dark version (data-dark-src, set in the post): hidden in dark mode until the
-   script in default.html swaps the source, so the light chart never flashes */
-:root[data-theme="dark"] img[data-dark-src]:not([data-theme-ready]) { visibility: hidden; }
+/* Charts (_includes/chart.html), exported on the page's own paper and dark colours. Each fills
+   the column; a wide one (--w is its natural size) grows past the column when the screen has
+   room, centred, so its text stays readable. */
+.chart { margin: 2rem 0; }
+.chart img { width: 100%; margin: 0; border-radius: 0; }
 
-/* Light charts are exported on near-white: multiply drops that into the paper, so no white box */
+@media (min-width: 700px) {
+  .chart-wide {
+    --fw: min(var(--w), 100vw - 3rem);
+    width: var(--fw);
+    margin-left: calc((100% - var(--fw)) / 2);
+  }
+}
+
+/* With the contents list on the right, wide charts grow to the left only */
+@media (min-width: 1280px) {
+  .chart-wide {
+    --fw: min(var(--w), 50vw + 296px);
+    margin-left: calc(100% - var(--fw));
+  }
+}
+
+.chart figcaption { margin-top: 0.5rem; font-size: var(--fs-small); color: var(--text-muted); }
+.chart-words summary { width: fit-content; cursor: pointer; }
+.chart-words summary:hover { color: var(--accent); }
+.chart-words p { margin: 0.5rem 0 0; }
+
+/* Older chart markup (data-dark-src on a Markdown image), still in the post 4 review copy:
+   hidden in dark mode until the script swaps the source, and blended into the paper in light */
+:root[data-theme="dark"] img[data-dark-src]:not([data-theme-ready]) { visibility: hidden; }
 :root:not([data-theme="dark"]) img[data-dark-src] { mix-blend-mode: multiply; }
 
 /* About page: my sketchbook as a slideshow (one large drawing, arrows, a strip of thumbnails) */
@@ -856,5 +881,6 @@ td small { white-space: nowrap; }
   .comments { display: none !important; }
 
   .table-scroll { overflow: visible; }
+  .chart-wide { width: auto; margin-left: 0; }
   a { color: inherit; }
 }

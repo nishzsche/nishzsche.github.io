@@ -87,8 +87,16 @@
         frame.contentWindow.postMessage({ giscus: { setConfig: { theme: theme } } }, 'https://giscus.app');
       }
 
-      // Charts with a dark version (data-dark-src on the img, set in the post) follow the theme
+      // Charts follow the theme. chart.html's dark <source> starts out following the system
+      // setting; from here on it follows the page's theme instead.
       function swapCharts(theme) {
+        var media = theme === 'dark' ? 'all' : 'not all';
+        var sources = document.querySelectorAll('source[data-chart-dark]');
+        Array.prototype.forEach.call(sources, function (source) {
+          if (source.getAttribute('media') !== media) source.setAttribute('media', media);
+        });
+
+        // Older markup: data-dark-src on a Markdown image
         var imgs = document.querySelectorAll('img[data-dark-src]');
         Array.prototype.forEach.call(imgs, function (img) {
           if (!img.hasAttribute('data-light-src')) img.setAttribute('data-light-src', img.getAttribute('src'));
@@ -107,7 +115,7 @@
         var label = 'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' mode';
         button.setAttribute('aria-label', label);
         button.title = label;
-        if (themeColor) themeColor.setAttribute('content', theme === 'dark' ? '#18181b' : '#faf8f3');
+        if (themeColor) themeColor.setAttribute('content', theme === 'dark' ? '#171614' : '#faf8f3');
         syncGiscus();
       }
 

@@ -38,7 +38,7 @@ bundle exec jekyll serve --drafts
 
 1. Run the experiment in its own project repo (code, data, results and the write-up live there)
 2. Optionally publish an unlisted review copy in `review/` (`noindex: true`) for feedback
-3. Copy the finished post to `_posts/YYYY-MM-DD-slug.md`, with its figures in `public/images/<slug>/`. A chart with a dark-mode version gets `{: data-dark-src="/public/images/<slug>/<name>-dark.png"}` right after the image, and switches with the theme
+3. Copy the finished post to `_posts/YYYY-MM-DD-slug.md`, with its charts in `public/images/<slug>/` (each `<name>.png` with a `<name>-dark.png` beside it). Put each chart in with `{% include chart.html src="/public/images/<slug>/<name>.png" alt="One sentence: what it shows." words="The numbers in words." %}` (add `eager=true` for a chart near the top), then run `uv run scripts/chart_sizes.py` so the page keeps the charts' space while they load. Usage notes are at the top of `_includes/chart.html`
 4. Set `description`, `image` and `image_alt` for link previews, `toc: true` for a contents list, and `math: true` if the post has equations (MathJax only loads there)
 5. Listening: every post gets a Listen button that reads it aloud with the reader's device voice. Set `audio: /public/audio/<slug>.mp3` to offer a narrated recording instead, or `listen: false` to hide it
 
