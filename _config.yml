@@ -7,6 +7,9 @@ url:                 https://nishzsche.github.io
 baseurl:             ''
 paginate:            5
 permalink:           pretty
+# Post dates are written in IST. Without this, GitHub Pages builds in UTC, and a post dated
+# before 05:30 IST gets the previous day's date and URL.
+timezone:            Asia/Kolkata
 
 # About/contact
 author:
