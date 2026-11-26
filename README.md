@@ -69,7 +69,8 @@ See [`WRITING.md`](WRITING.md) for:
 
 ```
 ├── _layouts/          # default, post, page layouts
-├── _includes/         # head.html (meta, OG tags, CSS)
+├── _includes/         # head.html (meta, OG tags, CSS), series.html, charts, comments
+├── _data/             # series.yml (post series), charts.yml, drawings.yml
 ├── _posts/            # published posts
 ├── _drafts/           # drafts and templates; short posts live in GitHub Issues
 │   ├── _template.md   # three-move post template

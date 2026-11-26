@@ -342,6 +342,17 @@ Use at most 2-3 tags per post. Be consistent - these are how future-you finds th
 |---|---|
 | `intuition` | Mental model corrections, "aha" moments (Resolution) |
 | `exploration` | Posts using the Exploration format |
+| `experiment` | Longer experiments with the code and data on GitHub |
+
+Every published post's tags show at its foot and link to its topic on `/archive/`.
+
+### Series
+
+Posts that belong together get `series: <key>` in their front matter, with the key's title and
+one-line description in `_data/series.yml`. Parts number themselves by date, so publishing the
+next part needs no other change. Series posts show "Part N" under their title on the home page,
+"Part N of M" in their header, every part at their foot, and the series at the top of `/archive/`.
+A review copy can carry `series:` already: it shows nothing until it is moved to `_posts/`.
 
 ---
 

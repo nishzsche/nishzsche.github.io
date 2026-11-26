@@ -2,7 +2,8 @@
 layout: post
 title: "Why 99% accuracy can still be a disaster"
 date: 2026-11-24 12:55:00 +0530
-tags: [probability]
+tags: [probability, experiment]
+series: can-ai-know-when-its-wrong
 description: "A model that says nobody will default is right 78% of the time on real credit data. A bank that used it would lose money."
 image: /public/images/why-99-percent-accuracy/social-card.png
 image_alt: "Why 99% accuracy can still be a disaster. Profit per 1,000 customers: approving everyone (77.9% accurate) loses 105; Qwen3.5-4B (81.9% accurate) earns 17; the scorecard (81.8% accurate) earns 284."

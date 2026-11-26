@@ -2,7 +2,8 @@
 layout: post
 title: "I shrank AI models to save money. They stayed honest, and got slower."
 date: 2026-11-26
-tags: [probability]
+tags: [deep-learning, mlops, experiment]
+series: can-ai-know-when-its-wrong
 permalink: /review/shrinking-ai-models/
 description: "I squeezed three trained AI models down to 8, 4, 3 and 2 bits. Their percentages held up longer than I expected. Their speed didn't."
 # Review copy: not listed on the home page or in the feed, hidden from search engines and the

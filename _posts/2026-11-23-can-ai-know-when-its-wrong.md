@@ -2,7 +2,8 @@
 layout: post
 title: "Can AI know when it's wrong? I tested Jev and 7 other models on 2,000 real credit-card customers"
 date: 2026-11-23 15:00:00 +0530
-tags: [probability]
+tags: [probability, deep-learning, experiment]
+series: can-ai-know-when-its-wrong
 description: "I asked Jev and 7 other models how likely 2,000 real credit-card customers were to default, then checked whether their percentages came true."
 image: /public/images/can-ai-know-when-its-wrong/social-card.png
 image_alt: "Chart: Jev said 48% of these customers would default, and 22% did. A trained scorecard stays close to the honest diagonal."

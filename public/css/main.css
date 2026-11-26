@@ -154,6 +154,11 @@ body { margin: 0; padding: 0; }
   color: var(--text-muted);
 }
 
+/* Title, three links and the toggle need 322px; a 360px phone has 312 inside the gutters */
+@media (max-width: 400px) {
+  .nav-links a { margin-left: 0.9rem; }
+}
+
 .site-title:hover,
 .nav-links a:hover {
   color: var(--accent);
@@ -214,7 +219,10 @@ a:hover { color: var(--accent-dark); text-decoration: underline; }
 /* Links in running text are underlined, so they don't rely on colour alone (WCAG 1.4.1) */
 .post-content a,
 .page a,
-.site-intro a {
+.site-intro a,
+.post-meta a,
+.series-box-title a,
+.post-tags a {
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
@@ -223,7 +231,10 @@ a:hover { color: var(--accent-dark); text-decoration: underline; }
 
 .post-content a:hover,
 .page a:hover,
-.site-intro a:hover { text-decoration-color: currentColor; }
+.site-intro a:hover,
+.post-meta a:hover,
+.series-box-title a:hover,
+.post-tags a:hover { text-decoration-color: currentColor; }
 
 strong { color: var(--text); font-weight: 600; }
 
@@ -565,6 +576,20 @@ td small { white-space: nowrap; }
   .post-list li { flex-direction: column; gap: 0.15rem; }
 }
 
+.post-entry { min-width: 0; }
+
+/* A post's place in its series (_includes/series.html), under its title */
+.post-series {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: var(--fs-small);
+  line-height: 1.4;
+  color: var(--text-subtle);
+}
+
+/* Links inside .page are underlined (the archive); list titles keep the home look */
+.post-list .post-link { text-decoration: none; }
+
 
 /* -------------------------
    Post Page
@@ -649,10 +674,44 @@ td small { white-space: nowrap; }
   align-items: center;
 }
 
-.reading-time::before {
+.reading-time::before,
+.series-part::before {
   content: '·';
   margin-right: 0.5rem;
   color: var(--border);
+}
+
+/* Every part of the series, at the end of a post (_includes/series.html). Quiet like the
+   contents list: parts in muted text, the one being read in ink. */
+.series-box {
+  margin-top: 3rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+  font-size: var(--fs-small);
+  line-height: 1.45;
+}
+
+.series-box-title {
+  margin: 0 0 0.6rem;
+  color: var(--text-muted);
+}
+
+.series-box ol {
+  margin: 0;
+  padding-left: 1.4rem;
+}
+
+.series-box li { margin: 0.35rem 0; }
+.series-box li::marker { color: var(--text-subtle); }
+.series-box li > a { color: var(--text-muted); }
+.series-box li > a:hover { color: var(--accent); }
+.series-box [aria-current] { color: var(--text); font-weight: 600; }
+
+/* Tags, linked to their section of /archive/ */
+.post-tags {
+  margin: 1.5rem 0 0;
+  font-size: var(--fs-small);
+  color: var(--text-subtle);
 }
 
 /* Listen to this post (_includes/listen.html) */
@@ -746,6 +805,42 @@ td small { white-space: nowrap; }
 
 /* About page contact links (kramdown class `{: .page-links}`) */
 .page-links { color: var(--text-muted); }
+
+/* Archive (archive.html): series, then topics. Section labels are quiet like the contents
+   title; the group a post linked to is marked in red, like the active contents item. */
+.archive h2 {
+  margin: 3rem 0 0;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+}
+
+.archive h2:first-child { margin-top: 0; }
+
+.archive h3 {
+  margin: 1.75rem 0 0.6rem;
+  scroll-margin-top: 1.5rem;
+}
+
+.archive h2 + h3 { margin-top: 0.75rem; }
+
+.archive h3:target { color: var(--accent); }
+
+.archive-count {
+  margin-left: 0.35rem;
+  font-size: var(--fs-small);
+  font-weight: 400;
+  color: var(--text-subtle);
+  font-variant-numeric: tabular-nums;
+}
+
+.archive-note {
+  margin: 0 0 0.75rem;
+  font-size: var(--fs-small);
+  color: var(--text-muted);
+}
 
 
 /* -------------------------

@@ -1,0 +1,59 @@
+---
+layout: page
+title: Archive
+description: "Every post on Learning curve, by series and by topic."
+---
+
+{% comment %}
+  Every post, by series (from _data/series.yml, parts oldest first) and by tag (newest first).
+  Plain Liquid: GitHub Pages can't run an archive plugin. Posts link here by anchor:
+  /archive/#<series key> and /archive/#<tag | slugify>. Rows reuse the home page's .post-list.
+{% endcomment %}
+
+{% capture series_groups %}
+{% for series in site.data.series %}
+  {% assign parts = site.posts | where: "series", series[0] | reverse %}
+  {% if parts.size > 0 %}
+  <h3 id="{{ series[0] }}">{{ series[1].title }}</h3>
+  <p class="archive-note">{{ series[1].description }}{% if series[1].code %} <a href="{{ series[1].code }}">Code and data on GitHub</a>.{% endif %}</p>
+  <ol class="post-list">
+    {% for post in parts %}
+    <li>
+      <time class="post-date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %d, %Y" }}</time>
+      <div class="post-entry">
+        <a class="post-link" href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+        <span class="post-series">Part {{ forloop.index }}</span>
+      </div>
+    </li>
+    {% endfor %}
+  </ol>
+  {% endif %}
+{% endfor %}
+{% endcapture %}
+
+<div class="archive">
+
+{% if series_groups contains "post-list" %}
+  <h2>Series</h2>
+  {{ series_groups }}
+{% endif %}
+
+{% assign tags = site.tags | sort %}
+{% if tags.size > 0 %}
+  <h2>Topics</h2>
+  {% for tag in tags %}
+  <h3 id="{{ tag[0] | slugify }}">{{ tag[0] }} <span class="archive-count">{{ tag[1].size }}</span></h3>
+  <ul class="post-list">
+    {% for post in tag[1] %}
+    <li>
+      <time class="post-date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %d, %Y" }}</time>
+      <div class="post-entry">
+        <a class="post-link" href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+  {% endfor %}
+{% endif %}
+
+</div>

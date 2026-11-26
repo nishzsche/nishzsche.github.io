@@ -17,7 +17,10 @@ title: Home
   {% for post in paginator.posts %}
   <li>
     <time class="post-date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %d, %Y" }}</time>
-    <a class="post-link" href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+    <div class="post-entry">
+      <a class="post-link" href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+      {% include series.html post=post mode="label" %}
+    </div>
   </li>
   {% endfor %}
 </ul>
