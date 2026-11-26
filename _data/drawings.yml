@@ -1,6 +1,8 @@
-# Captions (and alt text) for the About sketchbook: drawing id (its file name in public/drawings/)
-# -> what it shows. The pages are Inktober 2026: "#N Prompt" is the day and that day's official
-# prompt. A drawing without an entry gets "A page from my sketchbook".
+# What each drawing shows: drawing id (its file name in public/drawings/) -> description. The
+# About sketchbook's captions, and the alt text wherever a drawing appears (_includes/drawing.html).
+# The pages are Inktober 2026: "#N Prompt" is the day and that day's official prompt. A drawing
+# without an entry gets "A page from my sketchbook".
+"home": "My sketch of a park, held up in front of the park it shows"
 "20261001-125135": "#1 Apple: Newton under the apple tree, the law of gravitation beside him"
 "20261002-142819": "#2 Relic: a temple idol peeking out of pink silk, with பொன் (gold) written above"
 "20261004-153005": "#4 Cactus: cacti in terracotta pots by a window"

@@ -1,0 +1,47 @@
+{% comment %}
+  Series info for a post with `series: <key>` in its front matter (titles in _data/series.yml).
+  Parts number themselves by date among published posts, so a review copy (a page, not a post)
+  renders nothing until it is moved to _posts/.
+
+  mode="label"  the line under a title on the home page (pass post=post)
+  mode="meta"   "Part 2 of 4 in ..." in the post header
+  mode="box"    every part, listed at the end of the post
+
+  Variables start with s_ because an include's assigns leak into the page that includes it.
+{% endcomment %}
+{%- if include.post -%}{%- assign s_post = include.post -%}{%- else -%}{%- assign s_post = page -%}{%- endif -%}
+{%- assign s_info = site.data.series[s_post.series] -%}
+{%- if s_info -%}
+  {%- assign s_parts = site.posts | where: "series", s_post.series | reverse -%}
+  {%- assign s_index = 0 -%}
+  {%- for s_part in s_parts -%}
+    {%- if s_part.url == s_post.url -%}{%- assign s_index = forloop.index -%}{%- endif -%}
+  {%- endfor -%}
+  {%- assign s_link = site.baseurl | append: '/archive/#' | append: s_post.series -%}
+
+  {%- if s_index > 0 -%}
+    {%- case include.mode -%}
+
+    {%- when "label" -%}
+<span class="post-series">{{ s_info.title }} &middot; Part {{ s_index }}</span>
+
+    {%- when "meta" -%}
+<span class="series-part">Part {{ s_index }} of {{ s_parts.size }} in <a href="{{ s_link }}">{{ s_info.title }}</a></span>
+
+    {%- when "box" -%}
+<nav class="series-box" aria-label="Series">
+  <p class="series-box-title">Part of the series <a href="{{ s_link }}">{{ s_info.title }}</a></p>
+  <ol>
+    {%- for s_part in s_parts %}
+    {% if forloop.index == s_index -%}
+    <li><span aria-current="page">{{ s_part.title }}</span></li>
+    {%- else -%}
+    <li><a href="{{ site.baseurl }}{{ s_part.url }}">{{ s_part.title }}</a></li>
+    {%- endif -%}
+    {% endfor %}
+  </ol>
+</nav>
+
+    {%- endcase -%}
+  {%- endif -%}
+{%- endif -%}

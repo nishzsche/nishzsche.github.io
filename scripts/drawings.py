@@ -2,24 +2,25 @@
 # requires-python = ">=3.10"
 # dependencies = ["pillow"]
 # ///
-"""My drawings on the blog: one per post, picked at random once; the About sketchbook; the park sketch.
+"""My drawings on the blog: one chosen for each post; the About sketchbook; the park sketch.
 
-    uv run scripts/drawings.py              # process new drawings, then give drawing-less posts one
+    uv run scripts/drawings.py              # process new drawings, then list posts without one
     uv run scripts/drawings.py --redo ID    # re-crop one drawing (after changing CROPS below)
     uv run scripts/drawings.py --redo all   # re-make everything (after changing the sizes)
 
 1. Originals go in _drawings/ (git-ignored: phone photos are large and carry location data).
    They're my Inktober 2026 pages, plus home.jpg: the park sketch held up in the park it shows.
 2. Each new drawing is cropped to the sketchbook page and squared, then saved as
-   public/drawings/<id>.jpg (1024 px: behind the post title, and the sketchbook's large view) and
-   public/drawings/thumbs/<id>.jpg (400 px: the sketchbook's thumbnail strip), with all metadata
-   (including location) stripped. The page is found as the bright, low-saturation area against
-   the dark cutting mat; CROPS overrides that where it goes wrong. home.jpg is kept whole (the
-   point is the sketch beside the real scene), 1024 px tall, with no thumbnail: it fades in behind
-   the About page's title (`drawing:` in about.md), not in the slideshow.
-3. Every post in _posts/ without `icon:` in its front matter gets a random drawing that no other
-   post uses (once all are used, one of the least used), written into the front matter. It stays
-   from then on; delete the line to draw again. home.jpg is never picked.
+   public/drawings/<id>.jpg (1024 px: the sketchbook's large view, and what a post's drawing card
+   links to) and public/drawings/thumbs/<id>.jpg (400 px: the post's drawing card, its home page
+   thumbnail and the sketchbook's thumbnail strip), with all metadata (including location)
+   stripped. The page is found as the bright, low-saturation area against the dark cutting mat;
+   CROPS overrides that where it goes wrong. home.jpg is kept whole (the point is the sketch
+   beside the real scene), 1024 px tall, with no thumbnail: it heads the About page (`drawing:`
+   in about.md), not the slideshow.
+3. Each post's drawing is chosen by hand, to go with that post: `icon:` (the drawing) and
+   `icon_caption:` (a line tying it to the post) in its front matter. The script lists the posts
+   that don't have one yet. Alt text comes from the drawing's entry in _data/drawings.yml.
 
 The sketchbook slideshow shows every thumbnail; captions come from _data/drawings.yml.
 """
@@ -27,9 +28,7 @@ The sketchbook slideshow shows every thumbnail; captions come from _data/drawing
 from __future__ import annotations
 
 import argparse
-import random
 import re
-from collections import Counter
 from pathlib import Path
 
 from PIL import Image, ImageChops, ImageFilter, ImageOps
@@ -133,36 +132,17 @@ def process(redo: set[str]) -> list[str]:
 FRONT = re.compile(r"\A---\r?\n(.*?)\r?\n---\r?\n", re.S)
 
 
-def assign() -> list[tuple[str, str]]:
-    """Give each post without an icon a random drawing, least used first."""
-    icons = sorted(f"/public/drawings/{p.name}" for p in OUT.glob("*.jpg") if p.stem != HOME)
-    if not icons:
-        return []
-    posts = sorted(POSTS.glob("*.md"))
-    used = Counter()
-    todo = []
-    for post in posts:
+def missing() -> list[str]:
+    """Posts without a chosen drawing (`icon:`) or its caption (`icon_caption:`)."""
+    out = []
+    for post in sorted(POSTS.glob("*.md")):
         m = FRONT.match(post.read_text(encoding="utf-8"))
         if not m:
             continue
-        icon = re.search(r"^icon:\s*(\S+)", m[1], re.M)
-        if icon:
-            used[icon[1]] += 1
-        else:
-            todo.append(post)
-    given = []
-    for post in todo:
-        fewest = min(used[i] for i in icons)
-        pick = random.choice([i for i in icons if used[i] == fewest])
-        used[pick] += 1
-        text = post.read_text(encoding="utf-8")
-        nl = "\r\n" if "\r\n" in text[:200] else "\n"
-        m = FRONT.match(text)
-        head_end = m.end(1)
-        post.write_text(text[:head_end] + f"{nl}icon: {pick}" + text[head_end:], encoding="utf-8",
-                        newline="")  # fmt: skip
-        given.append((post.name, pick))
-    return given
+        lacking = [key for key in ("icon", "icon_caption") if not re.search(rf"^{key}:", m[1], re.M)]
+        if lacking:
+            out.append(f"{post.name} (no {' or '.join(lacking)})")
+    return out
 
 
 def main() -> None:
@@ -171,8 +151,8 @@ def main() -> None:
     args = ap.parse_args()
     for did in process(set(args.redo)):
         print(f"processed  {did}")
-    for name, icon in assign():
-        print(f"assigned   {icon} -> {name}")
+    for line in missing():
+        print(f"needs a drawing: {line}")
 
 
 if __name__ == "__main__":

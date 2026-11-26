@@ -24,8 +24,8 @@
   --code-dark:    #24211d;   /* code blocks stay dark in both themes */
   --code-text:    #e8e4dc;
   --veil:         rgba(250, 248, 243, 0.80);  /* translucent paper (sketchbook arrows on phones) */
-  --drawing-opacity: 0.24;   /* a post's drawing behind its title */
-  --page-drawing-opacity: 0.45;  /* a page's drawing (the park sketch on About) */
+  --card:         #fffdf9;   /* the paper a drawing is mounted on */
+  --card-shadow:  0 1px 2px rgba(28, 25, 23, 0.10), 0 8px 18px -10px rgba(28, 25, 23, 0.35);
 
   /* Type scale: body is 1rem (18px, 16px on phones); headings 1.05, 1.25 and 1.75rem */
   --fs-small:     0.85rem;   /* meta, nav, captions, tables, contents box, footer */
@@ -53,8 +53,8 @@
     --code-dark:    #0f0e0c;   /* code stays darker than the page */
     --code-text:    #e8e4dc;
     --veil:         rgba(23, 22, 20, 0.80);
-    --drawing-opacity: 0.16;
-    --page-drawing-opacity: 0.32;
+    --card:         #ebe5d8;   /* still paper in the dark: drawings never go on black */
+    --card-shadow:  0 1px 2px rgba(0, 0, 0, 0.45), 0 10px 22px -10px rgba(0, 0, 0, 0.8);
     color-scheme: dark;
   }
 }
@@ -154,6 +154,11 @@ body { margin: 0; padding: 0; }
   color: var(--text-muted);
 }
 
+/* Title, three links and the toggle need 322px; a 360px phone has 312 inside the gutters */
+@media (max-width: 400px) {
+  .nav-links a { margin-left: 0.9rem; }
+}
+
 .site-title:hover,
 .nav-links a:hover {
   color: var(--accent);
@@ -214,7 +219,10 @@ a:hover { color: var(--accent-dark); text-decoration: underline; }
 /* Links in running text are underlined, so they don't rely on colour alone (WCAG 1.4.1) */
 .post-content a,
 .page a,
-.site-intro a {
+.site-intro a,
+.post-meta a,
+.series-box-title a,
+.post-tags a {
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
@@ -223,7 +231,10 @@ a:hover { color: var(--accent-dark); text-decoration: underline; }
 
 .post-content a:hover,
 .page a:hover,
-.site-intro a:hover { text-decoration-color: currentColor; }
+.site-intro a:hover,
+.post-meta a:hover,
+.series-box-title a:hover,
+.post-tags a:hover { text-decoration-color: currentColor; }
 
 strong { color: var(--text); font-weight: 600; }
 
@@ -502,10 +513,20 @@ td small { white-space: nowrap; }
   letter-spacing: 0.01em;
 }
 
+/* What the blog is, in one line, then who writes it */
+.site-hook {
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.75rem;
+}
+
 .site-intro {
   font-size: 1rem;
   line-height: 1.6;
   margin: 0;
+  color: var(--text-muted);
 }
 
 
@@ -519,6 +540,7 @@ td small { white-space: nowrap; }
   margin: 0;
 }
 
+/* A row: the date, then the title (the archive) */
 .post-list li {
   position: relative;
   display: flex;
@@ -531,6 +553,38 @@ td small { white-space: nowrap; }
 
 .post-list li:first-child { border-top: 1px solid var(--border-soft); }
 
+/* The home page's rows: the post's drawing as a small card, then the date, title and description */
+.post-list-drawings li {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  grid-template-rows: auto auto auto 1fr;
+  align-items: start;
+  gap: 0 1.25rem;
+  padding: 1.25rem 0;
+}
+
+.post-list-drawings li > * { grid-column: 2; }
+
+.post-thumb {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  width: 72px;
+  height: auto;
+  margin: 0.2rem 0 0;
+  padding: 3px;
+  border-radius: 0;
+  background: var(--card);
+  box-shadow: var(--card-shadow);
+  transform: rotate(-2deg);
+}
+
+.post-list-drawings li > .post-thumb { grid-column: 1; }
+.post-list li:nth-child(even) .post-thumb { transform: rotate(1.5deg); }
+
+@media screen {
+  :root[data-theme="dark"] .post-thumb { filter: brightness(0.92); }
+}
+
 .post-date {
   font-size: var(--fs-small);
   color: var(--text-subtle);
@@ -538,6 +592,13 @@ td small { white-space: nowrap; }
   font-variant-numeric: tabular-nums;
   flex-shrink: 0;
   min-width: 95px;
+}
+
+.post-desc {
+  margin: 0.3rem 0 0;
+  font-size: var(--fs-small);
+  line-height: 1.5;
+  color: var(--text-muted);
 }
 
 .post-link {
@@ -563,7 +624,23 @@ td small { white-space: nowrap; }
 
 @media (max-width: 480px) {
   .post-list li { flex-direction: column; gap: 0.15rem; }
+  .post-list-drawings li { grid-template-columns: 56px minmax(0, 1fr); gap: 0 1rem; }
+  .post-thumb { width: 56px; }
 }
+
+.post-entry { min-width: 0; }
+
+/* A post's place in its series (_includes/series.html), under its title */
+.post-series {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: var(--fs-small);
+  line-height: 1.4;
+  color: var(--text-subtle);
+}
+
+/* Links inside .page are underlined (the archive); list titles keep the home look */
+.post-list .post-link { text-decoration: none; }
 
 
 /* -------------------------
@@ -576,55 +653,67 @@ td small { white-space: nowrap; }
   border-bottom: 1px solid var(--border);
 }
 
-/* A post's drawing (front matter `icon:`) fades in behind its title and out at the edges */
-.post-header.has-drawing {
-  position: relative;
-  isolation: isolate;
-  padding-top: 2.5rem;
+/* My drawings as cards (_includes/drawing.html): a sketchbook page pasted on, slightly askew. The
+   card is paper in both themes, so in the dark a drawing still sits on paper, never on black.
+   It straightens when pointed at, and links to the full-size drawing. */
+.drawing-card { margin: 0; }
+
+.drawing-card a {
+  display: block;
+  padding: 6px;
+  background: var(--card);
+  box-shadow: var(--card-shadow);
+  transform: rotate(-1.5deg);
+  transition: transform 0.2s ease;
 }
 
-.post-header.has-drawing::before {
-  content: '';
-  position: absolute;
-  inset: -1rem 0 0;
-  z-index: -1;
-  background: var(--drawing) center 40% / cover no-repeat;
-  opacity: var(--drawing-opacity);
-  -webkit-mask-image: radial-gradient(ellipse at center, #000 35%, transparent 72%);
-          mask-image: radial-gradient(ellipse at center, #000 35%, transparent 72%);
+.drawing-card a:hover { transform: rotate(0deg); }
+.drawing-card img { width: 100%; margin: 0; border-radius: 0; }
+
+.drawing-card figcaption {
+  margin-top: 0.85rem;
+  font-size: var(--fs-xsmall);
+  font-style: italic;
+  line-height: 1.45;
+  color: var(--text-muted);
 }
 
-/* The same for a page (front matter `drawing:`, e.g. the park sketch on About): a fixed-height
-   band behind the title and the opening lines, fading out before the rest of the page */
-.page.has-drawing {
-  position: relative;
-  isolation: isolate;
+@media screen {
+  :root[data-theme="dark"] .drawing-card img { filter: brightness(0.92); }  /* less glare */
 }
 
-.page.has-drawing::before {
-  content: '';
-  position: absolute;
-  top: -2rem;
-  left: 0;
-  right: 0;
-  height: 30rem;
-  z-index: -1;
-  background: var(--drawing) center 92% / cover no-repeat;  /* the sketch, not the trees above it */
-  opacity: var(--page-drawing-opacity);
-  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
-          mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+@media (prefers-reduced-motion: reduce) {
+  .drawing-card a { transition: none; }
 }
 
-/* A quote over the drawing: a soft glow in the page colour keeps its text legible over the
-   busy parts */
-.page.has-drawing blockquote {
-  text-shadow: 0 0 2px var(--bg), 0 0 8px var(--bg), 0 0 14px var(--bg);
+/* A post's drawing: under the title on phones, beside it from 640px */
+.post-header.has-drawing .drawing-card { width: 150px; margin: 0.25rem 0 1.5rem; }
+
+@media (min-width: 640px) {
+  .post-header.has-drawing {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 160px;
+    grid-template-rows: auto auto auto 1fr;
+    column-gap: 2rem;
+  }
+
+  .post-header.has-drawing > * { grid-column: 1; }
+
+  .post-header.has-drawing > .drawing-card {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    width: auto;
+    margin: 0.4rem 0 0;
+  }
 }
 
-@media (min-width: 760px) {
-  .post-header.has-drawing::before { inset: -1.5rem -3rem 0; }
-  .page.has-drawing::before { left: -3rem; right: -3rem; }
-}
+/* A page's drawing (front matter `drawing:`, the park sketch on About; the 404 page): centred
+   under the title */
+.drawing-card-page { width: min(300px, 75%); margin: 0.5rem auto 2.75rem; }
+
+/* 404 page */
+.not-found { text-align: center; }
+.not-found .drawing-card-page { margin-bottom: 2rem; }
 
 .post-title {
   font-size: 1.75rem;
@@ -649,10 +738,44 @@ td small { white-space: nowrap; }
   align-items: center;
 }
 
-.reading-time::before {
+.reading-time::before,
+.series-part::before {
   content: '·';
   margin-right: 0.5rem;
   color: var(--border);
+}
+
+/* Every part of the series, at the end of a post (_includes/series.html). Quiet like the
+   contents list: parts in muted text, the one being read in ink. */
+.series-box {
+  margin-top: 3rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+  font-size: var(--fs-small);
+  line-height: 1.45;
+}
+
+.series-box-title {
+  margin: 0 0 0.6rem;
+  color: var(--text-muted);
+}
+
+.series-box ol {
+  margin: 0;
+  padding-left: 1.4rem;
+}
+
+.series-box li { margin: 0.35rem 0; }
+.series-box li::marker { color: var(--text-subtle); }
+.series-box li > a { color: var(--text-muted); }
+.series-box li > a:hover { color: var(--accent); }
+.series-box [aria-current] { color: var(--text); font-weight: 600; }
+
+/* Tags, linked to their section of /archive/ */
+.post-tags {
+  margin: 1.5rem 0 0;
+  font-size: var(--fs-small);
+  color: var(--text-subtle);
 }
 
 /* Listen to this post (_includes/listen.html) */
@@ -746,6 +869,42 @@ td small { white-space: nowrap; }
 
 /* About page contact links (kramdown class `{: .page-links}`) */
 .page-links { color: var(--text-muted); }
+
+/* Archive (archive.html): series, then topics. Section labels are quiet like the contents
+   title; the group a post linked to is marked in red, like the active contents item. */
+.archive h2 {
+  margin: 3rem 0 0;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+}
+
+.archive h2:first-child { margin-top: 0; }
+
+.archive h3 {
+  margin: 1.75rem 0 0.6rem;
+  scroll-margin-top: 1.5rem;
+}
+
+.archive h2 + h3 { margin-top: 0.75rem; }
+
+.archive h3:target { color: var(--accent); }
+
+.archive-count {
+  margin-left: 0.35rem;
+  font-size: var(--fs-small);
+  font-weight: 400;
+  color: var(--text-subtle);
+  font-variant-numeric: tabular-nums;
+}
+
+.archive-note {
+  margin: 0 0 0.75rem;
+  font-size: var(--fs-small);
+  color: var(--text-muted);
+}
 
 
 /* -------------------------

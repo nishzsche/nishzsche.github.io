@@ -2,8 +2,9 @@
 layout: default
 ---
 
-{% comment %} Front matter `drawing:` fades that image in behind the title and the opening lines {% endcomment %}
-<div class="page{% if page.drawing %} has-drawing{% endif %}"{% if page.drawing %} style="--drawing: url('{{ page.drawing | relative_url }}')"{% endif %}>
+{% comment %} Front matter `drawing:` puts that drawing under the title as a card (_includes/drawing.html). drawing_width and drawing_height: its size, for a drawing without a 400 px thumbnail like home.jpg {% endcomment %}
+<div class="page">
   <h1 class="page-title">{{ page.title }}</h1>
+  {% if page.drawing %}{% include drawing.html src=page.drawing full=true width=page.drawing_width height=page.drawing_height class="drawing-card-page" %}{% endif %}
   {{ content }}
 </div>

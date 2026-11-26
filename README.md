@@ -44,13 +44,21 @@ bundle exec jekyll serve --drafts
 
 ### Drawings
 
-My sketchbook (Inktober 2026, plus `home.jpg`, the park sketch held up in the park) shows up in three places: faded behind each post's title (one Inktober drawing per post, picked at random once), the slideshow at the end of the About page (every Inktober drawing), and the park sketch faded behind the About page's title (`drawing:` in its front matter; any `layout: page` page can set one). New drawings (phone photos) go in `_drawings/`, which is git-ignored because the originals are large and carry location data. Then run:
+My sketchbook (Inktober 2026, plus `home.jpg`, the park sketch held up in the park) shows up as cards, each a page pasted on slightly askew:
+- **Beside each post's title:** a drawing chosen for that post, with a line tying it to the post. In the post's front matter: `icon: /public/drawings/<id>.jpg` and `icon_caption: "Inktober #N, Prompt: ..."`. The same drawing is the post's thumbnail on the home page.
+- **At the top of About:** the park sketch (`drawing:` in its front matter; any `layout: page` page can set one).
+- **On the 404 page:** The Scream.
+- **In the slideshow at the end of About:** every Inktober drawing.
+
+Alt text for every card comes from the drawing's entry in `_data/drawings.yml`. New drawings (phone photos) go in `_drawings/`, which is git-ignored because the originals are large and carry location data. Then run:
 
 ```bash
 uv run scripts/drawings.py
 ```
 
-It crops each new drawing to a square (`public/drawings/`, 1024 px, plus a 400 px thumbnail in `thumbs/`, metadata stripped) and gives every post without an `icon:` a random unused drawing in its front matter. Run it again after adding a post. Add a caption for a new drawing in `_data/drawings.yml`. If a crop catches the cutting mat, add the drawing to `CROPS` in the script and rerun with `--redo <id>`.
+It crops each new drawing to a square (`public/drawings/`, 1024 px, plus a 400 px thumbnail in `thumbs/`, metadata stripped) and lists the posts that don't have a drawing yet. Add a description for a new drawing in `_data/drawings.yml`. If a crop catches the cutting mat, add the drawing to `CROPS` in the script and rerun with `--redo <id>`.
+
+The default link-preview card (`public/site-card.png`, for pages without their own `image:`) is made by `uv run scripts/site_card.py`.
 
 There's no notebook pipeline any more: `notebooks/` keeps two old notebooks for reference and isn't published.
 
@@ -69,7 +77,8 @@ See [`WRITING.md`](WRITING.md) for:
 
 ```
 ├── _layouts/          # default, post, page layouts
-├── _includes/         # head.html (meta, OG tags, CSS)
+├── _includes/         # head.html (meta, OG tags, CSS), series.html, charts, comments
+├── _data/             # series.yml (post series), charts.yml, drawings.yml
 ├── _posts/            # published posts
 ├── _drafts/           # drafts and templates; short posts live in GitHub Issues
 │   ├── _template.md   # three-move post template

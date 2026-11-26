@@ -10,6 +10,7 @@
       <nav class="site-nav" aria-label="Site">
         <a class="site-title" href="{{ site.baseurl }}/">{{ site.title }}</a>
         <div class="nav-links">
+          <a href="{{ site.baseurl }}/archive/">Archive</a>
           <a href="{{ site.baseurl }}/about">About</a>
           <a href="{{ site.baseurl }}/atom.xml">Feed</a>
           <button class="theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode">
@@ -79,12 +80,14 @@
         try { return localStorage.getItem('theme'); } catch (e) { return null; }
       }
 
-      // Giscus comments live in an iframe, so they get the theme by message
+      // Giscus comments live in an iframe, so they get the theme by message: the blog's own
+      // Giscus themes (public/css/giscus-*.css, see comments.html)
       function syncGiscus() {
         var frame = document.querySelector('iframe.giscus-frame');
         if (!frame) return;
         var theme = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-        frame.contentWindow.postMessage({ giscus: { setConfig: { theme: theme } } }, 'https://giscus.app');
+        var url = {{ '/public/css/' | absolute_url | jsonify }} + 'giscus-' + theme + '.css';
+        frame.contentWindow.postMessage({ giscus: { setConfig: { theme: url } } }, 'https://giscus.app');
       }
 
       // Charts follow the theme. chart.html's dark <source> starts out following the system

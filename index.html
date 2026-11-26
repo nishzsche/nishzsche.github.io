@@ -6,6 +6,7 @@ title: Home
 {% if paginator.page == 1 %}
 <div class="home-intro">
   <h1 class="site-tagline">{{ site.tagline }}</h1>
+  <p class="site-hook">I put AI models through experiments on real data, and write down my guesses before I look.</p>
   <p class="site-intro">
     I'm <a href="{{ site.baseurl }}/about">{{ site.author.name }}</a>, a Lead Machine Learning Engineer.
     I've spent a decade building ML systems, from credit-risk models in fintech to insurance triage today.
@@ -13,11 +14,17 @@ title: Home
 </div>
 {% endif %}
 
-<ul class="post-list">
+<ul class="post-list post-list-drawings">
   {% for post in paginator.posts %}
   <li>
+    {% comment %} The post's drawing, small; the title link names the post, so the thumbnail is decorative {% endcomment %}
+    {% if post.icon %}<img class="post-thumb" src="{{ post.icon | replace: '/drawings/', '/drawings/thumbs/' | relative_url }}" alt="" width="400" height="400" loading="lazy" decoding="async">{% endif %}
     <time class="post-date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %d, %Y" }}</time>
-    <a class="post-link" href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+    <div class="post-entry">
+      <a class="post-link" href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+      {% include series.html post=post mode="label" %}
+    </div>
+    {% if post.description %}<p class="post-desc">{{ post.description }}</p>{% endif %}
   </li>
   {% endfor %}
 </ul>

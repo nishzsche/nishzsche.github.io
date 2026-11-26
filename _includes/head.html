@@ -15,7 +15,7 @@
       description: one or two sentences, under 160 characters (else the first paragraph is used)
       image:       path to a 1200x630 card, e.g. /public/images/<post>/social-card.png
       image_alt:   what the card shows, for screen readers
-    Site-wide fallback image: og_image in _config.yml.
+    Site-wide fallback image: og_image and og_image_alt in _config.yml.
   {% endcomment %}
   {% if page.url == "/" %}
     {% assign page_title = site.title %}
@@ -24,7 +24,11 @@
   {% endif %}
   {% assign page_description = page.description | default: page.excerpt | default: site.description | strip_html | strip_newlines | strip | truncate: 160 %}
   {% assign page_image = page.image | default: site.og_image %}
-  {% assign page_image_alt = page.image_alt | default: page_title %}
+  {% if page.image %}
+    {% assign page_image_alt = page.image_alt | default: page_title %}
+  {% else %}
+    {% assign page_image_alt = site.og_image_alt | default: page_title %}
+  {% endif %}
 
   <meta name="description" content="{{ page_description | escape }}">
 

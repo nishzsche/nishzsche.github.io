@@ -34,8 +34,10 @@ exclude:
   - Gemfile.lock
   - vendor/
 
-# Link previews: fallback image for pages without their own `image:` (1200x630)
-og_image:
+# Link previews: fallback image for pages without their own `image:` (1200x630, made by
+# scripts/site_card.py), with its description for screen readers
+og_image: /public/site-card.png
+og_image_alt: "Learning curve: Testing what I think I know. Experiments on AI models, with real data and my guesses written down first. Beside it, a sketch of a park held up in the park."
 
 # Analytics: set one to switch it on (empty = off)
 goatcounter_code:    nishzsche   # https://nishzsche.goatcounter.com

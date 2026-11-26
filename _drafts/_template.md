@@ -3,6 +3,7 @@ layout: post
 title: ""
 date: YYYY-MM-DD
 tags: []
+# series:   # a key from _data/series.yml, if this post is part of one
 ---
 
 ## The Confusion

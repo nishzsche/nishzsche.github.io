@@ -3,26 +3,36 @@
   giscus.repo_id and giscus.category_id are set in _config.yml (values from https://giscus.app).
   Hidden on review copies (noindex: true) and on any page with comments: false.
   Options match the author's giscus.app settings; data-loading="lazy" waits until readers scroll near.
-  data-theme starts from the system setting; the theme script in default.html switches it to the
-  reader's light/dark choice once Giscus loads, and again whenever they use the toggle.
+  Themed to match the blog (public/css/giscus-light.css and giscus-dark.css, which Giscus loads by
+  URL from the live site). The script is added here, not written as a tag, so it can start in the
+  page's theme (set in head.html); the theme script in default.html keeps it in step after that.
 {% endcomment %}
 {% if site.giscus.repo_id and site.giscus.category_id and page.comments != false and page.noindex != true %}
 <section class="comments">
-  <script src="https://giscus.app/client.js"
-          data-repo="{{ site.giscus.repo }}"
-          data-repo-id="{{ site.giscus.repo_id }}"
-          data-category="{{ site.giscus.category }}"
-          data-category-id="{{ site.giscus.category_id }}"
-          data-mapping="pathname"
-          data-strict="0"
-          data-reactions-enabled="1"
-          data-emit-metadata="0"
-          data-input-position="bottom"
-          data-theme="preferred_color_scheme"
-          data-lang="en"
-          data-loading="lazy"
-          crossorigin="anonymous"
-          async>
+  <script>
+    (function () {
+      var theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+      var attrs = {
+        'data-repo': {{ site.giscus.repo | jsonify }},
+        'data-repo-id': {{ site.giscus.repo_id | jsonify }},
+        'data-category': {{ site.giscus.category | jsonify }},
+        'data-category-id': {{ site.giscus.category_id | jsonify }},
+        'data-mapping': 'pathname',
+        'data-strict': '0',
+        'data-reactions-enabled': '1',
+        'data-emit-metadata': '0',
+        'data-input-position': 'bottom',
+        'data-theme': {{ '/public/css/' | absolute_url | jsonify }} + 'giscus-' + theme + '.css',
+        'data-lang': 'en',
+        'data-loading': 'lazy'
+      };
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      script.crossOrigin = 'anonymous';
+      for (var name in attrs) script.setAttribute(name, attrs[name]);
+      document.currentScript.parentNode.appendChild(script);
+    })();
   </script>
 </section>
 {% endif %}
