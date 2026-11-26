@@ -59,7 +59,7 @@ Each AI model answered three ways:
 
 Here's the whole test in one picture, a [reliability diagram](https://scikit-learn.org/stable/modules/calibration.html#calibration-curves). For each model, I sorted the customers by predicted risk, split them into ten equal groups, and plotted what the model promised for each group against what actually happened.
 
-![Six panels, one per AI model, plotting the default rate each promised against what actually happened, for ten groups of customers. Jev and Kev-4B sit far below the honest diagonal; Kev-0.8B and Qwen3.5-4B sit below it; Laya and GPT-6.2 Sol stay close to it, like the scorecard's grey reference line.](/public/images/can-ai-know-when-its-wrong/1_promised_vs_actual.png){: data-dark-src="/public/images/can-ai-know-when-its-wrong/1_promised_vs_actual-dark.png"}
+{% include chart.html src="/public/images/can-ai-know-when-its-wrong/1_promised_vs_actual.png" alt="Six panels, one per AI model, plotting the default rate each promised against what actually happened, for ten groups of customers." words="Jev and Kev-4B sit far below the honest diagonal; Kev-0.8B and Qwen3.5-4B sit below it; Laya and GPT-6.2 Sol stay close to it, like the scorecard's grey reference line." %}
 
 On the diagonal, a model is honest: when it says 30%, 30% default. Below it, the model is too pessimistic. Take the top-right dot in Jev's panel, the 200 customers Jev rated riskiest: it promised that about 80% of them would default, and 63% did. The grey line is the scorecard, and it hugs the diagonal.
 
@@ -92,7 +92,7 @@ The one extra sentence took Kev-4B from 27 points off to 3, Jev from 26 to about
 
 There's a more reliable way to use the same fact: shift each model's numbers by one fixed amount until they average 22%. That needs no customer outcomes and can't change how a model ranks. It beat the sentence for four of the six models, leaving Kev-4B 2 points off and Jev 7.
 
-![Calibration error for each AI model in four versions: out of the box, told the base rate, shifted to a 22.1% average, and recalibrated. Recalibration brings every model's error down to 4 points or less. The base-rate sentence helps Kev-4B most and makes Kev-0.8B much worse; the shift does better than the sentence for Jev, Kev-4B, Kev-0.8B and Qwen3.5-4B.](/public/images/can-ai-know-when-its-wrong/2_honesty_arc.png){: data-dark-src="/public/images/can-ai-know-when-its-wrong/2_honesty_arc-dark.png"}
+{% include chart.html src="/public/images/can-ai-know-when-its-wrong/2_honesty_arc.png" alt="Calibration error for each AI model in four versions: out of the box, told the base rate, shifted to a 22.1% average, and recalibrated." words="Recalibration brings every model's error down to 4 points or less. The base-rate sentence helps Kev-4B most and makes Kev-0.8B much worse; the shift does better than the sentence for Jev, Kev-4B, Kev-0.8B and Qwen3.5-4B." %}
 
 ### 3. The closest model knew this dataset
 
@@ -110,7 +110,7 @@ Honest percentages are half the job. The other half is putting risky customers a
 
 In lending terms, that gap is small. Approving the 80% of customers each model rated safest, 13.6% of the scorecard's approvals would default, against 13.4% of Sol's.
 
-![Bar charts of ranking ability (AUC and KS) for all eight models, out of the box. Gradient boosting (AUC 0.789) and the scorecard (0.777), both trained, rank best. The best zero-shot AI models, GPT-6.2 Sol (0.754) and Kev-0.8B (0.750), come next, and Kev-4B ranks worst (0.594).](/public/images/can-ai-know-when-its-wrong/3_ranking_auc_ks.png){: data-dark-src="/public/images/can-ai-know-when-its-wrong/3_ranking_auc_ks-dark.png"}
+{% include chart.html src="/public/images/can-ai-know-when-its-wrong/3_ranking_auc_ks.png" alt="Bar charts of ranking ability (AUC and KS) for all eight models, out of the box." words="Gradient boosting (AUC 0.789) and the scorecard (0.777), both trained, rank best. The best zero-shot AI models, GPT-6.2 Sol (0.754) and Kev-0.8B (0.750), come next, and Kev-4B ranks worst (0.594)." %}
 
 ### 5. You can buy honesty back, with labels
 
@@ -120,7 +120,7 @@ Recalibrating on 2,000 customers with known outcomes brought every AI model to w
 
 Sol cost about 74 cents per 1,000 decisions, Jev about 2 cents, and the open models under 2 cents on one rented GPU. The whole experiment, every check included, cost about 14 dollars in API calls plus a few more for GPU time.
 
-![Scatter of cost per 1,000 decisions against ranking ability (AUC). The trained models cost almost nothing to run and rank best. GPT-6.2 Sol costs about 74 cents per 1,000 decisions and ranks about as well as Kev-0.8B, which costs under a cent.](/public/images/can-ai-know-when-its-wrong/5_cost_vs_auc.png){: data-dark-src="/public/images/can-ai-know-when-its-wrong/5_cost_vs_auc-dark.png"}
+{% include chart.html src="/public/images/can-ai-know-when-its-wrong/5_cost_vs_auc.png" alt="Scatter of cost per 1,000 decisions against ranking ability (AUC)." words="The trained models cost almost nothing to run and rank best. GPT-6.2 Sol costs about 74 cents per 1,000 decisions and ranks about as well as Kev-0.8B, which costs under a cent." %}
 
 ## Why the results look like this
 

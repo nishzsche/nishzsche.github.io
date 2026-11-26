@@ -1,0 +1,27 @@
+{%- comment -%}
+  A chart, in light and dark. In a post, on its own line:
+
+    {% include chart.html src="/public/images/<post>/<name>.png" alt="..." words="..." %}
+
+  src    the light PNG. The dark one sits beside it as <name>-dark.png.
+  alt    one sentence: what the chart shows.
+  words  optional: the numbers in words, behind "Chart in words" under the chart.
+  eager  true for a chart near the top of the post, so it loads straight away.
+
+  Width and height come from _data/charts.yml, so the page doesn't jump as charts load. Run
+  `uv run scripts/chart_sizes.py` after adding or re-exporting charts. Charts wider than the text
+  column (over 1400 px, shown at half size) grow past it on big screens, so their text stays
+  readable. The dark source follows the system setting until the script in default.html takes
+  over, so most readers download only the version they see.
+{%- endcomment -%}
+{%- assign size = site.data.charts[include.src] -%}
+{%- assign dark = include.src | replace: '.png', '-dark.png' -%}
+<figure class="chart{% if size and size[0] > 1400 %} chart-wide{% endif %}"{% if size %} style="--w: {{ size[0] | divided_by: 2 }}px"{% endif %}>
+<picture>
+<source srcset="{{ dark | relative_url }}" media="(prefers-color-scheme: dark)" data-chart-dark>
+<img src="{{ include.src | relative_url }}" alt="{{ include.alt | escape }}"{% if size %} width="{{ size[0] }}" height="{{ size[1] }}"{% endif %}{% unless include.eager %} loading="lazy"{% endunless %} decoding="async">
+</picture>
+{%- if include.words %}
+<figcaption><details class="chart-words"><summary>Chart in words</summary><p>{{ include.words | escape }}</p></details></figcaption>
+{%- endif %}
+</figure>

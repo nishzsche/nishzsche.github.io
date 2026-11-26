@@ -38,7 +38,7 @@ Here is how the eight did, counting a predicted risk of 50% or more as "will def
 
 \*Trained on 20,000 customers whose outcomes were known. The AI models answered cold, with no examples.
 
-![Each model's accuracy at the usual 50% cut-off, beside the share of the 442 defaulters it caught. Doing nothing, saying "won't default" to everyone, is 77.9% accurate and catches none. Gradient boosting is the most accurate at 82.5%, 4.6 points above doing nothing. Laya (76.5%), Jev (60.9%) and Kev-4B (55.2%) are less accurate than doing nothing, yet Jev and Kev-4B catch the most defaulters, 71% and 64%.](/public/images/why-99-percent-accuracy/post2_accuracy.png){: data-dark-src="/public/images/why-99-percent-accuracy/post2_accuracy-dark.png"}
+{% include chart.html src="/public/images/why-99-percent-accuracy/post2_accuracy.png" alt="Each model's accuracy at the usual 50% cut-off, beside the share of the 442 defaulters it caught." words="Doing nothing, saying “won't default” to everyone, is 77.9% accurate and catches none. Gradient boosting is the most accurate at 82.5%, 4.6 points above doing nothing. Laya (76.5%), Jev (60.9%) and Kev-4B (55.2%) are less accurate than doing nothing, yet Jev and Kev-4B catch the most defaulters, 71% and 64%." %}
 
 Three things stand out:
 
@@ -60,7 +60,7 @@ So which model is best? Accuracy can't say, because it's answering the wrong que
 
 This four-way count is called a [confusion matrix](https://en.wikipedia.org/wiki/Confusion_matrix), and accuracy only adds up two of its columns: defaulters caught plus payers approved. The other two are where the money goes. The scorecard misses two defaulters in three but turns away few good customers. Jev catches 71% of the defaulters, but only by turning away 656 people who would have paid.
 
-![Where the 2,000 test customers landed at the 50% cut-off, for doing nothing, the scorecard and Jev. Of the 442 who defaulted, doing nothing misses all 442, the scorecard misses 291 and Jev 126. Of the 1,558 who paid, doing nothing turns away none, the scorecard 74 and Jev 656. Accuracy adds up only the right calls.](/public/images/why-99-percent-accuracy/post2_confusion.png){: data-dark-src="/public/images/why-99-percent-accuracy/post2_confusion-dark.png"}
+{% include chart.html src="/public/images/why-99-percent-accuracy/post2_confusion.png" alt="Where the 2,000 test customers landed at the 50% cut-off, for doing nothing, the scorecard and Jev." words="Of the 442 who defaulted, doing nothing misses all 442, the scorecard misses 291 and Jev 126. Of the 1,558 who paid, doing nothing turns away none, the scorecard 74 and Jev 656. Accuracy adds up only the right calls." %}
 
 **Whether it can rank.** Pick one customer who defaulted and one who paid, at random. How often does the model rate the defaulter as riskier? That's a model's ranking power, known as [AUC](https://en.wikipedia.org/wiki/Receiver_operating_characteristic#Area_under_the_curve), and 50% is a coin toss. The scorecard gets it right 78 times in 100, gradient boosting 79, Kev-0.8B 75 and Qwen 74. No cut-off is involved.
 
@@ -95,7 +95,7 @@ A bank can use each real model in two ways:
 
 \*Trained on 20,000 customers whose outcomes were known; the AI models answered cold.
 
-![Profit per 1,000 customers for each model, sorted by accuracy. Gradient boosting, the scorecard and GPT-6.2 Sol earn about 300 either way. Qwen earns 17 on its own percentages and 252 with a learned cut-off, Kev-0.8B 99 and 306, Jev 14 and 226. Approving everyone loses 105.](/public/images/why-99-percent-accuracy/post2_profit.png){: data-dark-src="/public/images/why-99-percent-accuracy/post2_profit-dark.png"}
+{% include chart.html src="/public/images/why-99-percent-accuracy/post2_profit.png" alt="Profit per 1,000 customers for each model, sorted by accuracy." words="Gradient boosting, the scorecard and GPT-6.2 Sol earn about 300 either way. Qwen earns 17 on its own percentages and 252 with a learned cut-off, Kev-0.8B 99 and 306, Jev 14 and 226. Approving everyone loses 105." %}
 
 - **Qwen is as accurate as the scorecard.** Taken at its word, it approves 5 customers in 100 and earns 17 units per 1,000, against the scorecard's 284. Its percentages run about 1.6 times too high, so almost everyone looks too risky to lend to. The confusion matrix at the 20% cut-off shows it plainly: Qwen catches 428 of the 442 defaulters, but turns away 1,468 of the 1,558 customers who would have paid. The scorecard, at the same cut-off, catches 272 and turns away 309.
 - **Kev-0.8B is the most striking.** It ranks well enough that, with a cut-off learned from known outcomes, it earns 306, the most of any model in the table. Taken at its word, it earns 99. Two-thirds of its value is lost to percentages that don't mean what they say.
@@ -108,7 +108,7 @@ The comparison isn't even. The scorecard and gradient boosting learned from 20,0
 
 Raise the cost of a default to 6 units and approving everyone loses 547 per 1,000. The trained models, taken at their word, still earn about 190. The best AI model at its word, Sol, earns 110, and Kev-0.8B approves nobody. At 10 to 1, only the trained models make real money: every AI model taken at its word either loses money or approves almost nobody.
 
-![Profit per 1,000 customers when a lender takes each model at its word, as the cost of one default rises from 1 to 10 times what a paying customer earns. Approving everyone drops below zero at about 3.5 and loses 547 at 6. Gradient boosting and the scorecard stay profitable throughout: about 190 at 6, and 92 and 62 at 10. GPT-6.2 Sol earns 110 at 6 but loses money by 10, as does Laya. Jev, Qwen and both Kev models approve only a few customers in 100, or none, once a default costs 5 or more.](/public/images/why-99-percent-accuracy/post2_cost_ratio.png){: data-dark-src="/public/images/why-99-percent-accuracy/post2_cost_ratio-dark.png"}
+{% include chart.html src="/public/images/why-99-percent-accuracy/post2_cost_ratio.png" alt="Profit per 1,000 customers when a lender takes each model at its word, as the cost of one default rises from 1 to 10 times what a paying customer earns." words="Approving everyone drops below zero at about 3.5 and loses 547 at 6. Gradient boosting and the scorecard stay profitable throughout: about 190 at 6, and 92 and 62 at 10. GPT-6.2 Sol earns 110 at 6 but loses money by 10, as does Laya. Jev, Qwen and both Kev models approve only a few customers in 100, or none, once a default costs 5 or more." %}
 
 The costlier a bad approval, the more every decision rests on the low-risk end of the list, and on the percentages there being honest.
 
