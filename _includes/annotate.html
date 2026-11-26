@@ -1,0 +1,120 @@
+{% comment %}
+  Private annotations for the author. Off for everyone until a browser visits a post with
+  ?annotate (remembered in localStorage; ?annotate=off forgets it). When on, selecting text in
+  the post shows an "Ask" button that opens a prefilled issue in the private notes repo, with
+  the quote, a link back to the exact passage, its section and the post's source file.
+  /annotations in Claude Code pulls those issues and works through them. See WRITING.md.
+{% endcomment %}
+<script>
+(function () {
+  var REPO = 'nishzsche/blog-notes';
+
+  var q = location.search.match(/[?&]annotate(?:=([^&]*))?/);
+  try {
+    if (q) {
+      if (q[1] === 'off') localStorage.removeItem('annotate');
+      else localStorage.setItem('annotate', '1');
+    }
+    if (localStorage.getItem('annotate') !== '1') return;
+  } catch (e) {
+    if (!q || q[1] === 'off') return;   // storage blocked: ?annotate still works for this visit
+  }
+
+  var content = document.querySelector('.post-content');
+  if (!content) return;
+
+  var post = {
+    title: {{ page.title | jsonify }},
+    url: {{ page.url | absolute_url | jsonify }},
+    source: {{ page.path | jsonify }}
+  };
+  var slug = post.source.replace(/^.*\//, '').replace(/^\d{4}-\d{2}-\d{2}-/, '').replace(/\.\w+$/, '');
+
+  var style = document.createElement('style');
+  style.textContent =
+    '.annotate-ask{position:absolute;z-index:50;display:none;padding:.3rem .8rem;' +
+    'font-size:var(--fs-small);line-height:1.4;color:var(--bg);background:var(--text);' +
+    'border-radius:999px;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.2)}' +
+    '.annotate-ask:hover,.annotate-ask:focus{color:var(--bg);text-decoration:underline}';
+  document.head.appendChild(style);
+
+  var btn = document.createElement('a');
+  btn.className = 'annotate-ask';
+  btn.textContent = 'Ask';
+  btn.target = '_blank';
+  btn.rel = 'noopener';
+  document.body.appendChild(btn);
+
+  // Keep the selection alive while the button is pressed; hide once the issue tab opens
+  btn.addEventListener('mousedown', function (e) { e.preventDefault(); });
+  btn.addEventListener('click', function () { setTimeout(hide, 0); });
+
+  function hide() { btn.style.display = 'none'; }
+
+  // Text fragment link (#:~:text=) that scrolls to and highlights the passage
+  function fragment(text) {
+    function enc(s) { return encodeURIComponent(s).replace(/-/g, '%2D'); }
+    var words = text.split(' ');
+    if (words.length <= 8) return post.url + '#:~:text=' + enc(text);
+    return post.url + '#:~:text=' + enc(words.slice(0, 4).join(' ')) + ',' + enc(words.slice(-4).join(' '));
+  }
+
+  // The h2/h3 the selection sits under
+  function section(range) {
+    var heads = content.querySelectorAll('h2, h3'), found = '';
+    for (var i = 0; i < heads.length; i++) {
+      if (heads[i].compareDocumentPosition(range.startContainer) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        found = heads[i].textContent.trim();
+      } else break;
+    }
+    return found;
+  }
+
+  function issueUrl(raw, range) {
+    var flat = raw.replace(/\s+/g, ' ').trim();
+    var quote = raw.length > 1500 ? raw.slice(0, 1500) + '...' : raw;
+    var lines = quote.split(/\n+/).map(function (l) { return l.trim(); }).filter(Boolean);
+    var head = flat.split(' ').slice(0, 8).join(' ');
+    var sec = section(range);
+
+    var title = slug + ': "' + head + (flat.split(' ').length > 8 ? '..."' : '"');
+    var body =
+      '**Post:** [' + post.title + '](' + post.url + ')\n' +
+      '**Passage:** ' + fragment(flat) + '\n' +
+      (sec ? '**Section:** ' + sec + '\n' : '') +
+      '**Source:** `' + post.source + '`\n\n' +
+      '> ' + lines.join('\n>\n> ') + '\n\n' +
+      '**Question:**\n\n';
+
+    return 'https://github.com/' + REPO + '/issues/new?labels=annotation' +
+      '&title=' + encodeURIComponent(title) + '&body=' + encodeURIComponent(body);
+  }
+
+  function place() {
+    var sel = window.getSelection();
+    if (!sel || sel.isCollapsed || !sel.rangeCount) return hide();
+    var range = sel.getRangeAt(0);
+    var raw = sel.toString().trim();
+    if (raw.length < 3 || !content.contains(range.commonAncestorContainer)) return hide();
+
+    btn.href = issueUrl(raw, range);
+
+    // Just below the end of the selection, kept inside the viewport
+    var rects = range.getClientRects();
+    var r = rects.length ? rects[rects.length - 1] : range.getBoundingClientRect();
+    btn.style.display = 'block';
+    var w = btn.offsetWidth, vw = document.documentElement.clientWidth;
+    var left = Math.min(Math.max(r.right - w / 2, 8), vw - w - 8);
+    btn.style.left = (left + window.scrollX) + 'px';
+    btn.style.top = (r.bottom + window.scrollY + 10) + 'px';
+  }
+
+  // selectionchange covers mouse, keyboard and touch selection; wait for it to settle
+  var timer;
+  document.addEventListener('selectionchange', function () {
+    clearTimeout(timer);
+    timer = setTimeout(place, 200);
+  });
+  window.addEventListener('resize', hide);
+})();
+</script>
