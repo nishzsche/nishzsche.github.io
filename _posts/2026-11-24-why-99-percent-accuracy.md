@@ -10,6 +10,9 @@ image_alt: "Why 99% accuracy can still be a disaster. Profit per 1,000 customers
 toc: true
 icon: /public/drawings/20261027-155301.jpg
 icon_caption: "Inktober #16, Gangly: Vincent Adultman passes for a grown-up, until you look closely."
+updates:
+  - date: 2026-11-24 19:19:00 +0530
+    note: "Corrected the share of defaulters Jev and Kev-4B caught from 72% and 65% to 71% and 64% (they had been rounded twice), and added three charts."
 ---
 
 *On my credit data, a model that says "nobody will default" is right 78% of the time. A bank that used it would lose money.*
@@ -131,6 +134,8 @@ A model that ranks well but states the wrong percentages is still usable, if you
 
 ## What's next
 
-Most of the gap in that table comes from AI models answering cold against models that learned from 20,000 customers. So I'm running the fair fight: every AI model gets those same 20,000 customers, by training where it can be trained and by seeing examples where it can't. Two newcomers join them: AI models built specifically for tables, NVIDIA's [Kumo-Tabular](https://huggingface.co/nvidia/Kumo-Tabular) and [TabICLv2](https://github.com/soda-inria/tabicl). They read all 20,000 customers at once and predict the rest, with no training at all. That's [the next post](/2026/11/25/fair-fight/).
+Most of the gap in that table comes from AI models answering cold against models that learned from 20,000 customers. So I ran the fair fight: every AI model got those same 20,000 customers, by training where it could be trained and by seeing examples where it couldn't. Two newcomers joined them: AI models built specifically for tables, NVIDIA's [Kumo-Tabular](https://huggingface.co/nvidia/Kumo-Tabular) and [TabICLv2](https://github.com/soda-inria/tabicl). They read all 20,000 customers at once and predict the rest, with no training at all. That's [the next post](/2026/11/25/fair-fight/).
 
 The numbers here come from `analysis/accuracy.py` in the [project repo](https://github.com/nishzsche/can-ai-know-when-its-wrong), using the same predictions as the last post.
+
+**Accuracy counts the mistakes. A lender has to pay for them.**

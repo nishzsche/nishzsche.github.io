@@ -38,6 +38,21 @@ layout: default
   </div>
 
   {% comment %} Outside .post-content, so the contents list, Listen and annotations skip them {% endcomment %}
+  {% comment %} Changes after publishing: front matter `updates:`, a list of {date, note}. The latest also sets dateModified in head.html {% endcomment %}
+  {% if page.updates %}
+  <aside class="post-updates" aria-label="Updates">
+    <p class="post-updates-title">Updated since publishing</p>
+    <ul>
+      {% for update in page.updates %}<li><time datetime="{{ update.date | date: '%Y-%m-%d' }}">{{ update.date | date: "%b %d, %Y" }}</time>: {{ update.note }}</li>{% endfor %}
+    </ul>
+  </aside>
+  {% endif %}
+
+  {% comment %} How to follow along: the feed and LinkedIn (author.linkedin in _config.yml) {% endcomment %}
+  {% if page.collection == "posts" %}
+  <p class="post-follow">New posts arrive in <a href="{{ site.baseurl }}/atom.xml">the feed</a>{% if site.author.linkedin %} and on <a href="{{ site.author.linkedin }}">LinkedIn</a>{% endif %}.</p>
+  {% endif %}
+
   {% include series.html mode="box" %}
 
   {% comment %} Published posts only: a review copy isn't on /archive/ yet {% endcomment %}

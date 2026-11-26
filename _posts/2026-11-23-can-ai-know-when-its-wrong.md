@@ -10,6 +10,9 @@ image_alt: "Chart: Jev said 48% of these customers would default, and 22% did. A
 toc: true
 icon: /public/drawings/20261030-163259.jpg
 icon_caption: "Inktober #19, Confused: the face I'd like a model to make when it isn't sure."
+updates:
+  - date: 2026-11-24 00:47:00 +0530
+    note: "Added the caveat that honest isn't the same as self-aware."
 ---
 
 *I checked whether their percentages come true, the way banks are expected to check their own.*
@@ -146,7 +149,7 @@ I broke the test customers down by their most recent repayment status:
 
 ## I got most of my own predictions wrong
 
-Before running anything, I wrote down my guesses and committed them to the repository, so I couldn't quietly revise them later.
+Before running anything, I wrote down my guesses and [committed them to the repository](https://github.com/nishzsche/can-ai-know-when-its-wrong/blob/main/PREDICTIONS.md), so I couldn't quietly revise them later.
 
 | My guess | What happened |
 |---|---|
@@ -179,4 +182,6 @@ One out of four. The 20-customer trial run I did before guessing had already sho
 
 Everything behind these results is in [the deep dive](https://github.com/nishzsche/can-ai-know-when-its-wrong/blob/main/writeup/deep_dive.md): the statistics behind each claim, every check I ran to see whether the results could be fooling me, the tables model by model, related research and how to reproduce it all. The code and every prediction are on [GitHub](https://github.com/nishzsche/can-ai-know-when-its-wrong).
 
-Percentages that don't come true are one way a model can mislead you. A single headline number is another, so next I looked at [why 99% accuracy can still be a disaster](/2026/11/24/why-99-percent-accuracy/). After that comes the sequel to this post: training my own small decision model and rewarding it for knowing when it doesn't know.
+Percentages that don't come true are one way a model can mislead you. A single headline number is another, so next I looked at [why 99% accuracy can still be a disaster](/2026/11/24/why-99-percent-accuracy/). Then I gave the AI models the 20,000 customers the bank's models learned from, in [a fair fight](/2026/11/25/fair-fight/).
+
+**A percentage is a promise: check whether it comes true.**

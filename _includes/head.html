@@ -70,7 +70,9 @@
   {% endif %}
 
   {% if page.layout == 'post' %}
-  <!-- Structured data for search engines. Front matter `last_modified_at` marks an update. -->
+  <!-- Structured data for search engines. dateModified: the latest of the post's `updates:`
+       (shown at the end of the post), else `last_modified_at`, else the publishing date. -->
+  {% assign last_update = page.updates | map: "date" | sort | last %}
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -78,7 +80,7 @@
     "headline": {{ page.title | jsonify }},
     "description": {{ page_description | jsonify }},
     "datePublished": "{{ page.date | date_to_xmlschema }}",
-    "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
+    "dateModified": "{{ last_update | default: page.last_modified_at | default: page.date | date_to_xmlschema }}",
     {% if page_image %}"image": "{{ page_image | absolute_url }}",{% endif %}
     "url": "{{ page.url | absolute_url }}",
     "mainEntityOfPage": "{{ page.url | absolute_url }}",

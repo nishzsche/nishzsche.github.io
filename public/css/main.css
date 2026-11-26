@@ -220,8 +220,12 @@ a:hover { color: var(--accent-dark); text-decoration: underline; }
 .post-content a,
 .page a,
 .site-intro a,
+.start-here a,
 .post-meta a,
 .series-box-title a,
+.series-box-methods a,
+.post-follow a,
+.post-updates a,
 .post-tags a {
   text-decoration: underline;
   text-decoration-thickness: 1px;
@@ -232,8 +236,12 @@ a:hover { color: var(--accent-dark); text-decoration: underline; }
 .post-content a:hover,
 .page a:hover,
 .site-intro a:hover,
+.start-here a:hover,
 .post-meta a:hover,
 .series-box-title a:hover,
+.series-box-methods a:hover,
+.post-follow a:hover,
+.post-updates a:hover,
 .post-tags a:hover { text-decoration-color: currentColor; }
 
 strong { color: var(--text); font-weight: 600; }
@@ -529,6 +537,12 @@ td small { white-space: nowrap; }
   color: var(--text-muted);
 }
 
+.start-here {
+  margin: 0.9rem 0 0;
+  font-size: var(--fs-small);
+  color: var(--text-muted);
+}
+
 
 /* -------------------------
    Post List (Home)
@@ -770,6 +784,27 @@ td small { white-space: nowrap; }
 .series-box li > a { color: var(--text-muted); }
 .series-box li > a:hover { color: var(--accent); }
 .series-box [aria-current] { color: var(--text); font-weight: 600; }
+.series-box-methods { margin: 0.9rem 0 0; color: var(--text-muted); }
+
+/* After the post's last line: what changed since publishing, then how to follow along */
+.post-updates {
+  margin-top: 2.5rem;
+  font-size: var(--fs-small);
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.post-updates-title { margin: 0 0 0.35rem; font-weight: 600; color: var(--text); }
+.post-updates ul { margin: 0; padding-left: 1.2rem; }
+.post-updates li { margin: 0.25rem 0; }
+
+.post-follow {
+  margin: 2rem 0 0;
+  font-size: var(--fs-small);
+  color: var(--text-muted);
+}
+
+.post-updates + .post-follow { margin-top: 1.25rem; }
 
 /* Tags, linked to their section of /archive/ */
 .post-tags {
@@ -1037,6 +1072,7 @@ td small { white-space: nowrap; }
   .listen,
   .toc,
   .toc-inline,
+  .post-follow,
   .comments { display: none !important; }
 
   .table-scroll { overflow: visible; }

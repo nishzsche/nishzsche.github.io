@@ -15,6 +15,7 @@ timezone:            Asia/Kolkata
 author:
   name:              Nishanth Rajamani
   url:               https://x.com/nishzsche
+  linkedin:          https://www.linkedin.com/in/nishanthrajamani   # the follow line under each post
 
 # Gems: GitHub Pages runs only the plugins listed here, whatever the Gemfile says
 plugins:
