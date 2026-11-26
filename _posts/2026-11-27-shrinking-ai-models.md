@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "I shrank AI models. It saved memory, not time."
-date: 2026-11-27 12:00:00 +0530
+date: 2026-11-27 00:55:00 +0530
 tags: [probability]
 description: "I squeezed three trained AI models down to 8, 4, 3 and 2 bits. Their percentages held up to 4 bits. Shrinking saved memory, but rarely time."
 image: /public/images/shrinking-ai-models/social-card.png
