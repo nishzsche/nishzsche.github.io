@@ -47,7 +47,7 @@ Where a post says a model was corrected, it means a correction learned on the 2,
 - **The same months:** the test customers come from the same months as the training customers. Banks validate on a later period, because patterns drift.
 - **A famous dataset:** some AI models have seen it in training. GPT-6.2 Sol recognizes it and knows its default rate.
 - **"Default" is the dataset's label:** missing next month's payment, not the 90-days-overdue definition banks use for capital.
-- **Wording matters:** every AI model got the same template. Changing the wording moved results by up to 13 points.
+- **Wording and layout matter:** every AI model got the same template. Changing the wording moved results by up to 13 points, and writing the same numbers in another layout moved one model's ranking from 0.716 to 0.478 ([post 5](/2026/11/27/reading-tables/)).
 - **Fair lending isn't tested:** leaving out age, sex, marital status and education keeps them out of the inputs, not out of the outcomes.
 - **Models change:** the results are for the versions tested in November 2026, all recorded.
 

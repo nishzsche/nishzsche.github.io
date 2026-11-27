@@ -1,25 +1,16 @@
 ---
 layout: post
 title: "Why AI can write code but struggle to read a table"
-date: 2026-11-27
-tags: [deep-learning, experiment]
+date: 2026-11-27 16:55:00 +0530
+tags: [deep-learning, mlops, experiment]
 series: can-ai-know-when-its-wrong
-permalink: /review/reading-tables/
 description: "Six AI models read the same 2,000 credit-card customers as a table, as sentences, as CSV and as JSON. Not one number changed, but the answers did."
+image: /public/images/reading-tables/social-card.png
+image_alt: "Why AI can write code but struggle to read a table. Each AI model's ranking (AUC) of the same 2,000 customers in six layouts of the same numbers: Laya from 0.478 with JSON to 0.716 with sentences, Kev-4B from 0.594 with the original table to 0.729 with JSON, and Qwen3.5-4B, Jev, Kev-0.8B and GPT-6.2 Sol between 0.69 and 0.76."
 toc: true
-# Review copy: not listed on the home page or in the feed, hidden from search engines and the
-# sitemap, with Hypothesis for comments. To launch, move it to _posts/ and drop these four.
-noindex: true
-sitemap: false
-hypothesis: true
-comments: false
+icon: /public/drawings/20261011-135317.jpg
+icon_caption: "Inktober #10, Mystical: the same stars, joined up into different pictures. Lay out the same numbers differently, and a model sees a different customer."
 ---
-
-> **Draft for review, version 1 (27 November), not yet published.** Thank you for reading. This is the fifth post in the series, after [I asked AI how risky customers were](/2026/11/23/can-ai-know-when-its-wrong/), [Why 99% accuracy can still be a disaster](/2026/11/24/why-99-percent-accuracy/), [I gave AI the same data as a bank's model](/2026/11/25/fair-fight/) and [I shrank AI models](/2026/11/27/shrinking-ai-models/). It gives the six AI models from the first post the same customers, with the same numbers written five other ways, and checks whether their answers change.
->
-> **To comment, no account needed:** reply to my message and quote the sentence you mean. If you already use [Hypothesis](https://web.hypothes.is/), you can also select text and click **Annotate**.
->
-> I'd most like to know: does the title pull you in, or would one that gives the result ("I reformatted a table. AI changed its answers.") do better? Does the section on answers moving while the ranking held make sense? Would you act on the bank advice? And where did you get lost or bored?
 
 *Six AI models read the same 2,000 credit-card customers as a table, as sentences, as CSV and as JSON. Not one number changed. The frontier chatbot's answers barely moved. The small ones moved more than shrinking ever moved them, and one went from its best ranking to worse than a coin flip.*
 
