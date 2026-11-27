@@ -22,7 +22,7 @@ OUT = ROOT / "public" / "site-card.png"
 SKETCH = ROOT / "public" / "drawings" / "home.jpg"
 W, H = 1200, 630
 PAPER, CARD = "#faf8f3", "#fffdf9"
-INK, MUTED, ACCENT = "#1c1917", "#6b645c", "#c8334a"
+INK, MUTED, ACCENT = "#1c1917", "#6b645c", "#8b4a9c"
 
 FONTS = {
     "bold": ["C:/Windows/Fonts/segoeuib.ttf", "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"],

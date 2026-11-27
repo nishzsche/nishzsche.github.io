@@ -1,7 +1,7 @@
 /*
  * Learning Curve - main.css
  * Sidebar-free, centred column.
- * Palette: warm paper, ink, and one apple red (from the Newton sketch) kept for links, the active
+ * Palette: warm paper, ink, and one ice-cream-truck purple (from the park sketch on About) kept for links, the active
  * contents item and focus rings, never for fills. The frame stays quiet so the drawings can speak.
  */
 
@@ -18,9 +18,9 @@
   --text:         #1c1917;   /* ink, 16.5:1 on paper */
   --text-muted:   #6b645c;   /* 5.5:1 on paper */
   --text-subtle:  #776f66;   /* dates, meta, footer: 4.7:1 on paper */
-  --accent:       #c8334a;   /* apple red, 4.9:1 on paper */
-  --accent-soft:  #f7e9e6;   /* the paragraph being read aloud */
-  --accent-dark:  #a12539;   /* link hover */
+  --accent:       #8b4a9c;   /* ice-cream-truck purple, 5.6:1 on paper */
+  --accent-soft:  #f2e9f3;   /* the paragraph being read aloud */
+  --accent-dark:  #6c3579;   /* link hover */
   --code-dark:    #24211d;   /* code blocks stay dark in both themes */
   --code-text:    #e8e4dc;
   --veil:         rgba(250, 248, 243, 0.80);  /* translucent paper (sketchbook arrows on phones) */
@@ -47,9 +47,9 @@
     --text:         #e8e4dc;   /* 14.3:1 */
     --text-muted:   #a39d94;   /* 6.7:1 */
     --text-subtle:  #938c82;   /* 5.4:1 */
-    --accent:       #f07a8a;   /* 6.8:1 */
-    --accent-soft:  #3a2327;
-    --accent-dark:  #f6a5b0;   /* hover goes lighter on dark */
+    --accent:       #c99ad3;   /* 7.8:1 */
+    --accent-soft:  #2f2433;
+    --accent-dark:  #e0c4e6;   /* hover goes lighter on dark */
     --code-dark:    #0f0e0c;   /* code stays darker than the page */
     --code-text:    #e8e4dc;
     --veil:         rgba(23, 22, 20, 0.80);
@@ -623,7 +623,7 @@ td small { white-space: nowrap; }
   transition: color 0.15s ease;
 }
 
-/* One hover effect: the title turns red */
+/* One hover effect: the title turns purple */
 .post-list li:hover .post-link {
   color: var(--accent);
   text-decoration: none;
@@ -906,7 +906,7 @@ td small { white-space: nowrap; }
 .page-links { color: var(--text-muted); }
 
 /* Archive (archive.html): series, then topics. Section labels are quiet like the contents
-   title; the group a post linked to is marked in red, like the active contents item. */
+   title; the group a post linked to is marked in purple, like the active contents item. */
 .archive h2 {
   margin: 3rem 0 0;
   font-size: var(--fs-small);

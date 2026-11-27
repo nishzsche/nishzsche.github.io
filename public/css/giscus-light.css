@@ -1,5 +1,5 @@
 /* Comments (Giscus) in the blog's light theme: Giscus's own light theme, with the page's paper,
-   ink and apple red in place of GitHub's white, grey and blue. Giscus loads this by URL, so it
+   ink and ice-cream-truck purple in place of GitHub's white, grey and blue. Giscus loads this by URL, so it
    only applies on the live site. Keep in step with the light tokens in main.css. */
 @import url("https://giscus.app/themes/light.css");
 
@@ -13,21 +13,21 @@ main {
   --color-fg-default: #1c1917;
   --color-fg-muted: #6b645c;
   --color-fg-subtle: #776f66;
-  --color-accent-fg: #c8334a;
-  --color-accent-emphasis: #c8334a;
-  --color-accent-muted: #c8334a66;
-  --color-accent-subtle: #f7e9e6;
+  --color-accent-fg: #8b4a9c;
+  --color-accent-emphasis: #8b4a9c;
+  --color-accent-muted: #8b4a9c66;
+  --color-accent-subtle: #f2e9f3;
   --color-btn-text: #1c1917;
   --color-btn-bg: #f2eee6;
   --color-btn-hover-bg: #ebe6dc;
   --color-btn-active-bg: #e5e0d6;
   --color-btn-selected-bg: #ebe6dc;
-  --color-btn-primary-bg: #c8334a;
-  --color-btn-primary-hover-bg: #a12539;
-  --color-btn-primary-selected-bg: #a12539;
-  --color-btn-primary-disabled-bg: #e3a3ad;
+  --color-btn-primary-bg: #8b4a9c;
+  --color-btn-primary-hover-bg: #6c3579;
+  --color-btn-primary-selected-bg: #6c3579;
+  --color-btn-primary-disabled-bg: #d3b3da;
   --color-segmented-control-bg: #ebe6dc;
   --color-segmented-control-button-bg: #faf8f3;
   --color-scale-gray-1: #ebe6dc;
-  --color-scale-blue-1: #f7e9e6;
+  --color-scale-blue-1: #f2e9f3;
 }
