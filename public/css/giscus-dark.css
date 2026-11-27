@@ -1,5 +1,5 @@
 /* Comments (Giscus) in the blog's dark theme: Giscus's own dark theme, with the page's warm
-   near-black, ink and red in place of GitHub's. Giscus loads this by URL, so it only applies on
+   near-black, ink and purple in place of GitHub's. Giscus loads this by URL, so it only applies on
    the live site. Keep in step with the dark tokens in main.css. */
 @import url("https://giscus.app/themes/dark.css");
 
@@ -13,21 +13,21 @@ main {
   --color-fg-default: #e8e4dc;
   --color-fg-muted: #a39d94;
   --color-fg-subtle: #938c82;
-  --color-accent-fg: #f07a8a;
-  --color-accent-emphasis: #c8334a;
-  --color-accent-muted: #f07a8a66;
-  --color-accent-subtle: #3a2327;
+  --color-accent-fg: #c99ad3;
+  --color-accent-emphasis: #8b4a9c;
+  --color-accent-muted: #c99ad366;
+  --color-accent-subtle: #2f2433;
   --color-btn-text: #e8e4dc;
   --color-btn-bg: #211f1c;
   --color-btn-hover-bg: #2a2723;
   --color-btn-active-bg: #33302b;
   --color-btn-selected-bg: #2a2723;
-  --color-btn-primary-bg: #c8334a;
-  --color-btn-primary-hover-bg: #a12539;
-  --color-btn-primary-selected-bg: #a12539;
-  --color-btn-primary-disabled-bg: #6b2a35;
+  --color-btn-primary-bg: #8b4a9c;
+  --color-btn-primary-hover-bg: #6c3579;
+  --color-btn-primary-selected-bg: #6c3579;
+  --color-btn-primary-disabled-bg: #4f3557;
   --color-segmented-control-bg: #211f1c;
   --color-segmented-control-button-bg: #33302b;
   --color-scale-gray-1: #2a2723;
-  --color-scale-blue-1: #3a2327;
+  --color-scale-blue-1: #2f2433;
 }
