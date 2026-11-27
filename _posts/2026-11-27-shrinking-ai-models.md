@@ -10,6 +10,9 @@ image_alt: "I shrank AI models. It saved memory, not time. Memory at peak and ti
 toc: true
 icon: /public/drawings/20261009-163715.jpg
 icon_caption: "Inktober #9, Ram: the memory everyone bows to. Shrinking a model asks for less of it."
+updates:
+  - date: 2026-11-27 22:50:00 +0530
+    note: "Corrected the bank advice on memory: 4 bits cut the two 4B models' memory by more than half and Kev-0.8B's by over 40%, not by more than half every time."
 ---
 
 *Three trained models, squeezed to 8, 4, 3 and 2 bits. Their percentages held up to 4 bits, but the summary scores hid how far each customer's number moved. And even on a tuned GPU, the smaller models were rarely faster.*
@@ -143,7 +146,7 @@ Before any of these runs, I [wrote down](https://github.com/nishzsche/can-ai-kno
 - **8 bits and the common 4-bit format passed here.** The average customer moved less than a point, though a few moved up to 9. That tells you where to start testing, not whether to skip it.
 - **The tool matters as much as the size, at least here.** At the same 4 bits, HQQ moved the answers 1.5 to 3.2 times as much as NF4. One likely reason: NF4 spaces its 16 levels to match the bell-shaped spread of a model's numbers, while HQQ spaces them evenly.
 - **Record the whole setup with every score.** Each prediction here carries its size and library versions. Record the GPU, the kernels and the drivers too, and treat a library upgrade as a model change: the same full-size Qwen, run a second way, changed 1.5% of decisions. Even the batch size matters: scoring Qwen 8 or 32 customers at a time moved its answers by up to 3 points (5 with FP8), against under 1 for Kev.
-- **Price the saving on your own setup before counting on it.** Shrinking cut memory by more than half every time. On a tuned GPU it beat full size's speed in one case out of nine, by 11%, and matched it in one more. Tuning the setup changed speed by up to three times, more than any size did. If the reason to shrink is cost, the saving comes from a smaller or shared GPU, so that's what to price.
+- **Price the saving on your own setup before counting on it.** Shrinking to 4 bits cut the two 4B models' memory by more than half, and Kev-0.8B's by over 40%. On a tuned GPU it beat full size's speed in one case out of nine, by 11%, and matched it in one more. Tuning the setup changed speed by up to three times, more than any size did. If the reason to shrink is cost, the saving comes from a smaller or shared GPU, so that's what to price.
 
 ## What this test can't tell you
 
